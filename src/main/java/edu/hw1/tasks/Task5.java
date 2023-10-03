@@ -1,14 +1,17 @@
 package edu.hw1.tasks;
 
-public class Task5 {
+public final class Task5 {
+    static final private int NUMBER_SYSTEM = 10;
+
     private Task5() {
     }
 
-    private static int reverseNumber(int number) {
+    private static int reverseNumber(final int number) {
         int reversedNumber = 0;
-        while (number > 0) {
-            reversedNumber = reversedNumber * 10 + (number % 10);
-            number /= 10;
+        int originalNumber = number;
+        while (originalNumber > 0) {
+            reversedNumber = reversedNumber * NUMBER_SYSTEM + (originalNumber % NUMBER_SYSTEM);
+            originalNumber /= NUMBER_SYSTEM;
         }
         return reversedNumber;
     }
@@ -17,26 +20,29 @@ public class Task5 {
         return number == reverseNumber(number);
     }
 
-    private static int getDescendant(int number) {
+    private static int getDescendant(final int number) {
         int descendant = 0;
-        number = reverseNumber(number);
-        while (number >= 10) {
-            int firstNum = number % 10;
-            number /= 10;
-            int secondNum = number % 10;
-            number /= 10;
-            descendant = descendant * (firstNum + secondNum < 10 ? 10 : 100) + firstNum + secondNum;
+        int reversedNumber = reverseNumber(number);
+        while (reversedNumber >= NUMBER_SYSTEM) {
+            int firstNum = reversedNumber % NUMBER_SYSTEM;
+            reversedNumber /= NUMBER_SYSTEM;
+            int secondNum = reversedNumber % NUMBER_SYSTEM;
+            reversedNumber /= NUMBER_SYSTEM;
+            descendant =
+                descendant * (firstNum + secondNum < NUMBER_SYSTEM ? NUMBER_SYSTEM : NUMBER_SYSTEM * NUMBER_SYSTEM)
+                    + firstNum + secondNum;
         }
-        if (number > 0) {
-            descendant = descendant * 10 + number;
+        if (reversedNumber > 0) {
+            descendant = descendant * NUMBER_SYSTEM + reversedNumber;
         }
         return descendant;
     }
 
-    public static boolean isPalindromeDescendant(int number) {
-        while (number >= 10 && !isPalindrome(number)) {
-            number = getDescendant(number);
+    public static boolean isPalindromeDescendant(final int number) {
+        int anotherNumber;
+        for (anotherNumber = number; anotherNumber >= NUMBER_SYSTEM && !isPalindrome(anotherNumber);
+             anotherNumber = getDescendant(anotherNumber)) {
         }
-        return number >= 10 && isPalindrome(number);
+        return anotherNumber >= NUMBER_SYSTEM && isPalindrome(anotherNumber);
     }
 }

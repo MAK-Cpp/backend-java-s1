@@ -1,17 +1,21 @@
 package edu.hw1.tasks;
 
-public class Task6 {
+public final class Task6 {
+    static final private int NUMBER_SYSTEM = 10;
+    static final private int CAPREKARS_CONST = 6174;
+
     private Task6() {
     }
 
-    private static int getDelta(int number) {
+    private static int getDelta(final int number) {
         int a = 0;
         int b = 0;
         int c = 0;
         int d = 0;
-        while (number > 0) {
-            int anotherNumber = number % 10;
-            number /= 10;
+        int toParse = number;
+        while (toParse > 0) {
+            int anotherNumber = toParse % NUMBER_SYSTEM;
+            toParse /= NUMBER_SYSTEM;
             if (a < anotherNumber) {
                 d = c;
                 c = b;
@@ -28,11 +32,13 @@ public class Task6 {
                 d = anotherNumber;
             }
         }
-        return (b - c) * 90 + (a - d) * 999;
+        final int FIRST_CONSTANT = 90;
+        final int SECOND_CONSTANT = 999;
+        return (b - c) * FIRST_CONSTANT + (a - d) * SECOND_CONSTANT;
     }
 
     private static int countK(int number, int step) {
-        return (number == 6174 ? step : countK(getDelta(number), step + 1));
+        return (number == CAPREKARS_CONST ? step : countK(getDelta(number), step + 1));
     }
 
     public static int countK(int number) {

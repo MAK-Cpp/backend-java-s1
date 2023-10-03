@@ -69,7 +69,7 @@
 Примеры:
 
     fixString("123456") ➞ "214365"
-    fixString("hTsii s aimex dpus rtni.g") ➞ "This is a mixed up string."
+    fixString("hTsii  s aimex dpus rtni.g") ➞ "This is a mixed up string."
     fixString("badce") ➞ "abcde" 
 
 ### 5. Особый палиндром

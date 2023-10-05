@@ -1,21 +1,28 @@
 package edu.hw1.tasks;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Task4Test {
-    @Test
-    @DisplayName("4) Починка строки, в которой S[i] <-> S[i + 1]")
-    void testFixString() {
-        // tests from HW1.md
-        assertEquals("214365", Task4.fixString("123456"));
-        assertEquals("This is a mixed up string.", Task4.fixString("hTsii  s aimex dpus rtni.g"));
-        assertEquals("abcde", Task4.fixString("badce"));
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("Починка строки, в которой S[i] <-> S[i + 1]")
+    void testFixString(final String input, final String expected) {
+        assertEquals(expected, Task4.fixString(input));
+    }
 
-        // my own tests
-        assertEquals("", Task4.fixString(""));
-        assertEquals("A", Task4.fixString("A"));
-        assertEquals("Hello, world!", Task4.fixString("eHll,ow rodl!"));
+    private static Stream<Arguments> testFixString() {
+        return Stream.of(
+            Arguments.of("123456", "214365"),
+            Arguments.of("hTsii  s aimex dpus rtni.g", "This is a mixed up string."),
+            Arguments.of("badce", "abcde"),
+            Arguments.of("", ""),
+            Arguments.of("A", "A"),
+            Arguments.of("eHll,ow rodl!", "Hello, world!")
+        );
     }
 }

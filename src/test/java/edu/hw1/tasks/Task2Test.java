@@ -1,21 +1,30 @@
 package edu.hw1.tasks;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Task2Test {
-    @Test
-    @DisplayName("2) Подсчет количества цифр в целом числе")
-    void testCountDigits() {
-        // tests from HW1.md
-        assertEquals(4, Task2.countDigits(4666));
-        assertEquals(3, Task2.countDigits(544));
-        assertEquals(1, Task2.countDigits(0));
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("Подсчет количества цифр в целом числе")
+    void testCountDigits(final int input, final int expected) {
+        assertEquals(expected, Task2.countDigits(input));
+    }
 
-        // my own tests
-        assertEquals(1, Task2.countDigits(-1), 1);
-        assertEquals(10, Task2.countDigits(Integer.MAX_VALUE));
-        assertEquals(10, Task2.countDigits(Integer.MIN_VALUE));
+    private static Stream<Arguments> testCountDigits() {
+        return Stream.of(
+            // tests from HW1.md
+            Arguments.of(4666, 4),
+            Arguments.of(544, 3),
+            Arguments.of(0, 1),
+            // my own tests
+            Arguments.of(-1, 1),
+            Arguments.of(Integer.MAX_VALUE, 10),
+            Arguments.of(Integer.MIN_VALUE, 10)
+        );
     }
 }

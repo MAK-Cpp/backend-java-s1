@@ -1,23 +1,30 @@
 package edu.hw1.tasks;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Task6Test {
-    @Test
-    @DisplayName("6) Функция Капрекара меньше чем за 7 шагов преобразовывает 4-х значное число (кроме 1000) в 6174")
-    void testCountK() {
-        // tests from HW1.md
-        assertEquals(3, Task6.countK(3524));
-        assertEquals(5, Task6.countK(6621));
-        assertEquals(4, Task6.countK(6554));
-        assertEquals(3, Task6.countK(1234));
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("Функция Капрекара меньше чем за 7 шагов преобразовывает 4-х значное число (кроме 1000) в 6174")
+    void testCountK(final int input, final int expected) {
+        assertEquals(expected, Task6.countK(input));
+    }
 
-        // my own tests
-        assertEquals(3, Task6.countK(3412));
-        assertEquals(4, Task6.countK(1100));
-        assertEquals(1, Task6.countK(7641));
-        assertEquals(7, Task6.countK(2005));
+    private static Stream<Arguments> testCountK() {
+        return Stream.of(
+            Arguments.of(3524, 3),
+            Arguments.of(6621, 5),
+            Arguments.of(6554, 4),
+            Arguments.of(1234, 3),
+            Arguments.of(3412, 3),
+            Arguments.of(1100, 4),
+            Arguments.of(7641, 1),
+            Arguments.of(2005, 7)
+        );
     }
 }

@@ -1,7 +1,7 @@
 package edu.hw1.tasks;
 
 public final class Task5 {
-    static final private int NUMBER_SYSTEM = 10;
+    private static final int NUMBER_SYSTEM = 10;
 
     private Task5() {
     }
@@ -40,9 +40,10 @@ public final class Task5 {
 
     public static boolean isPalindromeDescendant(final int number) {
         int anotherNumber;
-        for (anotherNumber = number; anotherNumber >= NUMBER_SYSTEM && !isPalindrome(anotherNumber);
+        for (anotherNumber = number;
+             anotherNumber >= NUMBER_SYSTEM && !isPalindrome(anotherNumber);
              anotherNumber = getDescendant(anotherNumber)) {
         }
-        return anotherNumber >= NUMBER_SYSTEM && isPalindrome(anotherNumber);
+        return anotherNumber >= NUMBER_SYSTEM;
     }
 }

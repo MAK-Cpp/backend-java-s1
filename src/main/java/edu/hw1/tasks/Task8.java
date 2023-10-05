@@ -4,7 +4,7 @@ public final class Task8 {
     private Task8() {
     }
 
-    private static boolean checkHorseFreeTurn(final int[][] board, int x, int y) {
+    private static boolean checkHorseFreeTurn(final int[][] board, final int x, final int y) {
         return (0 > x || x >= board.length) || (0 > y || y >= board.length) || (board[x][y] == 0);
     }
 

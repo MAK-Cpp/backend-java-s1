@@ -1,25 +1,32 @@
 package edu.hw1.tasks;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Task5Test {
-    @Test
-    @DisplayName("5) Проверка, является ли число или его потомок палиндромом")
-    void testIsPalindromeDescendant() {
-        // tests from HW1.md
-        assertTrue(Task5.isPalindromeDescendant(11211230));
-        assertTrue(Task5.isPalindromeDescendant(13001120));
-        assertTrue(Task5.isPalindromeDescendant(23336014));
-        assertTrue(Task5.isPalindromeDescendant(11));
+    @ParameterizedTest
+    @MethodSource("trueArgs")
+    @DisplayName("Число или его потомок является палиндромом")
+    void testIsPalindromeDescendantTrue(final int input) {
+        assertTrue(Task5.isPalindromeDescendant(input));
+    }
 
-        // my own tests
-        assertTrue(Task5.isPalindromeDescendant(112233));
-        assertFalse(Task5.isPalindromeDescendant(1000020000));
-        assertFalse(Task5.isPalindromeDescendant(1234322));
-        assertFalse(Task5.isPalindromeDescendant(9));
-        assertFalse(Task5.isPalindromeDescendant(-12321));
+    @ParameterizedTest
+    @MethodSource("falseArgs")
+    @DisplayName("Ни число, ни его потомки не являются палиндромом или число не подходит под условие")
+    void testIsPalindromeDescendantFalse(final int input) {
+        assertFalse(Task5.isPalindromeDescendant(input));
+    }
+
+    private static IntStream trueArgs() {
+        return IntStream.of(11211230, 13001120, 23336014, 11, 112233);
+    }
+
+    private static IntStream falseArgs() {
+        return IntStream.of(1000020000, 1234322, 9, -12321);
     }
 }

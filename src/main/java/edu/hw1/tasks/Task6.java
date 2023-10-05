@@ -1,8 +1,8 @@
 package edu.hw1.tasks;
 
 public final class Task6 {
-    static final private int NUMBER_SYSTEM = 10;
-    static final private int CAPREKARS_CONST = 6174;
+    private static final int NUMBER_SYSTEM = 10;
+    private static final int CAPREKARS_CONST = 6174;
 
     private Task6() {
     }
@@ -37,11 +37,11 @@ public final class Task6 {
         return (b - c) * FIRST_CONSTANT + (a - d) * SECOND_CONSTANT;
     }
 
-    private static int countK(int number, int step) {
+    private static int countK(final int number, final int step) {
         return (number == CAPREKARS_CONST ? step : countK(getDelta(number), step + 1));
     }
 
-    public static int countK(int number) {
+    public static int countK(final int number) {
         return countK(number, 0);
     }
 }

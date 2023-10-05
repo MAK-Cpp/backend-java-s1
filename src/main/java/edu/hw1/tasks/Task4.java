@@ -5,7 +5,7 @@ public final class Task4 {
     }
 
     public static String fixString(final String brokenString) {
-        StringBuilder builderFixedString = new StringBuilder();
+        StringBuilder builderFixedString = new StringBuilder(brokenString.length());
         for (int i = 0; i < brokenString.length(); i += 2) {
             if (i == brokenString.length() - 1) {
                 builderFixedString.append(brokenString.charAt(i));

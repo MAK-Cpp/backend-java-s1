@@ -1,16 +1,17 @@
 package edu.project1.hangman;
 
+import java.util.Random;
+
 public final class Dictionary {
-    private static final String[] DICTIONARY = new String[] {"Society", "Trip"};
+    private static final Random RANDOM = new Random();
+    private static final String[] DICTIONARY =
+        new String[] {"Society", "Trip", "Cucumber", "Mayonnaise", "Subway", "Soccer", "Watermelon", "Tinkoff",
+            "Minecraft"};
 
     private Dictionary() {
     }
 
-    private static int getRandomIndex(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
-    }
-
     public static String getRandomWord() {
-        return DICTIONARY[getRandomIndex(0, DICTIONARY.length - 1)];
+        return DICTIONARY[RANDOM.nextInt(DICTIONARY.length)];
     }
 }

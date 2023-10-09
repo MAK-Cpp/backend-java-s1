@@ -16,85 +16,85 @@
 Вы можете использовать любой промт, формат вывода и т.п.
 
 Пример выигрыша:
-
-    > Guess a letter:
-    < a
-    > Missed, mistake 1 out of 5.
-    >
-    > The word: *****
-    >
-    > Guess a letter:
-    < b
-    > Missed, mistake 2 out of 5.
-    >
-    > The word: *****
-    >
-    > Guess a letter:
-    < e
-    > Hit!
-    >
-    > The word: *e***
-    >
-    > Guess a letter:
-    < o
-    > Hit!
-    >
-    > The word: *e**o
-    >
-    > Guess a letter:
-    < l
-    > Hit!
-    >
-    > The word: *ello
-    >
-    > Guess a letter:
-    < h
-    > Hit!
-    >
-    > The word: hello
-    >
-    > You won!
-
+```
+> Guess a letter:
+< a
+> Missed, mistake 1 out of 5.
+>
+> The word: *****
+>
+> Guess a letter:
+< b
+> Missed, mistake 2 out of 5.
+>
+> The word: *****
+>
+> Guess a letter:
+< e
+> Hit!
+>
+> The word: *e***
+>
+> Guess a letter:
+< o
+> Hit!
+>
+> The word: *e**o
+>
+> Guess a letter:
+< l
+> Hit!
+>
+> The word: *ello
+>
+> Guess a letter:
+< h
+> Hit!
+>
+> The word: hello
+>
+> You won!
+```
 Пример проигрыша:
-
-    > Guess a letter:
-    < x
-    > Missed, mistake 1 out of 5.
-    >
-    > The word: ******
-    >
-    > Guess a letter:
-    < y
-    > Missed, mistake 2 out of 5.
-    >
-    > The word: ******
-    >
-    > Guess a letter:
-    < z
-    > Missed, mistake 3 out of 5.
-    >
-    > The word: ******
-    >
-    > Guess a letter:
-    < n
-    > Hit!
-    >
-    > The word: **n*n*
-    >
-    > Guess a letter:
-    < m
-    > Missed, mistake 4 out of 5.
-    >
-    > The word: **n*n*
-    >
-    > Guess a letter:
-    < o
-    > Missed, mistake 5 out of 5.
-    >
-    > The word: **n*n*
-    >
-    > You lost!
-
+```
+> Guess a letter:
+< x
+> Missed, mistake 1 out of 5.
+>
+> The word: ******
+>
+> Guess a letter:
+< y
+> Missed, mistake 2 out of 5.
+>
+> The word: ******
+>
+> Guess a letter:
+< z
+> Missed, mistake 3 out of 5.
+>
+> The word: ******
+>
+> Guess a letter:
+< n
+> Hit!
+>
+> The word: **n*n*
+>
+> Guess a letter:
+< m
+> Missed, mistake 4 out of 5.
+>
+> The word: **n*n*
+>
+> Guess a letter:
+< o
+> Missed, mistake 5 out of 5.
+>
+> The word: **n*n*
+>
+> You lost!
+```
 Примеры тестов:
 * Игра не запускается, если загадываемое слово имеет некорректную длину
 * После превышения заданного количества попыток игра всегда возвращает поражение
@@ -110,44 +110,45 @@
 интерфейсов и классов, но лучше попробуйте сначала сами.
 
 Пример иерархии:
+```java
+import org.jetbrains.annotations.NotNull;
 
-    import org.jetbrains.annotations.NotNull;
-    
-    interface Dictionary {
-    @NotNull String randomWord();
-    }
-    
-    class Session {
-    private final String answer;
-    private final char[] userAnswer;
-    private final int maxAttempts;
-    private int attempts;
-    
-        @NotNull GuessResult guess(char guess);
-        @NotNull GuessResult giveUp();
-    }
-    
-    sealed interface GuessResult {
-    char[] state();
-    int attempt();
-    int maxAttempts();
-    @NotNull String message();
-    
-        record Defeat(...) implements GuessResult {}
-        record Win(...) implements GuessResult {}
-        record SuccessfulGuess(...) implements GuessResult {}
-        record FailedGuess(...) implements GuessResult {}
-    }
-    
-    
-    class ConsoleHangman {
-    public void run() {
-    while (...) {
-    // ...
-    }
-    }
-    
-        private GuessResult tryGuess(Session session, String input) {}
-    
-        private void printState(GuessResult guess) {}
-    }
+interface Dictionary {
+@NotNull String randomWord();
+}
+
+class Session {
+private final String answer;
+private final char[] userAnswer;
+private final int maxAttempts;
+private int attempts;
+
+@NotNull GuessResult guess(char guess);
+@NotNull GuessResult giveUp();
+}
+
+sealed interface GuessResult {
+char[] state();
+int attempt();
+int maxAttempts();
+@NotNull String message();
+
+record Defeat(...) implements GuessResult {}
+record Win(...) implements GuessResult {}
+record SuccessfulGuess(...) implements GuessResult {}
+record FailedGuess(...) implements GuessResult {}
+}
+
+
+class ConsoleHangman {
+public void run() {
+while (...) {
+// ...
+}
+}
+
+private GuessResult tryGuess(Session session, String input) {}
+
+private void printState(GuessResult guess) {}
+}
+```

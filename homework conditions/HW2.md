@@ -60,11 +60,11 @@ public class Rectangle {
 }
 
 public class Square extends Rectangle {  
-@Override  
-void setWidth(int width) {  
-    super.setHeight(width);  
-    super.setWidth(width);  
-}
+    @Override  
+    void setWidth(int width) {  
+        super.setHeight(width);  
+        super.setWidth(width);  
+    }
 
     @Override  
     void setHeight(int height) {  

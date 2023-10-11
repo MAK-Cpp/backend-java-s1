@@ -1,6 +1,6 @@
 package edu.hw2.tasks.task1;
 
-public record Exponent(Expr operand, int exponent) implements Expr {
+public record Exponent(Expr operand, double exponent) implements Expr {
     @Override
     public double evaluate() {
         return Math.pow(operand.evaluate(), exponent);

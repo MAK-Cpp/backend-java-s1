@@ -1,6 +1,6 @@
 package edu.hw2.tasks.task1;
 
-public record Constant(int value) implements Expr {
+public record Constant(double value) implements Expr {
     @Override
     public double evaluate() {
         return value;
@@ -8,6 +8,6 @@ public record Constant(int value) implements Expr {
 
     @Override
     public String toString() {
-        return Integer.toString(value);
+        return Double.toString(value);
     }
 }

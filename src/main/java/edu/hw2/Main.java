@@ -1,6 +1,5 @@
 package edu.hw2;
 
-
 public final class Main {
     private Main() {
     }

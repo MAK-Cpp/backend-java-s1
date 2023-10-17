@@ -11,6 +11,13 @@ public class RealPlayer implements Player {
 
     @Override
     public char makeGuess(String guessedWord) {
-        return sc.next().charAt(0);
+        String ans = sc.next();
+        if (ans.equals("concede")) {
+            return '\0';
+        }
+        while (ans.length() != 1 && !Character.isLetter(ans.charAt(0))) {
+            ans = sc.next();
+        }
+        return ans.toLowerCase().charAt(0);
     }
 }

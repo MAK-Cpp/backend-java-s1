@@ -4,20 +4,20 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 public class Hangman {
     private final Player player;
     private final Dictionary dictionary;
     private int statement;
     private String hiddenWord;
     private String hiddenWordForUser;
+    private boolean concede;
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int MAX_MISTAKES = 5;
     private static final int LETTER_HEIGHT = 3;
     private static final int GAME_NAME_ROW = 0;
     private static final int COUNT_OF_MISTAKES_ROW = 1;
     private static final int WORD_ROW = 3;
-    private static final int WIN_OR_LOSE_ROW = 4;
+    private static final int GAME_END_ROW = 4;
     private static final HashMap<Character, String[]> FONT = new HashMap<>();
     @SuppressWarnings("checkstyle:MultipleStringLiterals") private static final String[][] PICTURES = new String[][]
         {{"                    ",
@@ -253,6 +253,7 @@ public class Hangman {
     public Hangman(Dictionary dictionary, Player player) {
         this.dictionary = dictionary;
         this.player = player;
+        concede = false;
     }
 
     public void play() {
@@ -261,13 +262,17 @@ public class Hangman {
         while (hiddenWordForUser.contains("?") && statement < MAX_MISTAKES) {
             print();
             char guessedLetter = player.makeGuess(hiddenWordForUser);
+            if (guessedLetter == '\0') {
+                concede = true;
+                break;
+            }
             if (hiddenWord.contains(Character.toString(guessedLetter))) {
                 StringBuilder newHiddenWordForUser = new StringBuilder();
                 for (int i = 0; i < hiddenWord.length(); i++) {
                     if (hiddenWord.charAt(i) == guessedLetter) {
                         newHiddenWordForUser.append(guessedLetter);
                     } else {
-                        newHiddenWordForUser.append(hiddenWordForUser.charAt(2 * i));
+                        newHiddenWordForUser.append(hiddenWordForUser.charAt(i << 1));
                     }
                     newHiddenWordForUser.append(' ');
                 }
@@ -280,7 +285,6 @@ public class Hangman {
     }
 
     private void print() {
-
         for (int i = 0, lettersRow = 0; i < PICTURES[statement].length; i++, lettersRow = i / LETTER_HEIGHT) {
             StringBuilder toLog = new StringBuilder();
             for (int j = 0; j < PICTURES[statement][i].length(); j++) {
@@ -293,7 +297,7 @@ public class Hangman {
                     new StringBuilder("count of mistakes: ").append(statement).append(" of ").append(MAX_MISTAKES);
                 case WORD_ROW -> {
                     StringBuilder ans = new StringBuilder("word: ");
-                    if (statement < MAX_MISTAKES) {
+                    if (statement < MAX_MISTAKES && !concede) {
                         ans.append(hiddenWordForUser);
                     } else {
                         for (Character ansLetter : hiddenWord.toCharArray()) {
@@ -302,9 +306,11 @@ public class Hangman {
                     }
                     yield ans;
                 }
-                case WIN_OR_LOSE_ROW -> {
-                    if (statement == MAX_MISTAKES && hiddenWordForUser.contains("?")) {
+                case GAME_END_ROW -> {
+                    if (statement == MAX_MISTAKES) {
                         yield new StringBuilder("you lose!");
+                    } else if (concede) {
+                        yield new StringBuilder("you conceded!");
                     } else if (!hiddenWordForUser.contains("?")) {
                         yield new StringBuilder("you win!");
                     } else {

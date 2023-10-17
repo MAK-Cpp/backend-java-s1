@@ -1,5 +1,9 @@
 package edu.project1.hangman;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Player {
-    String makeGuess(String guessedWord);
+    @NotNull String makeGuess(String guessedWord);
+
+    boolean askToPlayAgain();
 }

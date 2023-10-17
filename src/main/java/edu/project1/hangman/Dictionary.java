@@ -1,5 +1,7 @@
 package edu.project1.hangman;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Dictionary {
-    String getRandomWord();
+    @NotNull String getRandomWord();
 }

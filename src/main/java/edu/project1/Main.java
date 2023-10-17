@@ -8,7 +8,7 @@ public final class Main {
     private Main() {
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Hangman game = new Hangman(new RandomDictionary(), new RealPlayer());
         game.play();
     }

@@ -1,7 +1,9 @@
 package edu.project1.hangman;
 
 import java.util.Scanner;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("checkstyle:RegexpSinglelineJava")
 public class RealPlayer implements Player {
     private final Scanner sc;
 
@@ -10,7 +12,17 @@ public class RealPlayer implements Player {
     }
 
     @Override
-    public String makeGuess(String guessedWord) {
-        return sc.next().toLowerCase();
+    public @NotNull String makeGuess(String guessedWord) {
+        return sc.next();
+    }
+
+    @Override
+    public boolean askToPlayAgain() {
+        char ans;
+        do {
+            System.out.print("Do you want to play again? (y/n) ");
+            ans = sc.next().toLowerCase().charAt(0);
+        } while (ans != 'y' && ans != 'n');
+        return ans == 'y';
     }
 }

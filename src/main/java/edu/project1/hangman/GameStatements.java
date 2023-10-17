@@ -2,6 +2,23 @@ package edu.project1.hangman;
 
 @SuppressWarnings("checkstyle:MultipleStringLiterals")
 public enum GameStatements {
+    CONCEDE(null, new String[] {
+        "  -----------------+",
+        "    |          \\   |",
+        "    |           -\\ |",
+        "    |             -|",
+        "  +---+            |",
+        "  |X X|            |",
+        "  +---+            |",
+        "    |              |",
+        "   /|\\             |",
+        "  / | \\            |",
+        "   / \\             |",
+        "  /   \\           -|",
+        "                -/ |",
+        "               /   |",
+        "===================="
+    }),
     LOSE(null, new String[] {
         "  -----------------+",
         "    |          \\   |",

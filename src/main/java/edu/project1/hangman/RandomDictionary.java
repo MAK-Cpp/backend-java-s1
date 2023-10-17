@@ -1,5 +1,6 @@
 package edu.project1.hangman;
 
+import org.jetbrains.annotations.NotNull;
 import java.util.Random;
 
 public final class RandomDictionary implements Dictionary {
@@ -12,7 +13,7 @@ public final class RandomDictionary implements Dictionary {
     }
 
     @Override
-    public String getRandomWord() {
+    public @NotNull String getRandomWord() {
         return DICTIONARY[RANDOM.nextInt(DICTIONARY.length)];
     }
 }

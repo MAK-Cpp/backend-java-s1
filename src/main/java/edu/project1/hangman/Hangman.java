@@ -5,18 +5,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
- // ╔═╗ ╔╗  ╔═╗ ╔╦╗ ╔═╗ ╔═╗ ╔═╗ ╦ ╦ ╦  ╦ ╦╔═ ╦   ╔╦╗ ╔╗╔ ╔═╗ ╔═╗ ╔═╗  ╦═╗ ╔═╗ ╔╦╗ ╦ ╦ ╦  ╦ ╦ ╦  ╦ ╦ ╦ ╦ ╔═╗ ╔═╗       ╗  ═╗ ╔═╗ ╦   ╔═  ╔═╗ ╔═╗ ╔═╗ ╔═╗ ╔═╗
- // ╠═╣ ╠╩╗ ║    ║║ ║╣  ╠╣  ║ ╦ ╠═╣ ║  ║ ╠╩╗ ║   ║║║ ║║║ ║ ║ ╠═╝ ║═╬╗ ╠╦╝ ╚═╗  ║  ║ ║ ╚╗╔╝ ║║║ ╔╩╦╝ ╚╦╝ ╔═╝  ╔╝    ╬╬ ║ ╔═╝  ╠║ ╚╬╝ ╚═╗ ╠═╗  ═╣ ╠═╣ ╚═╣ ║═║ o
- // ╩ ╩ ╚═╝ ╚═╝ ═╩╝ ╚═╝ ╚   ╚═╝ ╩ ╩ ╩ ╚╝ ╩ ╩ ╩═╝ ╩ ╩ ╝╚╝ ╚═╝ ╩   ╚═╝╚ ╩╚═ ╚═╝  ╩  ╚═╝  ╚╝  ╚╩╝ ╩ ╩   ╩  ╚═╝  o  ── ╬╬ ║ ╚══ ╚═╝  ╩  ══╝ ╚═╝   ╩ ╚═╝ ╚═╝ ╚═╝ o
-
 public class Hangman {
-    private static final Logger LOGGER = LogManager.getLogger();
     private final Player player;
     private final Dictionary dictionary;
     private int statement;
     private String hiddenWord;
     private String hiddenWordForUser;
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static final int MAX_MISTAKES = 5;
     private static final int LETTER_HEIGHT = 3;
+    private static final int GAME_NAME_ROW = 0;
+    private static final int COUNT_OF_MISTAKES_ROW = 1;
+    private static final int WORD_ROW = 3;
+    private static final int WIN_OR_LOSE_ROW = 4;
     private static final HashMap<Character, String[]> FONT = new HashMap<>();
     @SuppressWarnings("checkstyle:MultipleStringLiterals") private static final String[][] PICTURES = new String[][]
         {{"                    ",
@@ -24,7 +25,7 @@ public class Hangman {
             "                    ",
             "                    ",
             "  +---+             ",
-            "  |* *|             ",
+            "  |^_^|             ",
             "  +---+             ",
             "    |               ",
             "  --|--             ",
@@ -39,7 +40,7 @@ public class Hangman {
                 "                   |",
                 "                   |",
                 "  +---+            |",
-                "  |* *|            |",
+                "  |o_o|            |",
                 "  +---+            |",
                 "    |              |",
                 "  --|--            |",
@@ -54,7 +55,22 @@ public class Hangman {
                 "                -\\ |",
                 "                  -|",
                 "  +---+            |",
-                "  |* *|            |",
+                "  |0_0|            |",
+                "  +---+            |",
+                "    |              |",
+                "  --|--            |",
+                "    |              |",
+                "   / \\             |",
+                "  -   -           -|",
+                " |-----|        -/ |",
+                " |     |       /   |",
+                "===================="},
+            {"  -----------------+",
+                "    |          \\   |",
+                "    |           -\\ |",
+                "    |             -|",
+                "  +---+            |",
+                "  |@ @|            |",
                 "  +---+            |",
                 "    |              |",
                 "  --|--            |",
@@ -70,21 +86,6 @@ public class Hangman {
                 "    |             -|",
                 "  +---+            |",
                 "  |* *|            |",
-                "  +---+            |",
-                "    |              |",
-                "  --|--            |",
-                "    |              |",
-                "   / \\             |",
-                "  -   -           -|",
-                " |-----|        -/ |",
-                " |     |       /   |",
-                "===================="},
-            {"  -----------------+",
-                "    |          \\   |",
-                "    |           -\\ |",
-                "    |             -|",
-                "  +---+            |",
-                "  |o o|            |",
                 "  +---+            |",
                 "  / | \\            |",
                 "   \\|/             |",
@@ -230,12 +231,15 @@ public class Hangman {
                 "   ",
                 "o",
                 " ",
+                "o",
+                "╦",
+                "║",
                 "o"
             };
         Character[] letters =
             new Character[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
                 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '?', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                '0', ' ', ':'};
+                '0', ' ', ':', '!'};
         for (int i = 0; i < letters.length; i++) {
             FONT.put(
                 letters[i],
@@ -254,7 +258,7 @@ public class Hangman {
     public void play() {
         hiddenWord = dictionary.getRandomWord().toLowerCase();
         hiddenWordForUser = "? ".repeat(hiddenWord.length());
-        while (hiddenWordForUser.contains("?") && statement < 5) {
+        while (hiddenWordForUser.contains("?") && statement < MAX_MISTAKES) {
             print();
             char guessedLetter = player.makeGuess(hiddenWordForUser);
             if (hiddenWord.contains(Character.toString(guessedLetter))) {
@@ -276,35 +280,39 @@ public class Hangman {
     }
 
     private void print() {
-        for (int i = 0; i < PICTURES[statement].length; i++) {
+
+        for (int i = 0, lettersRow = 0; i < PICTURES[statement].length; i++, lettersRow = i / LETTER_HEIGHT) {
             StringBuilder toLog = new StringBuilder();
             for (int j = 0; j < PICTURES[statement][i].length(); j++) {
                 toLog.append(PICTURES[statement][i].charAt(j));
             }
             toLog.append("\t");
-            StringBuilder information = new StringBuilder();
-            if (i < LETTER_HEIGHT) {
-                information = new StringBuilder("hangman");
-            } else if (i < 2 * LETTER_HEIGHT) {
-                information = new StringBuilder("count of mistakes: " + statement + " of 5");
-            } else if (i < 3 * LETTER_HEIGHT) {
-
-            } else if (i < 4 * LETTER_HEIGHT) {
-                information.append("word: ");
-                if (statement < 5) {
-                    information.append(hiddenWordForUser);
-                } else {
-                    for (Character ansLetter: hiddenWord.toCharArray()) {
-                        information.append(ansLetter).append(" ");
+            StringBuilder information = switch (lettersRow) {
+                case GAME_NAME_ROW -> new StringBuilder("hangman");
+                case COUNT_OF_MISTAKES_ROW ->
+                    new StringBuilder("count of mistakes: ").append(statement).append(" of ").append(MAX_MISTAKES);
+                case WORD_ROW -> {
+                    StringBuilder ans = new StringBuilder("word: ");
+                    if (statement < MAX_MISTAKES) {
+                        ans.append(hiddenWordForUser);
+                    } else {
+                        for (Character ansLetter : hiddenWord.toCharArray()) {
+                            ans.append(ansLetter).append(" ");
+                        }
+                    }
+                    yield ans;
+                }
+                case WIN_OR_LOSE_ROW -> {
+                    if (statement == MAX_MISTAKES && hiddenWordForUser.contains("?")) {
+                        yield new StringBuilder("you lose!");
+                    } else if (!hiddenWordForUser.contains("?")) {
+                        yield new StringBuilder("you win!");
+                    } else {
+                        yield new StringBuilder();
                     }
                 }
-            } else {
-                if (statement == 5 && hiddenWordForUser.contains("?")) {
-                    information = new StringBuilder("you lose");
-                } else if (!hiddenWordForUser.contains("?")) {
-                    information = new StringBuilder("you win");
-                }
-            }
+                default -> new StringBuilder();
+            };
             for (Character letter : information.toString().toCharArray()) {
                 toLog.append(FONT.get(letter)[i % LETTER_HEIGHT]).append(' ');
             }

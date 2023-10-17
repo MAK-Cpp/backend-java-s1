@@ -1,254 +1,21 @@
 package edu.project1.hangman;
 
-import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Hangman {
     private final Player player;
     private final Dictionary dictionary;
-    private int statement;
     private String hiddenWord;
     private String hiddenWordForUser;
     private boolean concede;
+    private GameStatements statement;
+    private int counMistakes;
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int MAX_MISTAKES = 5;
-    private static final int LETTER_HEIGHT = 3;
     private static final int GAME_NAME_ROW = 0;
     private static final int COUNT_OF_MISTAKES_ROW = 1;
     private static final int WORD_ROW = 3;
     private static final int GAME_END_ROW = 4;
-    private static final HashMap<Character, String[]> FONT = new HashMap<>();
-    @SuppressWarnings("checkstyle:MultipleStringLiterals") private static final String[][] PICTURES = new String[][]
-        {{"                    ",
-            "                    ",
-            "                    ",
-            "                    ",
-            "  +---+             ",
-            "  |^_^|             ",
-            "  +---+             ",
-            "    |               ",
-            "  --|--             ",
-            "    |               ",
-            "   / \\              ",
-            "  -   -             ",
-            " |-----|            ",
-            " |     |            ",
-            "===================="},
-            {"                    ",
-                "                   |",
-                "                   |",
-                "                   |",
-                "  +---+            |",
-                "  |o_o|            |",
-                "  +---+            |",
-                "    |              |",
-                "  --|--            |",
-                "    |              |",
-                "   / \\             |",
-                "  -   -           -|",
-                " |-----|        -/ |",
-                " |     |       /   |",
-                "===================="},
-            {"  -----------------+",
-                "               \\   |",
-                "                -\\ |",
-                "                  -|",
-                "  +---+            |",
-                "  |0_0|            |",
-                "  +---+            |",
-                "    |              |",
-                "  --|--            |",
-                "    |              |",
-                "   / \\             |",
-                "  -   -           -|",
-                " |-----|        -/ |",
-                " |     |       /   |",
-                "===================="},
-            {"  -----------------+",
-                "    |          \\   |",
-                "    |           -\\ |",
-                "    |             -|",
-                "  +---+            |",
-                "  |@ @|            |",
-                "  +---+            |",
-                "    |              |",
-                "  --|--            |",
-                "    |              |",
-                "   / \\             |",
-                "  -   -           -|",
-                " |-----|        -/ |",
-                " |     |       /   |",
-                "===================="},
-            {"  -----------------+",
-                "    |          \\   |",
-                "    |           -\\ |",
-                "    |             -|",
-                "  +---+            |",
-                "  |* *|            |",
-                "  +---+            |",
-                "  / | \\            |",
-                "   \\|/             |",
-                "    |              |",
-                "   / \\             |",
-                "  -   -           -|",
-                "                -/ |",
-                "               /   |",
-                "===================="},
-            {"  -----------------+",
-                "    |          \\   |",
-                "    |           -\\ |",
-                "    |             -|",
-                "  +---+            |",
-                "  |X X|            |",
-                "  +---+            |",
-                "    |              |",
-                "   /|\\             |",
-                "  / | \\            |",
-                "   / \\             |",
-                "  /   \\           -|",
-                "                -/ |",
-                "               /   |",
-                "===================="}
-        };
-
-    static {
-        @SuppressWarnings("checkstyle:MultipleStringLiterals") String[] values = new String[]
-            {
-                "╔═╗",
-                "╠═╣",
-                "╩ ╩",
-                "╔╗ ",
-                "╠╩╗",
-                "╚═╝",
-                "╔═╗",
-                "║  ",
-                "╚═╝",
-                "╔╦╗",
-                " ║║",
-                "═╩╝",
-                "╔═╗",
-                "║╣ ",
-                "╚═╝",
-                "╔═╗",
-                "╠╣ ",
-                "╚  ",
-                "╔═╗",
-                "║ ╦",
-                "╚═╝",
-                "╦ ╦",
-                "╠═╣",
-                "╩ ╩",
-                "╦",
-                "║",
-                "╩",
-                " ╦",
-                " ║",
-                "╚╝",
-                "╦╔═",
-                "╠╩╗",
-                "╩ ╩",
-                "╦  ",
-                "║  ",
-                "╩═╝",
-                "╔╦╗",
-                "║║║",
-                "╩ ╩",
-                "╔╗╔",
-                "║║║",
-                "╝╚╝",
-                "╔═╗",
-                "║ ║",
-                "╚═╝",
-                "╔═╗",
-                "╠═╝",
-                "╩  ",
-                "╔═╗ ",
-                "║═╬╗",
-                "╚═╝╚",
-                "╦═╗",
-                "╠╦╝",
-                "╩╚═",
-                "╔═╗",
-                "╚═╗",
-                "╚═╝",
-                "╔╦╗",
-                " ║ ",
-                " ╩ ",
-                "╦ ╦",
-                "║ ║",
-                "╚═╝",
-                "╦  ╦",
-                "╚╗╔╝",
-                " ╚╝ ",
-                "╦ ╦",
-                "║║║",
-                "╚╩╝",
-                " ╦ ╦",
-                "╔╩╦╝",
-                "╩ ╩ ",
-                "╦ ╦",
-                "╚╦╝",
-                " ╩ ",
-                "╔═╗",
-                "╔═╝",
-                "╚═╝",
-                "╔═╗",
-                " ╔╝",
-                " o ",
-                "═╗",
-                " ║",
-                " ║",
-                " ═╗",
-                "╔═╝",
-                "╚══",
-                "╔═╗",
-                " ╠║",
-                "╚═╝",
-                "╦  ",
-                "╚╬╝",
-                " ╩ ",
-                "╔═ ",
-                "╚═╗",
-                "══╝",
-                "╔═╗",
-                "╠═╗",
-                "╚═╝",
-                "╔═╗",
-                " ═╣",
-                "  ╩",
-                "╔═╗",
-                "╠═╣",
-                "╚═╝",
-                "╔═╗",
-                "╚═╣",
-                "╚═╝",
-                "╔═╗",
-                "║o║",
-                "╚═╝",
-                "   ",
-                "   ",
-                "   ",
-                "o",
-                " ",
-                "o",
-                "╦",
-                "║",
-                "o"
-            };
-        Character[] letters =
-            new Character[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-                'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '?', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                '0', ' ', ':', '!'};
-        for (int i = 0; i < letters.length; i++) {
-            FONT.put(
-                letters[i],
-                new String[] {
-                    values[LETTER_HEIGHT * i], values[LETTER_HEIGHT * i + 1], values[LETTER_HEIGHT * i + 2]
-                }
-            );
-        }
-    }
 
     public Hangman(Dictionary dictionary, Player player) {
         this.dictionary = dictionary;
@@ -257,19 +24,36 @@ public class Hangman {
     }
 
     public void play() {
+        statement = GameStatements.START;
+        concede = false;
         hiddenWord = dictionary.getRandomWord().toLowerCase();
         hiddenWordForUser = "? ".repeat(hiddenWord.length());
-        while (hiddenWordForUser.contains("?") && statement < MAX_MISTAKES) {
+        int countGuessed = 0;
+        counMistakes = 0;
+        out:
+        while (countGuessed < hiddenWord.length() && statement != GameStatements.LOSE) {
             print();
-            char guessedLetter = player.makeGuess(hiddenWordForUser);
-            if (guessedLetter == '\0') {
-                concede = true;
-                break;
+            String guessedLetter;
+            do {
+                guessedLetter = player.makeGuess(hiddenWordForUser);
+                if (guessedLetter.equals("concede")) {
+                    concede = true;
+                    break out;
+                }
+                if (guessedLetter.length() != 1) {
+                    LOGGER.error("ERROR: you need to write just one letter");
+                } else if (!Character.isLetter(guessedLetter.charAt(0))) {
+                    LOGGER.error("ERROR: '" + guessedLetter.charAt(0) + "' is not a letter");
+                }
+            } while (guessedLetter.length() != 1 || !Character.isLetter(guessedLetter.charAt(0)));
+            if (hiddenWordForUser.contains(guessedLetter)) {
+                continue;
             }
-            if (hiddenWord.contains(Character.toString(guessedLetter))) {
+            if (hiddenWord.contains(guessedLetter)) {
                 StringBuilder newHiddenWordForUser = new StringBuilder();
                 for (int i = 0; i < hiddenWord.length(); i++) {
-                    if (hiddenWord.charAt(i) == guessedLetter) {
+                    if (hiddenWord.charAt(i) == guessedLetter.charAt(0)) {
+                        countGuessed++;
                         newHiddenWordForUser.append(guessedLetter);
                     } else {
                         newHiddenWordForUser.append(hiddenWordForUser.charAt(i << 1));
@@ -278,26 +62,32 @@ public class Hangman {
                 }
                 hiddenWordForUser = newHiddenWordForUser.toString();
             } else {
-                statement++;
+                statement = statement.getNextStatement();
+                counMistakes++;
             }
+        }
+        if (countGuessed == hiddenWord.length()) {
+            statement = GameStatements.WIN;
         }
         print();
     }
 
     private void print() {
-        for (int i = 0, lettersRow = 0; i < PICTURES[statement].length; i++, lettersRow = i / LETTER_HEIGHT) {
+        String[] currentStatement = statement.getStatement();
+        for (int i = 0; i < currentStatement.length; i++) {
             StringBuilder toLog = new StringBuilder();
-            for (int j = 0; j < PICTURES[statement][i].length(); j++) {
-                toLog.append(PICTURES[statement][i].charAt(j));
+            for (int j = 0; j < currentStatement[i].length(); j++) {
+                toLog.append(currentStatement[i].charAt(j));
             }
             toLog.append("\t");
-            StringBuilder information = switch (lettersRow) {
+            StringBuilder information = switch (i / ConsoleFont.LETTER_HEIGHT) {
                 case GAME_NAME_ROW -> new StringBuilder("hangman");
                 case COUNT_OF_MISTAKES_ROW ->
-                    new StringBuilder("count of mistakes: ").append(statement).append(" of ").append(MAX_MISTAKES);
+                    new StringBuilder("count of mistakes: ").append(counMistakes).append(" of ")
+                        .append(GameStatements.MAX_COUNT_MISTAKES);
                 case WORD_ROW -> {
                     StringBuilder ans = new StringBuilder("word: ");
-                    if (statement < MAX_MISTAKES && !concede) {
+                    if (statement != GameStatements.LOSE && !concede) {
                         ans.append(hiddenWordForUser);
                     } else {
                         for (Character ansLetter : hiddenWord.toCharArray()) {
@@ -307,11 +97,11 @@ public class Hangman {
                     yield ans;
                 }
                 case GAME_END_ROW -> {
-                    if (statement == MAX_MISTAKES) {
+                    if (statement == GameStatements.LOSE) {
                         yield new StringBuilder("you lose!");
                     } else if (concede) {
                         yield new StringBuilder("you conceded!");
-                    } else if (!hiddenWordForUser.contains("?")) {
+                    } else if (statement == GameStatements.WIN) {
                         yield new StringBuilder("you win!");
                     } else {
                         yield new StringBuilder();
@@ -320,7 +110,7 @@ public class Hangman {
                 default -> new StringBuilder();
             };
             for (Character letter : information.toString().toCharArray()) {
-                toLog.append(FONT.get(letter)[i % LETTER_HEIGHT]).append(' ');
+                toLog.append(ConsoleFont.getPartOfLetter(letter, i % ConsoleFont.LETTER_HEIGHT)).append(' ');
             }
             LOGGER.info(toLog.toString());
         }

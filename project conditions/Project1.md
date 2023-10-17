@@ -114,41 +114,41 @@
 import org.jetbrains.annotations.NotNull;
 
 interface Dictionary {
-@NotNull String randomWord();
+    @NotNull String randomWord();
 }
 
 class Session {
-private final String answer;
-private final char[] userAnswer;
-private final int maxAttempts;
-private int attempts;
-
-@NotNull GuessResult guess(char guess);
-@NotNull GuessResult giveUp();
+    private final String answer;
+    private final char[] userAnswer;
+    private final int maxAttempts;
+    private int attempts;
+    
+    @NotNull GuessResult guess(char guess);
+    @NotNull GuessResult giveUp();
 }
 
 sealed interface GuessResult {
-char[] state();
-int attempt();
-int maxAttempts();
-@NotNull String message();
-
-record Defeat(...) implements GuessResult {}
-record Win(...) implements GuessResult {}
-record SuccessfulGuess(...) implements GuessResult {}
-record FailedGuess(...) implements GuessResult {}
+    char[] state();
+    int attempt();
+    int maxAttempts();
+    @NotNull String message();
+    
+    record Defeat(...) implements GuessResult {}
+    record Win(...) implements GuessResult {}
+    record SuccessfulGuess(...) implements GuessResult {}
+    record FailedGuess(...) implements GuessResult {}
 }
 
 
 class ConsoleHangman {
-public void run() {
-while (...) {
-// ...
-}
-}
+    public void run() {
+        while (...) {
+            // ...
+        }
+    }
 
-private GuessResult tryGuess(Session session, String input) {}
+    private GuessResult tryGuess(Session session, String input) {}
 
-private void printState(GuessResult guess) {}
+    private void printState(GuessResult guess) {}
 }
 ```

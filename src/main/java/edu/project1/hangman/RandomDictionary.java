@@ -1,7 +1,7 @@
 package edu.project1.hangman;
 
-import org.jetbrains.annotations.NotNull;
 import java.util.Random;
+import org.jetbrains.annotations.NotNull;
 
 public final class RandomDictionary implements Dictionary {
     private static final Random RANDOM = new Random();

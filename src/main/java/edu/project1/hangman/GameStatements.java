@@ -140,6 +140,7 @@ public enum GameStatements {
     });
     final private GameStatements nextStatement;
     final private String[] statement;
+    public static final int IMAGE_HEIGHT = 15;
     public static final int MAX_COUNT_MISTAKES = 5;
 
     GameStatements(GameStatements nextStatement, String[] statement) {

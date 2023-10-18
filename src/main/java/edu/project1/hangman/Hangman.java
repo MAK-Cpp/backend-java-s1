@@ -18,6 +18,16 @@ public class Hangman {
         this.player = player;
     }
 
+    /*package-private*/
+    static String getLengthErrorMessage(String guessedLetter) {
+        return "ERROR: you need to write just one letter, len('" + guessedLetter + "') = " + guessedLetter.length();
+    }
+
+    /*package-private*/
+    static String getNotALetterErrorMessage(String guessedLetter) {
+        return "ERROR: '" + guessedLetter.charAt(0) + "' is not a letter";
+    }
+
     public void play() throws HangmanException {
         do {
             statement = GameStatements.START;
@@ -39,9 +49,9 @@ public class Hangman {
                         break out;
                     }
                     if (guessedLetter.length() != 1) {
-                        System.err.println("ERROR: you need to write just one letter");
+                        System.err.println(getLengthErrorMessage(guessedLetter));
                     } else if (!Character.isLetter(guessedLetter.charAt(0))) {
-                        System.err.println("ERROR: '" + guessedLetter.charAt(0) + "' is not a letter");
+                        System.err.println(getNotALetterErrorMessage(guessedLetter));
                     }
                 } while (guessedLetter.length() != 1 || !Character.isLetter(guessedLetter.charAt(0)));
                 if (hiddenWordForUser.contains(guessedLetter)) {
@@ -71,7 +81,13 @@ public class Hangman {
         } while (player.askToPlayAgain());
     }
 
-    /*package-private*/ static StringBuilder createOutput(final GameStatements statement, final int countMistakes, final String hiddenWord, final String hiddenWordForUser) {
+    /*package-private*/
+    static StringBuilder createOutput(
+        final GameStatements statement,
+        final int countMistakes,
+        final String hiddenWord,
+        final String hiddenWordForUser
+    ) {
         String[] currentStatement = statement.getStatement();
         StringBuilder toLog = new StringBuilder();
         for (int i = 0; i < currentStatement.length; i++) {

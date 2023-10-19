@@ -1,24 +1,24 @@
 package edu.hw2.tasks.task2;
 
 public class ImmutableRectangle {
-    protected int width;
-    protected int height;
+    protected final double width;
+    protected final double height;
 
     ImmutableRectangle() {
         this.width = 0;
         this.height = 0;
     }
 
-    ImmutableRectangle(int width, int height) {
+    ImmutableRectangle(double width, double height) {
         this.width = width;
         this.height = height;
     }
 
-    final ImmutableRectangle setWidth(int width) {
+    final ImmutableRectangle setWidth(double width) {
         return new ImmutableRectangle(width, height);
     }
 
-    final ImmutableRectangle setHeight(int height) {
+    final ImmutableRectangle setHeight(double height) {
         return new ImmutableRectangle(width, height);
     }
 

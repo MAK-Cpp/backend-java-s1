@@ -5,7 +5,7 @@ public class ImmutableSquare extends ImmutableRectangle {
         super(0, 0);
     }
 
-    ImmutableSquare(int size) {
+    ImmutableSquare(double size) {
         super(size, size);
     }
 }

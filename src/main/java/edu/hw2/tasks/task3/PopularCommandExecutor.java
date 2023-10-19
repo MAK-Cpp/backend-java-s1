@@ -18,12 +18,10 @@ public final class PopularCommandExecutor {
             try (Connection connection = manager.getConnection()) {
                 connection.execute(command);
                 break;
-            } catch (ConnectionException e) {
+            } catch (Exception e) {
                 if (attempt + 1 == maxAttempts) {
                     throw new ConnectionException("exceeded the number of attempts", e);
                 }
-            } catch (Exception e) {
-                throw new ConnectionException("cannot close connection", e);
             }
         }
     }

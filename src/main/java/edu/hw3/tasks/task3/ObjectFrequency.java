@@ -7,6 +7,10 @@ public final class ObjectFrequency {
     }
 
     public static <T> HashMap<T, Integer> freqDict(final T[] dictionary) {
-        return null;
+        HashMap<T, Integer> frequency = new HashMap<>();
+        for (T element : dictionary) {
+            frequency.put(element, frequency.getOrDefault(element, 0) + 1);
+        }
+        return frequency;
     }
 }

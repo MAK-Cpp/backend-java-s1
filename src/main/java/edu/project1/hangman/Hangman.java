@@ -28,6 +28,7 @@ public class Hangman {
     }
 
     /*package-private*/
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     static String getNotALetterErrorMessage(final String guessedLetter) {
         return "ERROR: '" + guessedLetter.charAt(0) + "' is not a letter";
     }

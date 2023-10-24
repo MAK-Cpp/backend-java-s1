@@ -13,6 +13,7 @@ public class RealPlayer implements Player {
 
     @Override
     public @NotNull String makeGuess(String guessedWord) {
+        System.out.print("Make a guess (you can give up by writing 'concede'): ");
         return sc.next();
     }
 
@@ -20,7 +21,7 @@ public class RealPlayer implements Player {
     public boolean askToPlayAgain() {
         char ans;
         do {
-            System.out.print("Do you want to play again? (y/n) ");
+            System.out.print("Do you want to play again? (y/n): ");
             ans = sc.next().toLowerCase().charAt(0);
         } while (ans != 'y' && ans != 'n');
         return ans == 'y';

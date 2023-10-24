@@ -1,5 +1,7 @@
 package edu.project1.hangman;
 
+import java.util.Arrays;
+
 @SuppressWarnings("checkstyle:RegexpSinglelineJava")
 public class Hangman {
     private final Player player;
@@ -8,76 +10,97 @@ public class Hangman {
     private String hiddenWordForUser;
     private GameStatements statement;
     private int countMistakes;
+    private final boolean[] isLetterUsed = new boolean[ALPHABET_LENGTH];
+    private static final int ALPHABET_LENGTH = 26;
     private static final int GAME_NAME_ROW = 0;
     private static final int COUNT_OF_MISTAKES_ROW = 1;
     private static final int WORD_ROW = 3;
     private static final int GAME_END_ROW = 4;
 
-    public Hangman(Dictionary dictionary, Player player) {
+    public Hangman(final CorrectDictionary dictionary, final Player player) {
         this.dictionary = dictionary;
         this.player = player;
     }
 
     /*package-private*/
-    static String getLengthErrorMessage(String guessedLetter) {
+    static String getLengthErrorMessage(final String guessedLetter) {
         return "ERROR: you need to write just one letter, len('" + guessedLetter + "') = " + guessedLetter.length();
     }
 
     /*package-private*/
-    static String getNotALetterErrorMessage(String guessedLetter) {
+    static String getNotALetterErrorMessage(final String guessedLetter) {
         return "ERROR: '" + guessedLetter.charAt(0) + "' is not a letter";
+    }
+
+    /*package-private*/
+    static String getRepeatedLetterErrorMessage(final String guessedLetter) {
+        return "ERROR: '" + guessedLetter.charAt(0) + "' was already guessed, guess new one";
+    }
+
+    private String getGuessedLetter() {
+        String guessedLetter;
+        while (true) {
+            guessedLetter = player.makeGuess(hiddenWordForUser).toLowerCase();
+            if (guessedLetter.equals("concede")) {
+                statement = GameStatements.CONCEDE;
+            } else if (guessedLetter.length() != 1) {
+                System.err.println(getLengthErrorMessage(guessedLetter));
+                continue;
+            } else if (!Character.isLetter(guessedLetter.charAt(0))) {
+                System.err.println(getNotALetterErrorMessage(guessedLetter));
+                continue;
+            } else if (isLetterUsed[guessedLetter.charAt(0) - 'a']) {
+                System.err.println(getRepeatedLetterErrorMessage(guessedLetter));
+                continue;
+            }
+            isLetterUsed[guessedLetter.charAt(0) - 'a'] = true;
+            return guessedLetter;
+        }
+    }
+
+    private void openGuessedLetter(final String guessedLetter) {
+        StringBuilder newHiddenWordForUser = new StringBuilder(hiddenWordForUser.length());
+        for (int i = 0; i < hiddenWord.length(); i++) {
+            if (hiddenWord.charAt(i) == guessedLetter.charAt(0)) {
+                newHiddenWordForUser.append(guessedLetter);
+            } else {
+                newHiddenWordForUser.append(hiddenWordForUser.charAt(i << 1));
+            }
+            newHiddenWordForUser.append(' ');
+        }
+        hiddenWordForUser = newHiddenWordForUser.toString();
+    }
+
+    private void playMatch() {
+        int countGuessed = 0;
+        while (countGuessed < hiddenWord.length() && statement != GameStatements.LOSE) {
+            print();
+            String guessedLetter = getGuessedLetter();
+            if (statement == GameStatements.CONCEDE) {
+                break;
+            }
+            if (hiddenWord.contains(guessedLetter)) {
+                openGuessedLetter(guessedLetter);
+                countGuessed += (int) hiddenWord.chars().filter(ch -> ch == guessedLetter.charAt(0)).count();
+            } else {
+                statement = statement.getNextStatement();
+                countMistakes++;
+            }
+        }
+        if (countGuessed == hiddenWord.length()) {
+            statement = GameStatements.WIN;
+        }
+        print();
     }
 
     public void play() throws HangmanException {
         do {
             statement = GameStatements.START;
-            hiddenWord = dictionary.getRandomWord().toLowerCase();
-            if (!hiddenWord.matches("[a-zA-Z]+")) {
-                throw new HangmanException("dictionary contains not allowed word(s)");
-            }
+            hiddenWord = dictionary.getRandomWord();
             hiddenWordForUser = "? ".repeat(hiddenWord.length());
-            int countGuessed = 0;
             countMistakes = 0;
-            out:
-            while (countGuessed < hiddenWord.length() && statement != GameStatements.LOSE) {
-                print();
-                String guessedLetter;
-                do {
-                    guessedLetter = player.makeGuess(hiddenWordForUser).toLowerCase();
-                    if (guessedLetter.equals("concede")) {
-                        statement = GameStatements.CONCEDE;
-                        break out;
-                    }
-                    if (guessedLetter.length() != 1) {
-                        System.err.println(getLengthErrorMessage(guessedLetter));
-                    } else if (!Character.isLetter(guessedLetter.charAt(0))) {
-                        System.err.println(getNotALetterErrorMessage(guessedLetter));
-                    }
-                } while (guessedLetter.length() != 1 || !Character.isLetter(guessedLetter.charAt(0)));
-                if (hiddenWordForUser.contains(guessedLetter)) {
-                    continue;
-                }
-                if (hiddenWord.contains(guessedLetter)) {
-                    StringBuilder newHiddenWordForUser = new StringBuilder();
-                    for (int i = 0; i < hiddenWord.length(); i++) {
-                        if (hiddenWord.charAt(i) == guessedLetter.charAt(0)) {
-                            countGuessed++;
-                            newHiddenWordForUser.append(guessedLetter);
-                        } else {
-                            newHiddenWordForUser.append(hiddenWordForUser.charAt(i << 1));
-                        }
-                        newHiddenWordForUser.append(' ');
-                    }
-                    hiddenWordForUser = newHiddenWordForUser.toString();
-                } else {
-                    statement = statement.getNextStatement();
-                    countMistakes++;
-                }
-            }
-            if (countGuessed == hiddenWord.length()) {
-                statement = GameStatements.WIN;
-            }
-            print();
+            Arrays.fill(isLetterUsed, false);
+            playMatch();
         } while (player.askToPlayAgain());
     }
 

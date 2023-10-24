@@ -8,16 +8,18 @@ import static edu.project1.hangman.Hangman.getLengthErrorMessage;
 import static edu.project1.hangman.Hangman.getNotALetterErrorMessage;
 import static edu.project1.hangman.Hangman.createOutput;
 import java.util.stream.Stream;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import static edu.project1.hangman.Hangman.getRepeatedLetterErrorMessage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class HangmanTest {
     @ParameterizedTest
     @MethodSource("wrongDictionaries")
-    void testHangmanWithWrongDictionary(final Dictionary wrongDictionary) {
+    void testHangmanWithWrongDictionary(final CorrectDictionary wrongDictionary) {
         Hangman game = new Hangman(wrongDictionary, new TestPlayer(null, 0));
         HangmanException exception = assertThrows(HangmanException.class, game::play);
         assertThat(exception.getMessage()).isEqualTo("dictionary contains not allowed word(s)");
@@ -25,7 +27,7 @@ public class HangmanTest {
 
     @ParameterizedTest
     @MethodSource("normalGameFull")
-    void testHangmanNormalGameFull(final Dictionary dictionary, final Player player, final String[] statements)
+    void testHangmanNormalGameFull(final CorrectDictionary dictionary, final Player player, final String[] statements)
         throws Exception {
         final Hangman game = new Hangman(dictionary, player);
         final String[] lines = tapSystemOutNormalized(game::play).split("\n");
@@ -40,7 +42,7 @@ public class HangmanTest {
 
     @ParameterizedTest
     @MethodSource("gameWithWrongGuesses")
-    void testHangmanGameWithWrongGuesses(final Dictionary dictionary, final Player player, final String[] errors)
+    void testHangmanGameWithWrongGuesses(final CorrectDictionary dictionary, final Player player, final String[] errors)
         throws Exception {
         final Hangman game = new Hangman(dictionary, player);
         final String[] errorLines = tapSystemErrNormalized(game::play).split("\n");
@@ -49,13 +51,22 @@ public class HangmanTest {
         }
     }
 
-    private static Stream<Dictionary> wrongDictionaries() {
+    private static CorrectDictionary createWrongDictionary(final String wrongResult) {
+        return new CorrectDictionary() {
+            @Override
+            @NotNull String getRandomWordWithoutCheck() {
+                return wrongResult;
+            }
+        };
+    }
+
+    private static Stream<CorrectDictionary> wrongDictionaries() {
         return Stream.of(
-            () -> "123",
-            () -> " \s\n\t",
-            () -> "hello, world!",
-            () -> "Hi)",
-            () -> "1sth4ty0u"
+            createWrongDictionary("123"),
+            createWrongDictionary(" \s\n\t"),
+            createWrongDictionary("hello, world!"),
+            createWrongDictionary("Hi)"),
+            createWrongDictionary("1sth4ty0u")
         );
     }
 
@@ -65,11 +76,10 @@ public class HangmanTest {
 
     private static Stream<Arguments> normalGameFull() {
         return Stream.of(
-            Arguments.of(new TestDictionary(0), new TestPlayer(new String[]{"t", "E", "s", "T", "w", "o", "r", "y", "d"},0), new String[] {
+            Arguments.of(new TestDictionary(0), new TestPlayer(new String[]{"t", "E", "s", "w", "o", "r", "y", "d"},0), new String[] {
                 HangmanOutput(START, 0, "testword", "? ? ? ? ? ? ? ? "),
                 HangmanOutput(START, 0, "testword", "t ? ? t ? ? ? ? "),
                 HangmanOutput(START, 0, "testword", "t e ? t ? ? ? ? "),
-                HangmanOutput(START, 0, "testword", "t e s t ? ? ? ? "),
                 HangmanOutput(START, 0, "testword", "t e s t ? ? ? ? "),
                 HangmanOutput(START, 0, "testword", "t e s t w ? ? ? "),
                 HangmanOutput(START, 0, "testword", "t e s t w o ? ? "),
@@ -117,21 +127,18 @@ public class HangmanTest {
                 HangmanOutput(FOURTH_MISTAKE, 4, "itmo", "i t m ? "),
                 HangmanOutput(WIN, 4, "itmo", "i t m o ")
             }),
-            Arguments.of(new TestDictionary(2), new TestPlayer(new String[]{"o", "A", "o", "O", "o", "O", "o", "O", "i", "t", "M", "O"}, 0), new String[] {
+            Arguments.of(new TestDictionary(2), new TestPlayer(new String[]{"o", "A", "i", "t", "M", "O"}, 0), new String[] {
                 HangmanOutput(START, 0, "itmo", "? ? ? ? "),
                 HangmanOutput(START, 0, "itmo", "? ? ? o "),
-                HangmanOutput(FIRST_MISTAKE, 1, "itmo", "? ? ? o "),
-                HangmanOutput(FIRST_MISTAKE, 1, "itmo", "? ? ? o "),
-                HangmanOutput(FIRST_MISTAKE, 1, "itmo", "? ? ? o "),
-                HangmanOutput(FIRST_MISTAKE, 1, "itmo", "? ? ? o "),
-                HangmanOutput(FIRST_MISTAKE, 1, "itmo", "? ? ? o "),
-                HangmanOutput(FIRST_MISTAKE, 1, "itmo", "? ? ? o "),
                 HangmanOutput(FIRST_MISTAKE, 1, "itmo", "? ? ? o "),
                 HangmanOutput(FIRST_MISTAKE, 1, "itmo", "i ? ? o "),
                 HangmanOutput(FIRST_MISTAKE, 1, "itmo", "i t ? o "),
                 HangmanOutput(WIN, 1, "itmo", "i t m o ")
             }),
-            Arguments.of(new TestDictionary(0), new TestPlayer(new String[]{"z", "v", "concede", "a", "a", "a", "t", "e", "s", "w", "o", "r", "d", "a", "a", "a", "a", "a"}, 2), new String[] {
+            Arguments.of(new TestDictionary(0), new TestPlayer(new String[]{
+                "z", "v", "concede",
+                "a", "b", "c", "t", "e", "s", "w", "o", "r", "d",
+                "a", "z", "v", "b", "c"}, 2), new String[] {
                 HangmanOutput(START, 0, "testword", "? ? ? ? ? ? ? ? "),
                 HangmanOutput(FIRST_MISTAKE, 1, "testword", "? ? ? ? ? ? ? ? "),
                 HangmanOutput(SECOND_MISTAKE, 2, "testword", "? ? ? ? ? ? ? ? "),
@@ -161,6 +168,7 @@ public class HangmanTest {
         return Stream.of(
             Arguments.of(new TestDictionary(0), new TestPlayer(new String[]{"t", "E", "oops", "s", "T", "!", "¯\\_(ツ)_/¯", "w", "1", "o", "2", "r", "y", "d"}, 0), new String[] {
                 getLengthErrorMessage("oops"),
+                getRepeatedLetterErrorMessage("t"),
                 getNotALetterErrorMessage("!"),
                 getLengthErrorMessage("¯\\_(ツ)_/¯"),
                 getNotALetterErrorMessage("1"),

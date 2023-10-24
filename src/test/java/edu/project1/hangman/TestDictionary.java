@@ -2,7 +2,7 @@ package edu.project1.hangman;
 
 import org.jetbrains.annotations.NotNull;
 
-public class TestDictionary implements Dictionary {
+public class TestDictionary extends CorrectDictionary {
     private final static String[] testWords = new String[]{"TestWord", "abracadabra", "ITMO"};
     private final int wordId;
 
@@ -11,7 +11,7 @@ public class TestDictionary implements Dictionary {
     }
 
     @Override
-    public @NotNull String getRandomWord() {
+    @NotNull String getRandomWordWithoutCheck() {
         return testWords[wordId];
     }
 }

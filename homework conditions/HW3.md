@@ -112,5 +112,5 @@ assertThat(tree.contains(null)).isTrue();
 Реализуйте **Iterator\<T>**, который принимает коллекцию, но при этом 
 двигается "назад".
 
-То есть new **BackwardIterator<>(List.of(1,2,3))** должен сначала вернуть 3, 
+То есть `new BackwardIterator<>(List.of(1,2,3))` должен сначала вернуть 3, 
 потом 2, а потом 1.

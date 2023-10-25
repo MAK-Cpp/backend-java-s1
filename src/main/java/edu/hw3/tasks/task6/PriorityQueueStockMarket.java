@@ -12,7 +12,7 @@ public class PriorityQueueStockMarket implements StockMarket {
         this.market = new PriorityQueue<>();
     }
 
-    public PriorityQueueStockMarket(final Stock[] stocks) {
+    public PriorityQueueStockMarket(final Stock... stocks) {
         this.market = new PriorityQueue<>(Arrays.asList(stocks));
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +15,7 @@ public class StockMarketTest {
     @ParameterizedTest
     @MethodSource("stockOperations")
     public void testStockMarketOperations(
-        final ArrayList<SimpleEntry<StockMarketOperations, Stock>> operations,
+        final List<SimpleEntry<StockMarketOperations, Stock>> operations,
         final PriorityQueueStockMarket resultMarket,
         final Stock[] mostValuableStockResults
     ) {
@@ -31,24 +32,27 @@ public class StockMarketTest {
         assertThat(mostValuableStock.toArray(new Stock[0])).isEqualTo(mostValuableStockResults);
     }
 
-    private static SimpleEntry<StockMarketOperations, Stock> addOperation(final String stockName, final int stockPrice) {
+    private static SimpleEntry<StockMarketOperations, Stock> addOperation(
+        final String stockName,
+        final int stockPrice
+    ) {
         return new SimpleEntry<>(ADD, new Stock(stockName, stockPrice));
     }
 
-    private static SimpleEntry<StockMarketOperations, Stock> removeOperation(final String stockName, final int stockPrice) {
+    private static SimpleEntry<StockMarketOperations, Stock> removeOperation(
+        final String stockName,
+        final int stockPrice
+    ) {
         return new SimpleEntry<>(REMOVE, new Stock(stockName, stockPrice));
     }
 
-    private static final SimpleEntry<StockMarketOperations, Stock> mostValuableStockOperation = new SimpleEntry<>(MOST_VALUABLE_STOCK, null);
-
-    private static PriorityQueueStockMarket createResult(final Stock... stocks) {
-        return new PriorityQueueStockMarket(stocks);
-    }
+    private static final SimpleEntry<StockMarketOperations, Stock> mostValuableStockOperation =
+        new SimpleEntry<>(MOST_VALUABLE_STOCK, null);
 
     private static Stream<Arguments> stockOperations() {
         return Stream.of(
             Arguments.of(
-                new ArrayList<>(List.of(
+                Arrays.asList(
                     addOperation("Apple", 100),
                     addOperation("Yandex", 2),
                     addOperation("Tinkoff", 10000),
@@ -57,8 +61,8 @@ public class StockMarketTest {
                     mostValuableStockOperation,
                     removeOperation("Tinkoff", 10000),
                     mostValuableStockOperation
-                )),
-                createResult(
+                ),
+                new PriorityQueueStockMarket(
                     new Stock("Apple", 100)
                 ),
                 new Stock[] {
@@ -68,15 +72,12 @@ public class StockMarketTest {
                 }
             ),
             Arguments.of(
-                new ArrayList<>(List.of(
-                )),
-                createResult(
-                ),
-                new Stock[] {
-                }
+                List.of(),
+                new PriorityQueueStockMarket(),
+                new Stock[] {}
             ),
             Arguments.of(
-                new ArrayList<>(List.of(
+                Arrays.asList(
                     addOperation("d", 1),
                     addOperation("b", 1),
                     addOperation("a", 1),
@@ -85,8 +86,8 @@ public class StockMarketTest {
                     addOperation("a", 100),
                     mostValuableStockOperation,
                     removeOperation("b", 1)
-                )),
-                createResult(
+                ),
+                new PriorityQueueStockMarket(
                     new Stock("a", 100),
                     new Stock("d", 1),
                     new Stock("c", 1),
@@ -98,15 +99,14 @@ public class StockMarketTest {
                 }
             ),
             Arguments.of(
-                new ArrayList<>(List.of(
+                Arrays.asList(
                     addOperation("a", 1),
                     mostValuableStockOperation,
                     removeOperation("b", 2),
                     mostValuableStockOperation,
                     removeOperation("a", 1)
-                )),
-                createResult(
                 ),
+                new PriorityQueueStockMarket(),
                 new Stock[] {
                     new Stock("a", 1),
                     new Stock("a", 1)

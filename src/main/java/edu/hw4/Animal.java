@@ -9,6 +9,11 @@ public record Animal(
     int weight,
     boolean bites
 ) {
+    public static final int COUNT_MAMMALS_PAWS = 4;
+    public static final int COUNT_BIRDS_PAWS = 2;
+    public static final int COUNT_FISH_PAWS = 0;
+    public static final int COUNT_INSECTS_PAWS = 8;
+
     public enum Type {
         CAT, DOG, BIRD, FISH, SPIDER
     }
@@ -19,10 +24,10 @@ public record Animal(
 
     public int paws() {
         return switch (type) {
-            case CAT, DOG -> 4;
-            case BIRD -> 2;
-            case FISH -> 0;
-            case SPIDER -> 8;
+            case CAT, DOG -> COUNT_MAMMALS_PAWS;
+            case BIRD -> COUNT_BIRDS_PAWS;
+            case FISH -> COUNT_FISH_PAWS;
+            case SPIDER -> COUNT_INSECTS_PAWS;
         };
     }
 }

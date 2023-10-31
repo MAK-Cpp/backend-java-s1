@@ -1,31 +1,35 @@
 package edu.hw3.tasks.task5;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
-import static java.lang.Math.min;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class ContactList {
-    private static final Comparator<String> ASC_CMP = (o1, o2) -> {
-        final String[] parsedO1 = o1.split(" ");
-        final String[] parsedO2 = o2.split(" ");
-        if (parsedO2.length > 2 || parsedO1.length > 2) {
-            throw new IllegalArgumentException("wrong name format");
-        }
-        return parsedO1[min(parsedO1.length, 1)].compareTo(parsedO2[min(parsedO2.length, 1)]);
-    };
-    private static final Comparator<String> DESC_CMP = (o1, o2) -> -ASC_CMP.compare(o1, o2);
+    private static final Pattern FIO_PATTERN = Pattern.compile("^ *([a-zA-Z]+) *([a-zA-Z]+)? *$");
 
     private ContactList() {
     }
 
-    public static Object[] parseContacts(final String[] names, final String order) {
-        if (names == null) {
-            return new Object[0];
+    private static Contact parseContact(final String string) {
+        Matcher matcher = FIO_PATTERN.matcher(string);
+        if (matcher.find()) {
+            return new Contact(matcher.group(1), matcher.group(2));
+        } else {
+            throw new IllegalArgumentException("worng FIO format: '" + string + "'");
         }
-        return switch (order) {
-            case "ASC" -> Arrays.stream(names).sorted(ASC_CMP).toArray();
-            case "DESC" -> Arrays.stream(names).sorted(DESC_CMP).toArray();
+    }
+
+    public static List<Contact> parseContacts(final Collection<String> names, final String order) {
+        Comparator<Contact> comparator = switch (order) {
+            case "ASC" -> Comparator.naturalOrder();
+            case "DESC" -> Comparator.reverseOrder();
             default -> throw new IllegalArgumentException("wrong order of sorting: " + order);
         };
+        return names.stream()
+            .map(ContactList::parseContact)
+            .sorted(comparator)
+            .toList();
     }
 }

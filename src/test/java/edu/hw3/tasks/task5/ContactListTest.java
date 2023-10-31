@@ -3,6 +3,8 @@ package edu.hw3.tasks.task5;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Stream;
 import static edu.hw3.tasks.task5.ContactList.parseContacts;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ContactListTest {
     @ParameterizedTest
     @MethodSource("correctContacts")
-    public void testCorrectContactList(final String[] names, final String order, final Object[] sortedNames) {
-        assertThat(parseContacts(names, order)).isEqualTo(sortedNames);
+    public void testCorrectContactList(final Collection<String> names, final String order, final List<Contact> sortedContacts) {
+        assertThat(parseContacts(names, order)).isEqualTo(sortedContacts);
     }
 
     @ParameterizedTest
     @MethodSource("incorrectContacts")
-    public void testIncorrectContactList(final String[] names, final String order, final String errorMessage) {
+    public void testIncorrectContactList(final Collection<String> names, final String order, final String errorMessage) {
         final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> parseContacts(names, order));
         assertThat(exception.getMessage()).isEqualTo(errorMessage);
     }
@@ -25,29 +27,38 @@ public class ContactListTest {
     private static Stream<Arguments> correctContacts() {
         return Stream.of(
             Arguments.of(
-                new String[] {"John Locke", "Thomas Aquinas", "David Hume", "Rene Descartes"},
+                List.of("John Locke", "Thomas Aquinas", "David Hume", "Rene Descartes"),
                 "ASC",
-                new Object[] {"Thomas Aquinas", "Rene Descartes", "David Hume", "John Locke"}
+                List.of(
+                    new Contact("Thomas", "Aquinas"),
+                    new Contact("Rene", "Descartes"),
+                    new Contact("David", "Hume"),
+                    new Contact("John", "Locke")
+                )
             ),
             Arguments.of(
-                new String[] {"Paul Erdos", "Leonhard Euler", "Carl Gauss"},
+                List.of("Paul Erdos", "Leonhard Euler", "Carl Gauss"),
                 "DESC",
-                new Object[] {"Carl Gauss", "Leonhard Euler", "Paul Erdos"}
+                List.of(
+                    new Contact("Carl", "Gauss"),
+                    new Contact("Leonhard", "Euler"),
+                    new Contact("Paul", "Erdos")
+                )
             ),
             Arguments.of(
-                new String[0],
+                List.of(),
                 "DESC",
-                new Object[0]
+                List.of()
             ),
             Arguments.of(
-                null,
-                "DESC",
-                new Object[0]
-            ),
-            Arguments.of(
-                new String[] {"Maxim Primakov", "Evgenia Primakova", "Anton Primakov", "Roman Karandashov"},
+                List.of("Maxim Primakov", "Evgenia Primakova", "Anton Primakov", "Roman Karandashov"),
                 "ASC",
-                new Object[] {"Roman Karandashov", "Maxim Primakov", "Anton Primakov", "Evgenia Primakova"}
+                List.of(
+                    new Contact("Roman", "Karandashov"),
+                    new Contact("Maxim", "Primakov"),
+                    new Contact("Anton", "Primakov"),
+                    new Contact("Evgenia", "Primakova")
+                )
             )
         );
     }
@@ -55,12 +66,12 @@ public class ContactListTest {
     private static Stream<Arguments> incorrectContacts() {
         return Stream.of(
             Arguments.of(
-                new String[] {"A B C", "Thomas Aquinas"},
+                List.of("A B C", "Thomas Aquinas"),
                 "ASC",
-                "wrong name format"
+                "worng FIO format: 'A B C'"
             ),
             Arguments.of(
-                new String[] {"Maksim Primakov"},
+                List.of("Maksim Primakov"),
                 "WHAT",
                 "wrong order of sorting: WHAT"
             )

@@ -12,7 +12,7 @@ public final class HighAnimalsWhichCanBite {
 
     public static List<Animal> find(final Collection<Animal> animals) {
         return animals.stream()
-            .filter(x -> (x.bites() == null || x.bites()) && (x.height() > HEIGHT_OF_A_TALL_ANIMAL))
+            .filter(x -> x.bites() && (x.height() > HEIGHT_OF_A_TALL_ANIMAL))
             .toList();
     }
 }

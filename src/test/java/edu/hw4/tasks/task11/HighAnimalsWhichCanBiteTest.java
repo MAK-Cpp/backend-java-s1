@@ -9,22 +9,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
+import static edu.hw4.tasks.RandomAnimalGenerator.randomAnimal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static edu.hw4.Animal.Type.*;
 import static edu.hw4.Animal.Sex.*;
 
 @DisplayName("Task 11")
 class HighAnimalsWhichCanBiteTest {
-    private static Animal animalByHeightAndBite(int height, Boolean bite) {
-        return new Animal(
-            RandomAnimalGenerator.randomName(),
-            RandomAnimalGenerator.randomType(),
-            RandomAnimalGenerator.randomSex(),
-            RandomAnimalGenerator.randomAge(),
-            height,
-            RandomAnimalGenerator.randomWeight(),
-            bite
-        );
+    private static Animal animalByHeightAndBite(int height, boolean bite) {
+        return randomAnimal(null, null, null, null, height, null, bite);
     }
 
     public static Stream<Arguments> testHighAnimalsWhichCanBite() {
@@ -33,17 +26,17 @@ class HighAnimalsWhichCanBiteTest {
             Arguments.of(
                 List.of(
                     animalByHeightAndBite(30, true),
-                    animalByHeightAndBite(60, null),
+                    animalByHeightAndBite(60, true),
                     animalByHeightAndBite(101, false)
                 ),
                 List.of()
             ),
             Arguments.of(
                 List.of(
-                    animalByHeightAndBite(100, null),
+                    animalByHeightAndBite(100, false),
                     animalByHeightAndBite(99, false),
                     animalByHeightAndBite(101, true),
-                    animalByHeightAndBite(173, null),
+                    animalByHeightAndBite(173, true),
                     animalByHeightAndBite(109, false),
                     animalByHeightAndBite(110, true)
                 ),

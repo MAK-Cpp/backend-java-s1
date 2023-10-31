@@ -7,7 +7,7 @@ public record Animal(
     int age,
     int height,
     int weight,
-    Boolean bites
+    boolean bites
 ) {
     public static final int COUNT_MAMMALS_PAWS = 4;
     public static final int COUNT_BIRDS_PAWS = 2;

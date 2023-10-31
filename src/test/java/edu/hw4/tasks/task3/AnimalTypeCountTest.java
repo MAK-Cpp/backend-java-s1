@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static edu.hw4.Animal.Type.*;
-import static edu.hw4.Animal.Sex.*;
+import static edu.hw4.tasks.RandomAnimalGenerator.randomAnimal;
 
 @DisplayName("Task 3")
 class AnimalTypeCountTest {
@@ -22,7 +22,7 @@ class AnimalTypeCountTest {
     }
 
     private static Animal animalByType(final Animal.Type type) {
-        return new Animal("", type, M, 0, 0, 0, false);
+        return randomAnimal(null, type, null, null, null, null, null);
     }
 
     private static Stream<Arguments> testAnimalTypeCount() {

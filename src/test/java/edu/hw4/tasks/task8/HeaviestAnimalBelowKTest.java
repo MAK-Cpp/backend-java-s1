@@ -9,14 +9,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+import static edu.hw4.tasks.RandomAnimalGenerator.randomAnimal;
 import static org.assertj.core.api.Assertions.assertThat;
-import static edu.hw4.Animal.Type.*;
-import static edu.hw4.Animal.Sex.*;
 
 @DisplayName("Task 8")
 class HeaviestAnimalBelowKTest {
     private static Animal animalByHeightAndWeight(int height, int weight) {
-        return new Animal("", DOG, M, 0, height, weight, false);
+        return randomAnimal(null, null, null, null, height, weight, null);
     }
 
     public static Stream<Arguments> testHeaviestAnimalBelowK() {
@@ -24,7 +23,7 @@ class HeaviestAnimalBelowKTest {
             Arguments.of(
                 List.of(),
                 173,
-                Optional.empty()
+                null
             ),
             Arguments.of(
                 List.of(
@@ -33,7 +32,7 @@ class HeaviestAnimalBelowKTest {
                     animalByHeightAndWeight(180, 60)
                 ),
                 20,
-                Optional.empty()
+                null
             ),
             Arguments.of(
                 List.of(
@@ -45,14 +44,15 @@ class HeaviestAnimalBelowKTest {
                     animalByHeightAndWeight(2, 1)
                 ),
                 100,
-                Optional.of(animalByHeightAndWeight(65, 85))
+                1
             )
         );
     }
 
     @ParameterizedTest
     @MethodSource
-    void testHeaviestAnimalBelowK(final Collection<Animal> input, final int k, final Optional<Animal> output) {
+    void testHeaviestAnimalBelowK(final Collection<Animal> input, final int k, final Integer answer) {
+        final Optional<Animal> output = (answer == null ? Optional.empty() : Optional.of(input.stream().toList().get(answer)));
         assertThat(HeaviestAnimalBelowK.find(input, k)).isEqualTo(output);
     }
 }

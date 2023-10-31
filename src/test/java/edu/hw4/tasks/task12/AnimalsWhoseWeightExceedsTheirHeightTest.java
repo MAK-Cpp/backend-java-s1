@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
+import static edu.hw4.tasks.RandomAnimalGenerator.randomAnimal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static edu.hw4.Animal.Type.*;
 import static edu.hw4.Animal.Sex.*;
@@ -15,7 +16,7 @@ import static edu.hw4.Animal.Sex.*;
 @DisplayName("Task 12")
 class AnimalsWhoseWeightExceedsTheirHeightTest {
     private static Animal animalByWeightAndHeight(final int weight, final int height) {
-        return new Animal("", CAT, F, 0, height, weight, false);
+        return randomAnimal(null, null, null, null, height, weight, null);
     }
 
     public static Stream<Arguments> testAnimalsWhoseWeightExceedsTheirHeight() {

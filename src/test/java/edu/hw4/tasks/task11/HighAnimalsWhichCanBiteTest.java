@@ -1,6 +1,7 @@
 package edu.hw4.tasks.task11;
 
 import edu.hw4.Animal;
+import edu.hw4.tasks.RandomAnimalGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,7 +16,15 @@ import static edu.hw4.Animal.Sex.*;
 @DisplayName("Task 11")
 class HighAnimalsWhichCanBiteTest {
     private static Animal animalByHeightAndBite(int height, Boolean bite) {
-        return new Animal("", DOG, M, 0, height, 0, bite);
+        return new Animal(
+            RandomAnimalGenerator.randomName(),
+            RandomAnimalGenerator.randomType(),
+            RandomAnimalGenerator.randomSex(),
+            RandomAnimalGenerator.randomAge(),
+            height,
+            RandomAnimalGenerator.randomWeight(),
+            bite
+        );
     }
 
     public static Stream<Arguments> testHighAnimalsWhichCanBite() {
@@ -38,18 +47,20 @@ class HighAnimalsWhichCanBiteTest {
                     animalByHeightAndBite(109, false),
                     animalByHeightAndBite(110, true)
                 ),
-                List.of(
-                    animalByHeightAndBite(101, true),
-                    animalByHeightAndBite(173, null),
-                    animalByHeightAndBite(110, true)
-                )
+                List.of(2, 3, 5)
             )
         );
     }
 
     @ParameterizedTest
     @MethodSource
-    void testHighAnimalsWhichCanBite(final Collection<Animal> input, final List<Animal> output) {
-        assertThat(HighAnimalsWhichCanBite.find(input)).isEqualTo(output);
+    void testHighAnimalsWhichCanBite(final Collection<Animal> input, final List<Integer> answers) {
+        final List<Animal> inputList = input.stream().toList();
+        final List<Animal> output = HighAnimalsWhichCanBite.find(input);
+
+        assertThat(output.size()).isEqualTo(answers.size());
+        for (int i = 0; i < answers.size(); i++) {
+            assertThat(output.get(i)).isEqualTo(inputList.get(answers.get(i)));
+        }
     }
 }

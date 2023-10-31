@@ -6,17 +6,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import static edu.hw4.tasks.RandomAnimalGenerator.randomAnimal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static edu.hw4.Animal.Type.*;
-import static edu.hw4.Animal.Sex.*;
 
 @DisplayName("Task 6")
 class HeaviestAnimalOfEachTypeTest {
     private static Animal createAnimal(Animal.Type type, int weight) {
-        return new Animal("", type, M, 0, 0, weight, false);
+        return randomAnimal(null, type, null, null, null, weight, null);
     }
 
     public static Stream<Arguments> testHeaviestAnimalOfEachType() {
@@ -42,11 +43,11 @@ class HeaviestAnimalOfEachTypeTest {
                     createAnimal(BIRD, 52)
                 ),
                 Map.of(
-                    DOG, createAnimal(DOG, 19),
-                    CAT, createAnimal(CAT, 666),
-                    BIRD, createAnimal(BIRD, 1000),
-                    SPIDER, createAnimal(SPIDER, 99),
-                    FISH, createAnimal(FISH, 123)
+                    DOG, 11,
+                    CAT, 10,
+                    BIRD, 6,
+                    SPIDER, 7,
+                    FISH, 8
                 )
             ),
             Arguments.of(
@@ -60,10 +61,10 @@ class HeaviestAnimalOfEachTypeTest {
                     createAnimal(FISH, 12)
                 ),
                 Map.of(
-                    DOG, createAnimal(DOG, 15),
-                    SPIDER, createAnimal(SPIDER, 10),
-                    CAT, createAnimal(CAT, 14),
-                    FISH, createAnimal(FISH, 12)
+                    DOG, 0,
+                    SPIDER, 3,
+                    CAT, 2,
+                    FISH, 6
                 )
             )
         );
@@ -71,7 +72,13 @@ class HeaviestAnimalOfEachTypeTest {
 
     @ParameterizedTest
     @MethodSource
-    void testHeaviestAnimalOfEachType(final Collection<Animal> input, final Map<Animal.Type, Animal> output) {
+    void testHeaviestAnimalOfEachType(final Collection<Animal> input, final Map<Animal.Type, Integer> answers) {
+        final List<Animal> inputList = input.stream().toList();
+
+        final Map<Animal.Type, Animal> output = new HashMap<>();
+        for (Animal.Type type : answers.keySet()) {
+            output.put(type, inputList.get(answers.get(type)));
+        }
         assertThat(HeaviestAnimalOfEachType.find(input)).isEqualTo(output);
     }
 }

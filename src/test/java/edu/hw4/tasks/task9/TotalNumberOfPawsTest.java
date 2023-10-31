@@ -8,23 +8,49 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
+import static edu.hw4.tasks.RandomAnimalGenerator.randomAnimal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static edu.hw4.Animal.Type.*;
-import static edu.hw4.Animal.Sex.*;
 
 @DisplayName("Task 9")
 class TotalNumberOfPawsTest {
-    private static final Animal dog = new Animal("", DOG, M, 0, 0, 0, false);
-    private static final Animal cat = new Animal("", CAT, M, 0, 0, 0, false);
-    private static final Animal bird = new Animal("", BIRD, M, 0, 0, 0, false);
-    private static final Animal fish = new Animal("", FISH, M, 0, 0, 0, false);
-    private static final Animal spider = new Animal("", SPIDER, M, 0, 0, 0, false);
+    private static Animal dog() {
+        return randomAnimal(null, DOG, null, null, null, null, null);
+    }
+
+    private static Animal cat() {
+        return randomAnimal(null, CAT, null, null, null, null, null);
+    }
+
+    private static Animal bird() {
+        return randomAnimal(null, BIRD, null, null, null, null, null);
+    }
+
+    private static Animal fish() {
+        return randomAnimal(null, FISH, null, null, null, null, null);
+    }
+
+    private static Animal spider() {
+        return randomAnimal(null, SPIDER, null, null, null, null, null);
+    }
 
     public static Stream<Arguments> testTotalNumberOfPaws() {
         return Stream.of(
             Arguments.of(List.of(), 0),
-            Arguments.of(List.of(dog, dog, dog, cat, cat, fish, fish, fish, fish), 20),
-            Arguments.of(List.of(bird, spider, dog, cat, cat, dog, bird, bird, spider, fish, fish), 38)
+            Arguments.of(List.of(dog(), dog(), dog(), cat(), cat(), fish(), fish(), fish(), fish()), 20),
+            Arguments.of(List.of(
+                bird(),
+                spider(),
+                dog(),
+                cat(),
+                cat(),
+                dog(),
+                bird(),
+                bird(),
+                spider(),
+                fish(),
+                fish()
+            ), 38)
         );
     }
 

@@ -8,14 +8,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
+import static edu.hw4.tasks.RandomAnimalGenerator.randomAnimal;
 import static org.assertj.core.api.Assertions.assertThat;
-import static edu.hw4.Animal.Type.*;
 import static edu.hw4.Animal.Sex.*;
 
 @DisplayName("Task 5")
 class MostPopularSexTest {
-    private static final Animal MALE = new Animal("", DOG, M, 0, 0, 0, false);
-    private static final Animal FEMALE = new Animal("", DOG, F, 0, 0, 0, false);
+    private static Animal male() {
+        return randomAnimal(null, null, M, null, null, null, null);
+    }
+
+    private static Animal female() {
+        return randomAnimal(null, null, F, null, null, null, null);
+    }
 
     private static Stream<Arguments> testMostPopularSex() {
         return Stream.of(
@@ -24,23 +29,23 @@ class MostPopularSexTest {
                 null
             ),
             Arguments.of(
-                List.of(MALE, MALE, MALE),
+                List.of(male(), male(), male()),
                 M
             ),
             Arguments.of(
-                List.of(FEMALE, FEMALE, FEMALE, FEMALE, FEMALE),
+                List.of(female(), female(), female(), female(), female()),
                 F
             ),
             Arguments.of(
-                List.of(MALE, FEMALE, MALE, MALE, FEMALE, FEMALE, MALE, FEMALE, FEMALE, FEMALE, MALE),
+                List.of(male(), female(), male(), male(), female(), female(), male(), female(), female(), female(), male()),
                 F
             ),
             Arguments.of(
-                List.of(MALE, FEMALE, FEMALE, FEMALE, FEMALE, MALE, MALE, MALE, MALE),
+                List.of(male(), female(), female(), female(), female(), male(), male(), male(), male()),
                 M
             ),
             Arguments.of(
-                List.of(MALE, MALE, FEMALE, FEMALE),
+                List.of(male(), male(), female(), female()),
                 F
             )
         );

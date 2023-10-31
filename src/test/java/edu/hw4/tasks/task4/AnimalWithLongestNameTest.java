@@ -1,6 +1,7 @@
 package edu.hw4.tasks.task4;
 
 import edu.hw4.Animal;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static edu.hw4.Animal.Type.*;
 import static edu.hw4.Animal.Sex.*;
 
+@DisplayName("Task 4")
 class AnimalWithLongestNameTest {
     public static Stream<Arguments> testAnimalWithLongestName() {
         return Stream.of(

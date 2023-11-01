@@ -34,7 +34,7 @@ class TypeSexNameSortTest {
             ),
             List.of(
                 animalByNameTypeSex("abcd", CAT, M),
-                animalByNameTypeSex("abcd", CAT, M),
+                animalByNameTypeSex("abce", CAT, M),
                 animalByNameTypeSex("xyz", CAT, M),
                 animalByNameTypeSex("wzz", CAT, F),
                 animalByNameTypeSex("xzz", CAT, F),

@@ -74,8 +74,8 @@ class AreSpidersBitesMoreThanDogsTest {
             createTest(-1, 0, 0, 0, 0, false),
             createTest(-1, -1, -1, 0, 0, false),
             createTest(-1, 0, 0, -1, -1, false),
-            createTest(-1, 5, -1, 4, -1, false),
-            createTest(-1, 5, -1, 10, -1, true)
+            createTest(-1, 5, 0, 10, 0, false),
+            createTest(-1, 5, 23, 10, 18, true)
         );
     }
 

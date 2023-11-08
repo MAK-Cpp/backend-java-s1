@@ -1,40 +1,43 @@
 package edu.hw4.tasks.task17;
 
 public final class Counter {
-    private int answer;
     private int countDogs;
+    private int countBitesDogs;
     private int countSpiders;
+    private int countBitesSpiders;
 
-    private Counter(int answer, int countDogs, int countSpiders) {
-        this.answer = answer;
-        this.countDogs = countDogs;
-        this.countSpiders = countSpiders;
+    private Counter() {
     }
 
-    public static Counter of(int answer, int countDogs, int countSpiders) {
-        return new Counter(answer, countDogs, countSpiders);
+    public static Counter of() {
+        return new Counter();
     }
 
     public Counter add(final Counter other) {
-        this.answer += other.answer;
         this.countDogs += other.countDogs;
+        this.countBitesDogs += other.countBitesDogs;
         this.countSpiders += other.countSpiders;
+        this.countBitesSpiders += other.countBitesSpiders;
         return this;
     }
 
-    public Counter addDog() {
-        this.answer--;
+    public Counter addDog(boolean isBite) {
         this.countDogs++;
+        if (isBite) {
+            this.countBitesDogs++;
+        }
         return this;
     }
 
-    public Counter addSpider() {
-        this.answer++;
+    public Counter addSpider(boolean isBite) {
         this.countSpiders++;
+        if (isBite) {
+            this.countBitesSpiders++;
+        }
         return this;
     }
 
     public boolean isCorrect() {
-        return answer > 0 && countSpiders > 0 && countDogs > 0;
+        return countBitesSpiders * countDogs > countBitesDogs * countSpiders;
     }
 }

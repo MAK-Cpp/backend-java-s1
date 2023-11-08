@@ -30,7 +30,7 @@ class HeaviestFishInCollectionsTest {
             Arguments.of(
                 List.of(
                     List.of(notFish(), inputFish[1], inputFish[2], notFish(), inputFish[1])
-                ), 0, 1
+                ), 0, 2
             ),
             Arguments.of(
                 List.of(), -1, -1
@@ -42,16 +42,16 @@ class HeaviestFishInCollectionsTest {
                     List.of(inputFish[1], notFish(), notFish(), inputFish[1], notFish(), inputFish[1]),
                     List.of(inputFish[19]),
                     List.of(notFish(), notFish(), notFish(), notFish(), notFish(), inputFish[2])
-                ), 0, 0
+                ), 3, 0
             ),
             Arguments.of(
                 List.of(
-                    List.of(inputFish[2], inputFish[15], notFish()),
+                    List.of(inputFish[2], inputFish[0], notFish()),
                     List.of(notFish(), notFish(), notFish()),
                     List.of(inputFish[1], notFish(), notFish(), inputFish[3], notFish(), inputFish[4]),
-                    List.of(inputFish[19]),
+                    List.of(notFish()),
                     List.of(notFish(), notFish(), notFish(), notFish(), notFish(), inputFish[5])
-                ), -1, -1
+                ), 4, 5
             )
         );
     }

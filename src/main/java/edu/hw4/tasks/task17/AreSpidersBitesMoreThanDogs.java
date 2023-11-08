@@ -10,10 +10,10 @@ public final class AreSpidersBitesMoreThanDogs {
     public static Boolean check(final Collection<Animal> animals) {
         return animals.stream()
             .reduce(
-                Counter.of(0, 0, 0),
+                Counter.of(),
                 (accum, animal) -> switch (animal.type()) {
-                    case Animal.Type.SPIDER -> (animal.bites() ? accum.addSpider() : accum);
-                    case Animal.Type.DOG -> (animal.bites() ? accum.addDog() : accum);
+                    case Animal.Type.SPIDER -> accum.addSpider(animal.bites());
+                    case Animal.Type.DOG -> accum.addDog(animal.bites());
                     default -> accum;
                 },
                 Counter::add

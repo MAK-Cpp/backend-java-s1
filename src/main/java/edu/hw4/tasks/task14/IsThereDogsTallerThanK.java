@@ -8,8 +8,7 @@ public final class IsThereDogsTallerThanK {
     }
 
     public static boolean check(final Collection<Animal> animals, final int k) {
-        return !animals.stream()
-            .filter(x -> x.type() == Animal.Type.DOG && x.height() > k)
-            .toList().isEmpty();
+        return animals.stream()
+            .anyMatch(x -> x.type() == Animal.Type.DOG && x.height() > k);
     }
 }

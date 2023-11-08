@@ -3,9 +3,6 @@ package edu.hw4.tasks.task18;
 import edu.hw4.Animal;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class HeaviestFishInCollections {
     private HeaviestFishInCollections() {

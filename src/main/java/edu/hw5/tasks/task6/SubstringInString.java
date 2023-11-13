@@ -7,7 +7,7 @@ public final class SubstringInString {
     }
 
     public static boolean check(final String string, final String text) {
-        Pattern substringPattern = Pattern.compile(".*" + string + ".*");
+        final Pattern substringPattern = Pattern.compile(string);
         return substringPattern.matcher(text).find();
     }
 }

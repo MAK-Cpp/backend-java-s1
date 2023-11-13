@@ -1,6 +1,5 @@
 package edu.hw5.tasks.task7;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum BaseRegularExpressions {

@@ -10,6 +10,7 @@ public final class NextFriday13th {
     private NextFriday13th() {
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public static Date find(final Date from) {
         LocalDate date = from.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         while (date.getDayOfMonth() != 13) {

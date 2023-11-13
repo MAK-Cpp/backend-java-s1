@@ -10,8 +10,9 @@ public final class AllFriday13thInYear {
     private AllFriday13thInYear() {
     }
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public static Collection<Date> find(final int year) {
-        final Date lastDay = new GregorianCalendar(year, Calendar.DECEMBER, 31).getTime();
+        final Date lastDay = new GregorianCalendar(year + 1, Calendar.JANUARY, 1).getTime();
         Calendar calendar = Calendar.getInstance();
         ArrayList<Date> answer = new ArrayList<>();
         calendar.setTime(new GregorianCalendar(year, Calendar.JANUARY, 13).getTime());

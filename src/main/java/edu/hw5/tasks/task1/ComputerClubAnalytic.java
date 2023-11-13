@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.Collection;
 
 public final class ComputerClubAnalytic {
+    private static final String STRING_FORMAT = "%02d";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd, HH:mm");
     private static final int COUNT_MINUTES_IN_HOUR = 60;
 
@@ -26,8 +27,8 @@ public final class ComputerClubAnalytic {
                     throw new RuntimeException(e);
                 }
             }).mapToDouble(x -> x).average().orElse(0);
-        final String averageHours = String.format("%02d", averageTime / COUNT_MINUTES_IN_HOUR);
-        final String averageMinutes = String.format("%02d", averageTime % COUNT_MINUTES_IN_HOUR);
+        final String averageHours = String.format(STRING_FORMAT, averageTime / COUNT_MINUTES_IN_HOUR);
+        final String averageMinutes = String.format(STRING_FORMAT, averageTime % COUNT_MINUTES_IN_HOUR);
         System.out.println(averageHours + "h " + averageMinutes + "m");
     }
 }

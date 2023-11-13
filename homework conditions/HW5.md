@@ -54,7 +54,7 @@ yesterday
 * https://java-design-patterns.com/patterns/chain-of-responsibility
 * https://refactoring.guru/ru/design-patterns/chain-of-responsibility/java/example
 
-Задание 4
+## Задание 4
 
 Предположим, что в целях безопасности вы требуете, чтобы все пароли содержали хотя бы один из 
 следующих символов

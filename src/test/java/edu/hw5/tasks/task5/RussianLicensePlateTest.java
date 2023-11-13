@@ -2,28 +2,30 @@ package edu.hw5.tasks.task5;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Task 5")
 class RussianLicensePlateTest {
-    public static Stream<Arguments> testRussianLicensePlate() {
-        return Stream.of(
-            Arguments.of("А123ВЕ777", true),
-            Arguments.of("О777ОО177", true),
-            Arguments.of("123АВЕ777",  false),
-            Arguments.of("А123ВГ77", false),
-            Arguments.of("А123ВЕ7777", false),
-            Arguments.of("В666АД074", true),
-            Arguments.of("Л000ОХ333", true)
-        );
+    public static Stream<String> testTrueRussianLicensePlate() {
+        return Stream.of("А123ВЕ777", "О777ОО177", "В666АД074", "Л000ОХ333");
+    }
+
+    public static Stream<String> testFalseRussianLicensePlate() {
+        return Stream.of("123АВЕ777", "А123ВГ77", "А123ВЕ7777");
     }
 
     @ParameterizedTest
     @MethodSource
-    void testRussianLicensePlate(final String input, final boolean output) {
-        assertThat(RussianLicensePlate.check(input)).isEqualTo(output);
+    void testTrueRussianLicensePlate(final String input) {
+        assertTrue(RussianLicensePlate.check(input));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void testFalseRussianLicensePlate(final String input) {
+        assertFalse(RussianLicensePlate.check(input));
     }
 }

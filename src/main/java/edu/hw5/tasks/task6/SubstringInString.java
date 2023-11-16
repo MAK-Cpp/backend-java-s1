@@ -1,6 +1,7 @@
 package edu.hw5.tasks.task6;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,8 @@ public final class SubstringInString {
         '\s', "\\s",
         '\b', "\\b"
     );
-    private static final String REGEX_CHARACTERS = "<([{\\^-=$!|]})?*+.>";
+    private static final Set<Character> REGEX_CHARACTERS =
+        Set.of('<', '(', '[', '{', '\\', '^', '-', '=', '$', '!', '|', ']', '}', ')', '?', '*', '+', '.', '>');
 
     private SubstringInString() {
     }
@@ -24,7 +26,7 @@ public final class SubstringInString {
                 Character charX = (char) x;
                 if (SPECIAL_CHARACTERS.containsKey(charX)) {
                     return SPECIAL_CHARACTERS.get(charX);
-                } else if (REGEX_CHARACTERS.contains(charX.toString())) {
+                } else if (REGEX_CHARACTERS.contains(charX)) {
                     return "\\" + charX;
                 } else {
                     return charX.toString();

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import static edu.hw6.tasks.TestFilesCreator.combinePath;
 import static edu.hw6.tasks.task1.DiskMapOperations.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,7 +33,7 @@ class DiskMapTest {
         CREATOR.newTestFile("created-file-No1.dm", "a=b");
         CREATOR.newTestFile("created-file-No2.dm", "");
         CREATOR.newTestFile(
-            Paths.get("test folder").resolve("created-file-No3.dm"),
+            combinePath("test folder", "created-file-No3.dm"),
             "Test=file\nHello=World!\nBank=Tinkoff\nUniversity=ITMO"
         );
     }

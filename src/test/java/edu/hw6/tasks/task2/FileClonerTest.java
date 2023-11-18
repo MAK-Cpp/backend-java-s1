@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+import static edu.hw6.tasks.TestFilesCreator.combinePath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FileClonerTest {
@@ -29,10 +30,10 @@ class FileClonerTest {
             "i have a lot of dots\nlike this: .\nor this: ·\nor even this: ˙\n\ni have symbols with dots too\nfor example: ż, Ͼ, Ṙ\n\nDo you wanna 4 dots by time? Me too!: ᠅"
         );
         CREATOR.newTestFile(
-            Path.of("hidden folder asf").resolve("another hidden folder omg").resolve("the most hidden file in history.hd"),
+            combinePath("hidden folder asf", "another hidden folder omg", "the most hidden file in history.hd"),
             "im hiding here\nnobody will find me there\nhehe"
         );
-        CREATOR.newTestFile(Path.of("hidden folder asf").resolve("file without extension"), "just a file without extension");
+        CREATOR.newTestFile(combinePath("hidden folder asf", "file without extension"), "just a file without extension");
     }
 
     public static Stream<Arguments> testFileCloner() {

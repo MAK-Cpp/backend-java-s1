@@ -6,6 +6,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 import static java.nio.file.StandardOpenOption.WRITE;
 
@@ -27,6 +28,14 @@ public record TestFilesCreator(Path root) {
 
     public void newTestFile(final String file, final String text) throws IOException {
         newTestFile(Path.of(file), text);
+    }
+
+    public static Path combinePath(final String... paths) {
+        Path result = Path.of("");
+        for (final String path : paths) {
+            result = result.resolve(path);
+        }
+        return result;
     }
 
     public void deleteDirectory() throws IOException {

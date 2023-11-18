@@ -16,18 +16,26 @@ public record TestFilesCreator(Path root) {
         Files.createDirectories(root);
     }
 
-    public void newTestFile(final Path file, final String text) throws IOException {
+    public void newTestFile(final Path file, final byte[] bytes) throws IOException {
         final Path path = root.resolve(file);
         if (!Files.exists(path.getParent())) {
             Files.createDirectories(path.getParent());
         }
         FileChannel outChannel = FileChannel.open(path, WRITE, CREATE_NEW);
-        outChannel.write(ByteBuffer.wrap(text.getBytes(StandardCharsets.UTF_8)));
+        outChannel.write(ByteBuffer.wrap(bytes));
         outChannel.close();
     }
 
+    public void newTestFile(final String file, final byte[] bytes) throws IOException {
+        newTestFile(Path.of(file), bytes);
+    }
+
+    public void newTestFile(final Path file, final String text) throws IOException {
+        newTestFile(file, text.getBytes(StandardCharsets.UTF_8));
+    }
+
     public void newTestFile(final String file, final String text) throws IOException {
-        newTestFile(Path.of(file), text);
+        newTestFile(Path.of(file), text.getBytes(StandardCharsets.UTF_8));
     }
 
     public static Path combinePath(final String... paths) {

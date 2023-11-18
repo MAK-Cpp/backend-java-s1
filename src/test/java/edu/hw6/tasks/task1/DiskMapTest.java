@@ -32,8 +32,7 @@ class DiskMapTest {
         CREATOR.newTestFile("created-file-No1.dm", "a=b");
         CREATOR.newTestFile("created-file-No2.dm", "");
         CREATOR.newTestFile(
-            Paths.get("test folder"),
-            "created-file-No3.dm",
+            Paths.get("test folder").resolve("created-file-No3.dm"),
             "Test=file\nHello=World!\nBank=Tinkoff\nUniversity=ITMO"
         );
     }

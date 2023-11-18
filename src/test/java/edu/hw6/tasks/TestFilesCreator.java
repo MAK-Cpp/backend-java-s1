@@ -6,7 +6,6 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 import static java.nio.file.StandardOpenOption.WRITE;
 
@@ -16,19 +15,18 @@ public record TestFilesCreator(Path root) {
         Files.createDirectories(root);
     }
 
-    public void newTestFile(final Path directory, final String filename, final String text) throws IOException {
-        Path path = root.resolve(directory);
-        if (!Files.exists(path)) {
-            Files.createDirectories(path);
+    public void newTestFile(final Path file, final String text) throws IOException {
+        final Path path = root.resolve(file);
+        if (!Files.exists(path.getParent())) {
+            Files.createDirectories(path.getParent());
         }
-        path = path.resolve(filename);
         FileChannel outChannel = FileChannel.open(path, WRITE, CREATE_NEW);
         outChannel.write(ByteBuffer.wrap(text.getBytes(StandardCharsets.UTF_8)));
         outChannel.close();
     }
 
-    public void newTestFile(final String filename, final String text) throws IOException {
-        newTestFile(Paths.get(""), filename, text);
+    public void newTestFile(final String file, final String text) throws IOException {
+        newTestFile(Path.of(file), text);
     }
 
     public void deleteDirectory() throws IOException {

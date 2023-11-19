@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public final class DiskMap implements Map<String, String> {
     private final Properties map;
     private final String filePath;
+    private static final String KEY_MUST_BE_STRING_ERROR = "key must be string";
 
     private DiskMap(final String path) {
         this.filePath = path;
@@ -100,7 +101,7 @@ public final class DiskMap implements Map<String, String> {
     @Override
     public String get(@NotNull Object key) {
         if (!(key instanceof String)) {
-            throw new IllegalArgumentException("key must be string");
+            throw new IllegalArgumentException(KEY_MUST_BE_STRING_ERROR);
         }
         return map.getProperty((String) key);
     }
@@ -114,7 +115,7 @@ public final class DiskMap implements Map<String, String> {
     @Override
     public String remove(Object key) {
         if (!(key instanceof String)) {
-            throw new IllegalArgumentException("key must be string");
+            throw new IllegalArgumentException(KEY_MUST_BE_STRING_ERROR);
         }
         return (String) map.remove(key);
     }

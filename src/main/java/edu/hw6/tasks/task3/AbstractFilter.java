@@ -1,17 +1,12 @@
 package edu.hw6.tasks.task3;
 
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.file.DirectoryStream;
-import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
-import static java.nio.file.StandardOpenOption.*;
 
 @SuppressWarnings("checkstyle:ConstantName")
 public interface AbstractFilter extends DirectoryStream.Filter<Path> {

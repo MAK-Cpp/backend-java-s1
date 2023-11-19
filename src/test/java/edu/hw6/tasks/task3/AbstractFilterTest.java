@@ -3,6 +3,7 @@ package edu.hw6.tasks.task3;
 import edu.hw6.tasks.TestFilesCreator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,8 +19,9 @@ import static edu.hw6.tasks.TestFilesCreator.combinePath;
 import static edu.hw6.tasks.task3.AbstractFilter.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisplayName("Task 3")
 class AbstractFilterTest {
-    private static TestFilesCreator CREATOR =
+    private static final TestFilesCreator CREATOR =
         new TestFilesCreator(Paths.get(System.getProperty("user.dir")).resolve(".AbstractFilter"));
 
     @BeforeAll
@@ -265,7 +267,8 @@ class AbstractFilterTest {
                 "    public static void main(String[] args) {\n" +
                 "        System.out.println(\"Hello, world!\");\n" +
                 "    }\n" +
-                "}\n");
+                "}\n"
+        );
         CREATOR.newTestFile(
             "file-5.java",
             "package edu.hw6.tasks;\n" +

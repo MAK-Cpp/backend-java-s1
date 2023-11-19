@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.*;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 import static java.nio.file.StandardOpenOption.WRITE;
 
@@ -36,6 +36,19 @@ public record TestFilesCreator(Path root) {
 
     public void newTestFile(final String file, final String text) throws IOException {
         newTestFile(Path.of(file), text.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public void newTestFile(final Path file, final int[] bigBytes) throws IOException {
+        final List<Byte> bytes = Arrays.stream(bigBytes).mapToObj(x -> (byte) x).toList();
+        final byte[] rawBytes = new byte[bytes.size()];
+        for (int i = 0; i < rawBytes.length; i++) {
+            rawBytes[i] = bytes.get(i);
+        }
+        newTestFile(file, rawBytes);
+    }
+
+    public void newTestFile(final String file, final int[] bigBytes) throws IOException {
+        newTestFile(Path.of(file), bigBytes);
     }
 
     public static Path combinePath(final String... paths) {

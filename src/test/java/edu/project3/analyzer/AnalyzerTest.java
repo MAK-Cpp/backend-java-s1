@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Stream;
 import static edu.project3.analyzer.TestFilesCreator.combinePath;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -358,12 +359,12 @@ public class AnalyzerTest {
     @MethodSource
     void testAnalyzerTest(String[] args, Path output, Path result) throws IOException {
         Main.main(args);
-        byte[] resultBytes = Files.readAllBytes(result);
-        byte[] outputBytes = Files.readAllBytes(output);
-        for (int i = 0; i < Math.max(resultBytes.length, outputBytes.length); i++) {
-            System.err.println(resultBytes[i] + " " + outputBytes[i]);
-            assertThat(resultBytes[i]).isEqualTo(outputBytes[i]);
+        List<String> resultLines = Files.readAllLines(result);
+        List<String> outputLines = Files.readAllLines(output);
+        for (int i = 0; i < Math.max(resultLines.size(), outputLines.size()); i++) {
+            assertThat(resultLines.get(i)).isEqualTo(outputLines.get(i));
         }
+        
     }
 
     @AfterAll

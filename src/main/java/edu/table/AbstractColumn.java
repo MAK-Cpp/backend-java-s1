@@ -30,7 +30,7 @@ public abstract class AbstractColumn<T> implements Column<T> {
     @Override
     public void addRow() {
         values.add(null);
-        width = Math.max(width, 4);
+        width = Math.max(width, "null".length());
     }
 
     @Override final public int getWidth() {

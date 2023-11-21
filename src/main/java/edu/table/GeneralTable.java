@@ -128,6 +128,7 @@ public class GeneralTable implements Table {
         }
     }
 
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     private void adocFormat(Formatter formatter) {
         printTitle(formatter, "=== %s\n");
 

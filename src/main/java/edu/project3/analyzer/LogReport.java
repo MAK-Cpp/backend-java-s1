@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("checkstyle:MultipleStringLiterals")
 public class LogReport {
     private int requestCount = 0;
     private final GeneralTable generalInformation =

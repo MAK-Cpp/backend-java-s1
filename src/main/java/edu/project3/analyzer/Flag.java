@@ -1,5 +1,5 @@
 package edu.project3.analyzer;
 
-public enum Flags {
+public enum Flag {
     PATH, FROM, TO, FORMAT, NULL, OUT
 }

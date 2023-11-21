@@ -339,8 +339,8 @@ public class AnalyzerTest {
                     "--to", "2023-11-19",
                     "--format", "adoc"
                 },
-                combinePath(".project3", "output", "output2.adoc"),
-                combinePath(".project3", "report.adoc")
+                CREATOR.root().resolve("output").resolve("output2.adoc"),
+                CREATOR.root().resolve("report.adoc")
             ),
             Arguments.of(
                 new String[] {
@@ -348,8 +348,8 @@ public class AnalyzerTest {
                     "https://raw.githubusercontent.com/elastic/examples/master/Common%20Data%20Formats/nginx_logs/nginx_logs",
                     "--out", ".project3"
                 },
-                combinePath(".project3", "output", "output1.md"),
-                combinePath(".project3", "report.md")
+                CREATOR.root().resolve("output").resolve("output1.md"),
+                CREATOR.root().resolve("report.md")
             )
         );
     }

@@ -341,7 +341,7 @@ public class AnalyzerTest {
                 },
                 CREATOR.root().resolve("output").resolve("output2.adoc"),
                 CREATOR.root().resolve("report.adoc")
-            )/*,
+            ),
             Arguments.of(
                 new String[] {
                     "--path",
@@ -350,7 +350,7 @@ public class AnalyzerTest {
                 },
                 CREATOR.root().resolve("output").resolve("output1.md"),
                 CREATOR.root().resolve("report.md")
-            )*/
+            )
         );
     }
 
@@ -358,7 +358,7 @@ public class AnalyzerTest {
     @MethodSource
     void testAnalyzerTest(String[] args, Path output, Path result) throws IOException {
         Main.main(args);
-        assertThat(Files.mismatch(result, output)).isEqualTo(-1L);
+        assertThat(Files.readAllBytes(result)).isEqualTo(Files.readAllBytes(output));
     }
 
     @AfterAll

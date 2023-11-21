@@ -60,8 +60,19 @@ public class GeneralTable implements Table {
     }
 
     @Override
-    public void update(String row, String column, Object update, BiFunction<Object, Object, Object> function) {
-        set(row, column, function.apply(get(row, column), update));
+    public void update(String row, String column, Object update, BiFunction<?, ?, ?> function) {
+        int rowID = getRowID(row);
+        int columnID = getColumnID(column);
+        columns.get(columnID).update(rowID, update, function);
+    }
+
+    @Override
+    public void updateOrSet(String row, String column, Object value, BiFunction<?, ?, ?> function) {
+        if (contains(row, column)) {
+            update(row, column, value, function);
+        } else {
+            set(row, column, value);
+        }
     }
 
     @Override
@@ -69,6 +80,21 @@ public class GeneralTable implements Table {
         int rowID = getRowID(row);
         int columnID = getColumnID(column);
         return columns.get(columnID).getValue(rowID);
+    }
+
+    @Override
+    public boolean contains(String row, String column) {
+        return containsRow(row) && containsColumn(column);
+    }
+
+    @Override
+    public boolean containsRow(String row) {
+        return rowsNames.contains(row);
+    }
+
+    @Override
+    public boolean containsColumn(String column) {
+        return columnsNames.contains(column);
     }
 
     private static String centerString(int width, String s) {
@@ -102,8 +128,7 @@ public class GeneralTable implements Table {
         }
     }
 
-    @Override
-    public void adocFormat(Formatter formatter) {
+    private void adocFormat(Formatter formatter) {
         printTitle(formatter, "=== %s\n");
 
         StringBuilder separatorBuilder = new StringBuilder().append("|");
@@ -123,8 +148,7 @@ public class GeneralTable implements Table {
         formatter.format(separator);
     }
 
-    @Override
-    public void markdownFormat(Formatter formatter) {
+    private void markdownFormat(Formatter formatter) {
         printTitle(formatter, "### %s\n");
 
         StringBuilder separatorBuilder = new StringBuilder().append("|");
@@ -141,5 +165,14 @@ public class GeneralTable implements Table {
         printColumnNames(formatter, format);
         formatter.format(separator);
         printValues(formatter, format);
+    }
+
+    @Override
+    public void format(Format format, Formatter formatter) {
+        switch (format) {
+            case MARKDOWN -> markdownFormat(formatter);
+            case ADOC -> adocFormat(formatter);
+            default -> throw new IllegalArgumentException("Unsupported format: " + format);
+        }
     }
 }

@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 public interface Column<T> {
     void set(int key, Object value);
 
-    void update(int key, Object update, BiFunction<T, T, T> function);
+    void update(int key, Object update, BiFunction<?, ?, ?> function);
 
     void addRow();
 

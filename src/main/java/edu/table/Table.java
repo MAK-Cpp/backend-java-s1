@@ -8,11 +8,17 @@ public interface Table {
 
     void setRow(String row, Object... values);
 
-    void update(String row, String column, Object update, BiFunction<Object, Object, Object> function);
+    void update(String row, String column, Object update, BiFunction<?, ?, ?> function);
+
+    void updateOrSet(String row, String column, Object value, BiFunction<?, ?, ?> function);
 
     Object get(String row, String column);
 
-    void markdownFormat(Formatter formatter);
+    boolean contains(String row, String column);
 
-    void adocFormat(Formatter formatter);
+    boolean containsRow(String row);
+
+    boolean containsColumn(String column);
+
+    void format(Format format, Formatter formatter);
 }

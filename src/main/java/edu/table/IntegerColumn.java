@@ -1,28 +1,18 @@
 package edu.table;
 
 import java.util.ArrayList;
+import java.util.function.BiFunction;
 
 public class IntegerColumn extends AbstractColumn<Integer> {
+    public static final IntegerBiFunction ADD = Integer::sum;
+    public static final IntegerBiFunction SUBTRACT = (x, y) -> x - y;
+    public static final IntegerBiFunction MULTIPLY = (x, y) -> x * y;
+    public static final IntegerBiFunction DIVIDE = (x, y) -> x / y;
+
     public IntegerColumn(final String columnName) {
         this.columnName = columnName;
         this.values = new ArrayList<>();
         this.width = columnName.length();
-    }
-
-    public void add(int key, int value) {
-        update(key, value, Integer::sum);
-    }
-
-    public void subtract(int key, int value) {
-        update(key, value, (x, y) -> x - y);
-    }
-
-    public void multiply(int key, int value) {
-        update(key, value, (x, y) -> x * y);
-    }
-
-    public void divide(int key, int value) {
-        update(key, value, (x, y) -> x / y);
     }
 
     @Override
@@ -31,5 +21,13 @@ public class IntegerColumn extends AbstractColumn<Integer> {
             throw new IllegalArgumentException("Wrong value '" + value + "': type must be Integer");
         }
         return (Integer) value;
+    }
+
+    @Override
+    IntegerBiFunction cast(BiFunction<?, ?, ?> value) {
+        if (!(value instanceof IntegerBiFunction)) {
+            throw new IllegalArgumentException();
+        }
+        return (IntegerBiFunction) value;
     }
 }

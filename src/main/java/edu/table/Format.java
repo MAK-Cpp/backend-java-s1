@@ -1,4 +1,4 @@
-package edu.project3.analyzer;
+package edu.table;
 
 public enum Format {
     MARKDOWN, ADOC

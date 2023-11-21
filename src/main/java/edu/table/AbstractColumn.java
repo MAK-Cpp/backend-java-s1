@@ -10,6 +10,8 @@ public abstract class AbstractColumn<T> implements Column<T> {
 
     abstract T cast(Object value);
 
+    abstract BiFunction<T, T, T> cast(BiFunction<?, ?, ?> value);
+
     @Override
     public void set(int key, Object value) {
         T castedValue = cast(value);
@@ -18,9 +20,10 @@ public abstract class AbstractColumn<T> implements Column<T> {
     }
 
     @Override
-    public void update(int key, Object update, BiFunction<T, T, T> function) {
+    public void update(int key, Object update, BiFunction<?, ?, ?> function) {
         T castedUpdate = cast(update);
-        values.set(key, function.apply(values.get(key), castedUpdate));
+        BiFunction<T, T, T> castedFunction = cast(function);
+        values.set(key, castedFunction.apply(values.get(key), castedUpdate));
         width = Math.max(width, castedUpdate.toString().length());
     }
 
@@ -30,18 +33,15 @@ public abstract class AbstractColumn<T> implements Column<T> {
         width = Math.max(width, 4);
     }
 
-    @Override
-    final public int getWidth() {
+    @Override final public int getWidth() {
         return width;
     }
 
-    @Override
-    final public T getValue(int key) {
+    @Override final public T getValue(int key) {
         return values.get(key);
     }
 
-    @Override
-    final public String getName() {
+    @Override final public String getName() {
         return columnName;
     }
 }

@@ -1,9 +1,9 @@
 package edu.project3;
 
 import edu.project3.analyzer.Flags;
-import edu.project3.analyzer.Format;
 import edu.project3.analyzer.LogAnalyzer;
 import edu.project3.analyzer.LogReport;
+import edu.table.Format;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -28,9 +28,15 @@ public final class Main {
                 switch (currentFlag) {
                     case PATH -> {
                         try {
-                            analyzer.addRecord(new URI(arg));
+                            URI uri = new URI(arg);
+                            String scheme = uri.getScheme();
+                            if (scheme == null) {
+                                analyzer.addRecord(arg);
+                            } else {
+                                analyzer.addRecord(uri);
+                            }
                         } catch (URISyntaxException e) {
-                            analyzer.addRecord(Path.of(arg));
+                            throw new RuntimeException(e);
                         }
                     }
                     case FROM -> analyzer.setFrom(arg);

@@ -361,7 +361,7 @@ public class AnalyzerTest {
         byte[] resultBytes = Files.readAllBytes(result);
         byte[] outputBytes = Files.readAllBytes(output);
         for (int i = 0; i < Math.max(resultBytes.length, outputBytes.length); i++) {
-            System.out.println(resultBytes[i] + " " + outputBytes[i]);
+            System.err.println(resultBytes[i] + " " + outputBytes[i]);
             assertThat(resultBytes[i]).isEqualTo(outputBytes[i]);
         }
     }

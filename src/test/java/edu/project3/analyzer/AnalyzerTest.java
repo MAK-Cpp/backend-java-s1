@@ -358,7 +358,12 @@ public class AnalyzerTest {
     @MethodSource
     void testAnalyzerTest(String[] args, Path output, Path result) throws IOException {
         Main.main(args);
-        assertThat(Files.readAllBytes(result)).isEqualTo(Files.readAllBytes(output));
+        byte[] resultBytes = Files.readAllBytes(result);
+        byte[] outputBytes = Files.readAllBytes(output);
+        for (int i = 0; i < Math.max(resultBytes.length, outputBytes.length); i++) {
+            System.out.println(resultBytes[i] + " " + outputBytes[i]);
+            assertThat(resultBytes[i]).isEqualTo(outputBytes[i]);
+        }
     }
 
     @AfterAll

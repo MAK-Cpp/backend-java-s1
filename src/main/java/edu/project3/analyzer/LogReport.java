@@ -22,10 +22,17 @@ public class LogReport {
     private final GeneralTable responseCodes =
         new GeneralTable("Коды ответа", "Код", new StringColumn("Имя"), new IntegerColumn("Количество"));
     private final GeneralTable mostCommonCommand =
-        new GeneralTable("Частота встречи команд в запросах", "Команда", new IntegerColumn("Количество"));
+        new GeneralTable(
+            "(Дополнительно) Частота встречи команд в запросах",
+            "Команда",
+            new IntegerColumn("Количество")
+        );
+    private final GeneralTable mostCommonHttpUserAgent =
+        new GeneralTable("(Дополнительно) Типы Http User Agent", "Имя", new IntegerColumn("Количество"));
     private BigInteger summaryResponseSize = BigInteger.ZERO;
     private long countResponse = 0;
     private final Format formant;
+    private final Path out;
     private static final Map<Integer, String> NGINX_CODES = Map.ofEntries(
         Map.entry(100, "CONTINUE"),
         Map.entry(101, "SWITCHING_PROTOCOLS"),
@@ -70,8 +77,9 @@ public class LogReport {
     );
     private static final Pattern REQUEST_PATTERN = Pattern.compile("(\\w+) .*(/.*) HTTP");
 
-    public LogReport(final Format format, String filenames, String startDate, String stopDate) {
+    public LogReport(final Format format, String filenames, String startDate, String stopDate, Path out) {
         this.formant = format;
+        this.out = out;
         generalInformation.setRow("Файл(-ы)", filenames);
         generalInformation.setRow("Начальная дата", startDate);
         generalInformation.setRow("Конечная дата", stopDate);
@@ -103,64 +111,20 @@ public class LogReport {
         countResponse++;
     }
 
+    public void addHttpUserAgent(final String httpUserAgent) {
+        mostCommonHttpUserAgent.updateOrSet(httpUserAgent, "Количество", 1, IntegerColumn.ADD);
+    }
+
     private int averageAnsSize() {
         return countResponse == 0 ? 0 : summaryResponseSize.divide(BigInteger.valueOf(countResponse)).intValue();
     }
 
-    private static int max(int... values) {
-        int ans = values[0];
-        for (int i : values) {
-            ans = Math.max(ans, i);
-        }
-        return ans;
-    }
-
-    private String getFormat(int... columnsWidth) {
-        StringBuilder ans = new StringBuilder();
-        for (int width : columnsWidth) {
-            ans.append("| %").append(width);
-            if (formant == Format.MARKDOWN) {
-                ans.append("s ");
-            } else {
-                ans.append("s");
-            }
-        }
-        if (formant == Format.MARKDOWN) {
-            ans.append("|\n");
-        } else {
-            ans.append("\n");
-        }
-        return ans.toString();
-    }
-
-    @SuppressWarnings("checkstyle:MagicNumber")
-    private String getSeparator(int... columnsWidth) {
-        StringBuilder ans = new StringBuilder();
-        ans.append("|");
-        for (int width : columnsWidth) {
-            if (formant == Format.MARKDOWN) {
-                ans.append(":").append("-".repeat(width)).append(":|");
-            } else {
-                ans.append("=".repeat(width + 3));
-            }
-        }
-        ans.append('\n');
-        return ans.toString();
-    }
-
-    private String getTitle(final String name) {
-        if (formant == Format.MARKDOWN) {
-            return "### " + name + "\n";
-        }
-        return "=== " + name + "\n";
-    }
-
-    public void print(final Path directory, final String filename) {
+    public void print(final String filename) {
         final File file;
         if (formant == Format.MARKDOWN) {
-            file = directory.resolve(filename + ".md").toFile();
+            file = out.resolve(filename + ".md").toFile();
         } else {
-            file = directory.resolve(filename + ".adoc").toFile();
+            file = out.resolve(filename + ".adoc").toFile();
         }
         try (Formatter formatter = new Formatter(file)) {
             generalInformation.setRow("Количество запросов", Integer.toString(requestCount));
@@ -169,6 +133,7 @@ public class LogReport {
             requestedResources.format(formant, formatter);
             responseCodes.format(formant, formatter);
             mostCommonCommand.format(formant, formatter);
+            mostCommonHttpUserAgent.format(formant, formatter);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -22,6 +22,7 @@ public final class Main {
                     case "--from" -> Flags.FROM;
                     case "--to" -> Flags.TO;
                     case "--format" -> Flags.FORMAT;
+                    case "--out" -> Flags.OUT;
                     default -> throw new IllegalArgumentException("Unknown flag: " + arg);
                 };
             } else {
@@ -47,11 +48,12 @@ public final class Main {
                             case "adoc" -> Format.ADOC;
                             default -> throw new IllegalArgumentException("Unknown format file: " + arg);
                         });
+                    case OUT -> analyzer.setOut(arg);
                     default -> throw new IllegalArgumentException("Unknown component: " + arg);
                 }
             }
         }
         LogReport report = analyzer.getReport();
-        report.print(Path.of(System.getProperty("user.dir")), "report");
+        report.print("report");
     }
 }

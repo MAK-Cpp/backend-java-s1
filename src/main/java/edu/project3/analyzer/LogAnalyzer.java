@@ -24,13 +24,16 @@ public class LogAnalyzer {
     private Instant from;
     private Instant to;
     private Format format;
+    private Path out;
     private final ArrayList<String> filenames;
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final String USER_DIR = System.getProperty("user.dir");
 
     public LogAnalyzer() {
         this.records = new ArrayList<>();
-        filenames = new ArrayList<>();
-        format = Format.ADOC;
+        this.filenames = new ArrayList<>();
+        this.format = Format.MARKDOWN;
+        this.out = Path.of(USER_DIR);
     }
 
     public void addRecord(final URI remoteLog) {
@@ -52,7 +55,7 @@ public class LogAnalyzer {
         final PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**" + localLog);
         try {
             Files.walkFileTree(
-                Path.of(System.getProperty("user.dir")),
+                Path.of(USER_DIR),
                 new SimpleFileVisitor<>() {
                     @Override
                     public FileVisitResult visitFile(
@@ -101,22 +104,28 @@ public class LogAnalyzer {
         this.format = format;
     }
 
+    public void setOut(final String out) {
+        this.out = Path.of(out).toAbsolutePath();
+    }
+
     public LogReport getReport() {
         LogReport report = new LogReport(
             format,
             String.join("; ", filenames),
             from == null ? "-" : from.toString(),
-            to == null ? "-" : to.toString()
+            to == null ? "-" : to.toString(),
+            out
         );
         records.stream()
             .filter(x -> (from == null || x.timeLocal().isAfter(from.atOffset(x.timeLocal().getOffset())))
                 && (to == null || x.timeLocal().isAfter(to.atOffset(x.timeLocal()
-                    .getOffset()))))
+                .getOffset()))))
             .forEach(x -> {
                 report.addRequest();
                 report.addSize(x.bodyBytesSent());
                 report.addCode(x.status());
                 report.parseRequest(x.request());
+                report.addHttpUserAgent(x.httpUserAgent());
             });
         return report;
     }

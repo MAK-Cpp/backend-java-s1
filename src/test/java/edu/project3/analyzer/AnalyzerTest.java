@@ -252,55 +252,44 @@ public class AnalyzerTest {
         CREATOR.newTestFile(
             combinePath("output", "output2.adoc"),
             "=== Общая информация\n" +
-                "|=============================================\n" +
-                "|        Метрика       |       Значение      \n" +
-                "|       Файл(-ы)       |      log2; log1     \n" +
-                "|    Начальная дата    | 2023-11-16T21:00:00Z\n" +
-                "|     Конечная дата    | 2023-11-18T21:00:00Z\n" +
-                "|  Количество запросов |          21         \n" +
-                "| Средний размер ответа|        1661b        \n" +
-                "|=============================================\n" +
+                "|===================================\n" +
+                "|        Метрика       |  Значение \n" +
+                "|       Файл(-ы)       | log2; log1\n" +
+                "|    Начальная дата    | 2023-11-17\n" +
+                "|     Конечная дата    | 2023-11-19\n" +
+                "|  Количество запросов |     13    \n" +
+                "| Средний размер ответа|   1767b   \n" +
+                "|===================================\n" +
                 "=== Запрашиваемые ресурсы\n" +
-                "|=================================================================\n" +
-                "|                       Ресурс                       | Количество\n" +
-                "|                  /initiative.hmtl                  |     1     \n" +
-                "|                 /demand-driven.htm                 |     1     \n" +
-                "|      /exuding_optimal_bifurcated%20Virtual.php     |     1     \n" +
-                "|                     /circuit.js                    |     1     \n" +
-                "|              /Graphic%20Interface.svg              |     1     \n" +
-                "|                    /Inverse.jpg                    |     1     \n" +
-                "|                  /Persevering.svg                  |     1     \n" +
-                "| /Synchronised-bifurcated-Synchronised_dedicated.css|     1     \n" +
-                "|                  /needs-based.png                  |     1     \n" +
-                "|                    /tangible.htm                   |     1     \n" +
-                "|      /background_Reactive-6th%20generation.png     |     1     \n" +
-                "|               /modular%20systemic.gif              |     1     \n" +
-                "|                  /intermediate.svg                 |     1     \n" +
-                "|                   /workforce.png                   |     1     \n" +
-                "|     /instruction%20set_holistic-responsive.css     |     1     \n" +
-                "|                  /Object-based.gif                 |     1     \n" +
-                "|                   /Visionary.svg                   |     1     \n" +
-                "|               /Focused-Exclusive.gif               |     1     \n" +
-                "|             /benchmark-Assimilated.hmtl            |     1     \n" +
-                "|                     /stable.jpg                    |     1     \n" +
-                "|              /service-desk_Inverse.php             |     1     \n" +
-                "|=================================================================\n" +
+                "|===============================================================\n" +
+                "|                      Ресурс                      | Количество\n" +
+                "|                 /initiative.hmtl                 |     1     \n" +
+                "|                /demand-driven.htm                |     1     \n" +
+                "|     /exuding_optimal_bifurcated%20Virtual.php    |     1     \n" +
+                "|                    /circuit.js                   |     1     \n" +
+                "|             /Graphic%20Interface.svg             |     1     \n" +
+                "|                   /Inverse.jpg                   |     1     \n" +
+                "|                    /Virtual.js                   |     1     \n" +
+                "|        /Monitored-encryption%20stable.htm        |     1     \n" +
+                "|           /leverage-secured%20line.jpg           |     1     \n" +
+                "|                   /Adaptive.png                  |     1     \n" +
+                "| /emulation-monitoring_software%20Synchronised.gif|     1     \n" +
+                "|           /Ameliorated-even-keeled.htm           |     1     \n" +
+                "|                   /neutral.jpg                   |     1     \n" +
+                "|===============================================================\n" +
                 "=== Коды ответа\n" +
                 "|=========================================\n" +
                 "| Код |          Имя         | Количество\n" +
-                "| 200 |          OK          |     17    \n" +
+                "| 200 |          OK          |     11    \n" +
                 "| 500 | INTERNAL_SERVER_ERROR|     1     \n" +
-                "| 301 |   MOVED_PERMANENTLY  |     3     \n" +
+                "| 400 |      BAD_REQUEST     |     1     \n" +
                 "|=========================================\n" +
                 "=== (Дополнительно) Частота встречи команд в запросах\n" +
                 "|=====================\n" +
                 "| Команда| Количество\n" +
-                "|   GET  |     16    \n" +
-                "|  PATCH |     1     \n" +
+                "|   GET  |     10    \n" +
+                "|  PATCH |     2     \n" +
                 "|   PUT  |     1     \n" +
-                "|  HEAD  |     1     \n" +
-                "| DELETE |     1     \n" +
-                "|  POST  |     1     \n" +
                 "|=====================\n" +
                 "=== (Дополнительно) Типы Http User Agent\n" +
                 "|========================================================================================================================================================\n" +
@@ -311,21 +300,13 @@ public class AnalyzerTest {
                 "|                           Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_8_1 rv:6.0) Gecko/1919-19-11 Firefox/36.0                          |     1     \n" +
                 "|           Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_3) AppleWebKit/5311 (KHTML, like Gecko) Chrome/36.0.838.0 Mobile Safari/5311          |     1     \n" +
                 "|               Mozilla/5.0 (Windows; U; Windows NT 4.0) AppleWebKit/533.34.5 (KHTML, like Gecko) Version/5.0 Safari/533.34.5               |     1     \n" +
-                "|                            Opera/10.24 (Macintosh; U; PPC Mac OS X 10_8_1; en-US) Presto/2.12.170 Version/12.00                           |     1     \n" +
-                "| Mozilla/5.0 (iPad; CPU OS 8_2_2 like Mac OS X; en-US) AppleWebKit/533.21.8 (KHTML, like Gecko) Version/5.0.5 Mobile/8B115 Safari/6533.21.8|     1     \n" +
-                "|                            Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_8 rv:7.0) Gecko/1969-07-02 Firefox/37.0                            |     1     \n" +
-                "|           Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_4) AppleWebKit/5342 (KHTML, like Gecko) Chrome/38.0.852.0 Mobile Safari/5342          |     1     \n" +
-                "|                   Mozilla/5.0 (Windows NT 6.2) AppleWebKit/5342 (KHTML, like Gecko) Chrome/39.0.890.0 Mobile Safari/5342                  |     1     \n" +
-                "|         Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_7) AppleWebKit/5352 (KHTML, like Gecko) Chrome/38.0.807.0 Mobile Safari/5352         |     1     \n" +
-                "|                                 Mozilla/5.0 (Windows 95; en-US; rv:1.9.3.20) Gecko/2015-06-11 Firefox/35.0                                |     1     \n" +
-                "|      Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_10 rv:4.0; en-US) AppleWebKit/533.5.6 (KHTML, like Gecko) Version/5.2 Safari/533.5.6     |     1     \n" +
-                "|          Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_7) AppleWebKit/5351 (KHTML, like Gecko) Chrome/37.0.815.0 Mobile Safari/5351         |     1     \n" +
-                "|                             Opera/10.77 (Macintosh; Intel Mac OS X 10_5_9; en-US) Presto/2.9.187 Version/12.00                            |     1     \n" +
-                "|                 Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/5322 (KHTML, like Gecko) Chrome/38.0.838.0 Mobile Safari/5322                 |     1     \n" +
-                "|                  Mozilla/5.0 (X11; Linux i686) AppleWebKit/5321 (KHTML, like Gecko) Chrome/39.0.855.0 Mobile Safari/5321                  |     1     \n" +
-                "|                                     Opera/10.59 (X11; Linux i686; en-US) Presto/2.13.237 Version/13.00                                    |     1     \n" +
-                "|               Mozilla/5.0 (Windows; U; Windows NT 6.0) AppleWebKit/534.26.6 (KHTML, like Gecko) Version/5.1 Safari/534.26.6               |     1     \n" +
-                "|              Mozilla/5.0 (Windows 98; Win 9x 4.90) AppleWebKit/5350 (KHTML, like Gecko) Chrome/40.0.837.0 Mobile Safari/5350              |     1     \n" +
+                "|               Mozilla/5.0 (Windows; U; Windows NT 4.0) AppleWebKit/533.26.3 (KHTML, like Gecko) Version/5.0 Safari/533.26.3               |     1     \n" +
+                "|       Mozilla/5.0 (Macintosh; PPC Mac OS X 10_5_9 rv:5.0; en-US) AppleWebKit/536.8.1 (KHTML, like Gecko) Version/5.1 Safari/536.8.1       |     1     \n" +
+                "|           Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_4) AppleWebKit/5330 (KHTML, like Gecko) Chrome/37.0.879.0 Mobile Safari/5330          |     1     \n" +
+                "|                   Mozilla/5.0 (Windows NT 6.1) AppleWebKit/5321 (KHTML, like Gecko) Chrome/37.0.892.0 Mobile Safari/5321                  |     1     \n" +
+                "|         Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_5_8) AppleWebKit/5331 (KHTML, like Gecko) Chrome/38.0.864.0 Mobile Safari/5331         |     1     \n" +
+                "| Mozilla/5.0 (iPad; CPU OS 7_2_3 like Mac OS X; en-US) AppleWebKit/536.12.8 (KHTML, like Gecko) Version/5.0.5 Mobile/8B111 Safari/6536.12.8|     1     \n" +
+                "|                                    Mozilla/5.0 (X11; Linux i686; rv:6.0) Gecko/1945-16-04 Firefox/35.0                                    |     1     \n" +
                 "|========================================================================================================================================================\n"
         );
     }
@@ -364,7 +345,6 @@ public class AnalyzerTest {
         for (int i = 0; i < Math.max(resultLines.size(), outputLines.size()); i++) {
             assertThat(resultLines.get(i)).isEqualTo(outputLines.get(i));
         }
-        
     }
 
     @AfterAll

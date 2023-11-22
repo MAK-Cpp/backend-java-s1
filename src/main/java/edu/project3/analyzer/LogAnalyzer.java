@@ -16,17 +16,27 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.stream.Stream;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
 public class LogAnalyzer {
     private final ArrayList<LogRecord> records;
-    private Instant from;
-    private Instant to;
+    private LocalDate from;
+    private LocalDate to;
     private Format format;
+    private ZoneOffset offset;
     private Path out;
     private final ArrayList<String> filenames;
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    //    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd").withLocale(Locale.ENGLISH);
     private static final String USER_DIR = System.getProperty("user.dir");
 
     public LogAnalyzer() {
@@ -85,19 +95,11 @@ public class LogAnalyzer {
     }
 
     public void setFrom(final String from) {
-        try {
-            this.from = SIMPLE_DATE_FORMAT.parse(from).toInstant();
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        this.from = LocalDate.parse(from, ISO_LOCAL_DATE);
     }
 
     public void setTo(final String to) {
-        try {
-            this.to = SIMPLE_DATE_FORMAT.parse(to).toInstant();
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        this.to = LocalDate.parse(to, ISO_LOCAL_DATE);
     }
 
     public void setFormat(Format format) {
@@ -106,6 +108,11 @@ public class LogAnalyzer {
 
     public void setOut(final String out) {
         this.out = Path.of(out).toAbsolutePath();
+    }
+
+    private static String instantToString(final Instant instant, final ZoneOffset offset) {
+        OffsetDateTime offsetDateTime = instant.atOffset(offset);
+        return offsetDateTime.getYear() + "-" + offsetDateTime.getMonthValue() + "-" + offsetDateTime.getDayOfMonth();
     }
 
     public LogReport getReport() {
@@ -117,9 +124,8 @@ public class LogAnalyzer {
             out
         );
         records.stream()
-            .filter(x -> (from == null || x.timeLocal().isAfter(from.atOffset(x.timeLocal().getOffset())))
-                && (to == null || x.timeLocal().isAfter(to.atOffset(x.timeLocal()
-                .getOffset()))))
+            .filter(x -> (from == null || x.timeLocal().toLocalDate().isAfter(from))
+                && (to == null || x.timeLocal().toLocalDate().isBefore(to)))
             .forEach(x -> {
                 report.addRequest();
                 report.addSize(x.bodyBytesSent());

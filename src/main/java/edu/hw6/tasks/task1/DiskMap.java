@@ -1,29 +1,36 @@
 package edu.hw6.tasks.task1;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
 
 public final class DiskMap implements Map<String, String> {
-    private final Properties map;
-    private final String filePath;
+    private final HashMap<String, String> map;
+    private final Path filePath;
     private static final String KEY_MUST_BE_STRING_ERROR = "key must be string";
 
-    private DiskMap(final String path) {
+    private DiskMap(final Path path) {
         this.filePath = path;
-        this.map = new Properties();
+        this.map = new HashMap<>();
         try {
-            map.load(new FileInputStream(path));
+            final List<String> keysValues = Files.readAllLines(path);
+            for (String toParse : keysValues) {
+                final String[] keyValue = toParse.split("=");
+                map.put(keyValue[0], keyValue[1]);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +51,7 @@ public final class DiskMap implements Map<String, String> {
         } else if (extension.isEmpty() || !extension.get().equals("dm")) {
             throw new IllegalArgumentException("wrong file extension: " + path.getFileName());
         }
-        return new DiskMap(path.toString());
+        return new DiskMap(path);
     }
 
     public static DiskMap open(final String pathToFile) {
@@ -60,7 +67,7 @@ public final class DiskMap implements Map<String, String> {
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
             }
-            return new DiskMap(Files.createFile(directory.resolve(filename + ".dm")).toString());
+            return new DiskMap(Files.createFile(directory.resolve(filename + ".dm")));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -70,9 +77,12 @@ public final class DiskMap implements Map<String, String> {
         return create(System.getProperty("user.dir"), filename);
     }
 
-    public void save() {
-        try {
-            map.store(new FileOutputStream(filePath), null);
+    private void save() {
+        try (FileChannel outChannel = FileChannel.open(filePath, WRITE, TRUNCATE_EXISTING)) {
+            for (Map.Entry<String, String> pair : map.entrySet()) {
+                final String toWrite = pair.getKey() + "=" + pair.getValue() + "\n";
+                outChannel.write(ByteBuffer.wrap(toWrite.getBytes(StandardCharsets.UTF_8)));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -103,13 +113,15 @@ public final class DiskMap implements Map<String, String> {
         if (!(key instanceof String)) {
             throw new IllegalArgumentException(KEY_MUST_BE_STRING_ERROR);
         }
-        return map.getProperty((String) key);
+        return map.get(key);
     }
 
     @Nullable
     @Override
     public String put(String key, String value) {
-        return (String) map.setProperty(key, value);
+        final String result = map.put(key, value);
+        save();
+        return result;
     }
 
     @Override
@@ -117,36 +129,38 @@ public final class DiskMap implements Map<String, String> {
         if (!(key instanceof String)) {
             throw new IllegalArgumentException(KEY_MUST_BE_STRING_ERROR);
         }
-        return (String) map.remove(key);
+        final String result = map.remove(key);
+        save();
+        return result;
     }
 
     @Override
     public void putAll(@NotNull Map<? extends String, ? extends String> m) {
         map.putAll(m);
+        save();
     }
 
     @Override
     public void clear() {
         map.clear();
+        save();
     }
 
     @NotNull
     @Override
     public Set<String> keySet() {
-        return map.keySet().stream().map(x -> (String) x).collect(Collectors.toSet());
+        return map.keySet();
     }
 
     @NotNull
     @Override
     public Collection<String> values() {
-        return map.values().stream().map(x -> (String) x).toList();
+        return map.values();
     }
 
     @NotNull
     @Override
     public Set<Entry<String, String>> entrySet() {
-        return map.entrySet().stream()
-            .map(x -> Map.entry((String) x.getKey(), (String) x.getValue()))
-            .collect(Collectors.toSet());
+        return map.entrySet();
     }
 }

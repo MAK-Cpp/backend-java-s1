@@ -35,9 +35,9 @@ public final class HackerNews {
     public static long[] hackerNewsTopStories() {
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpResponse<String> response = client.send(TOP_STORIES_REQUEST, HttpResponse.BodyHandlers.ofString());
-            return Arrays.stream(response.body().substring(1, response.body().length() - 1).split(","))
-                .mapToLong(Long::parseLong)
-                .toArray();
+            String responseBody = response.body();
+            String[] splitResponseBody = responseBody.substring(1, responseBody.length() - 1).split(",");
+            return Arrays.stream(splitResponseBody).mapToLong(Long::parseLong).toArray();
         } catch (Exception e) {
             return new long[0];
         }
@@ -45,9 +45,13 @@ public final class HackerNews {
 
     public static String news(final long id) {
         try (HttpClient client = HttpClient.newHttpClient()) {
-            final Matcher matcher = TITLE_PATTERN.matcher(client.send(HttpRequest.newBuilder()
-                .uri(new URI("https://hacker-news.firebaseio.com/v0/item/" + id + ".json")).GET()
-                .timeout(DURATION_TIMEOUT).build(), HttpResponse.BodyHandlers.ofString()).body());
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://hacker-news.firebaseio.com/v0/item/" + id + ".json"))
+                .GET()
+                .timeout(DURATION_TIMEOUT)
+                .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            final Matcher matcher = TITLE_PATTERN.matcher(response.body());
             if (matcher.find()) {
                 return matcher.group(1);
             }

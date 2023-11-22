@@ -220,7 +220,6 @@ class DiskMapTest {
             }
         }
         assertThat(map.entrySet()).isEqualTo(output.entrySet());
-        map.save();
     }
 
     @ParameterizedTest

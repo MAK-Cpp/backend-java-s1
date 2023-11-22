@@ -2,9 +2,7 @@ package edu.hw6.tasks.task6;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.net.UnknownHostException;
 import java.util.Formatter;
 import java.util.Map;
 
@@ -61,22 +59,14 @@ public final class PortScanner {
         final String freePort = "%-8s %5s\n";
         final String notFreePort = "%-8s %5s %6s\n";
         for (int i : PORTS) {
-            InetSocketAddress address;
-            try {
-                address = new InetSocketAddress(InetAddress.getByName(null), i);
-            } catch (UnknownHostException e) {
-                throw new RuntimeException(e);
-            }
-            try (ServerSocket serverSocket = new ServerSocket()) {
-                serverSocket.bind(address);
+            try (ServerSocket serverSocket = new ServerSocket(i, 0, InetAddress.getByName(null))) {
                 formatter.format(freePort, tcp, i);
             } catch (Exception e) {
                 if (KNOWN_PORTS.containsKey(i)) {
                     formatter.format(notFreePort, tcp, i, KNOWN_PORTS.get(i));
                 }
             }
-            try (DatagramSocket datagramSocket = new DatagramSocket()) {
-                datagramSocket.bind(address);
+            try (DatagramSocket datagramSocket = new DatagramSocket(i, InetAddress.getByName(null))) {
                 formatter.format(freePort, udp, i);
             } catch (Exception e) {
                 if (KNOWN_PORTS.containsKey(i)) {

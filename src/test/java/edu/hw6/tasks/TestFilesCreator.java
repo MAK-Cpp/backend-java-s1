@@ -21,7 +21,7 @@ public record TestFilesCreator(Path root) {
         if (!Files.exists(path.getParent())) {
             Files.createDirectories(path.getParent());
         }
-        FileChannel outChannel = FileChannel.open(path, WRITE, CREATE_NEW);
+        final FileChannel outChannel = FileChannel.open(path, WRITE, CREATE_NEW);
         outChannel.write(ByteBuffer.wrap(bytes));
         outChannel.close();
     }

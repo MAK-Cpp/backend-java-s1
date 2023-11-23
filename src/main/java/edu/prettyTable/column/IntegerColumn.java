@@ -1,18 +1,12 @@
-package edu.table;
+package edu.prettyTable.column;
 
-import java.util.ArrayList;
+import edu.prettyTable.IntegerBiFunction;
+import edu.prettyTable.column.AbstractColumn;
 import java.util.function.BiFunction;
 
 public class IntegerColumn extends AbstractColumn<Integer> {
-    public static final IntegerBiFunction ADD = Integer::sum;
-    public static final IntegerBiFunction SUBTRACT = (x, y) -> x - y;
-    public static final IntegerBiFunction MULTIPLY = (x, y) -> x * y;
-    public static final IntegerBiFunction DIVIDE = (x, y) -> x / y;
-
     public IntegerColumn(final String columnName) {
-        this.columnName = columnName;
-        this.values = new ArrayList<>();
-        this.width = columnName.length();
+        super(columnName);
     }
 
     @Override

@@ -1,5 +1,6 @@
-package edu.table;
+package edu.prettyTable.table;
 
+import edu.prettyTable.Format;
 import java.util.Formatter;
 import java.util.function.BiFunction;
 
@@ -8,9 +9,9 @@ public interface Table {
 
     void setRow(String row, Object... values);
 
-    void update(String row, String column, Object update, BiFunction<?, ?, ?> function);
+    void setColumn(String column, Object... values);
 
-    void updateOrSet(String row, String column, Object value, BiFunction<?, ?, ?> function);
+    void update(String row, String column, Object update, BiFunction<?, ?, ?> function);
 
     Object get(String row, String column);
 

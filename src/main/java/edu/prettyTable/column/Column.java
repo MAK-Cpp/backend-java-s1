@@ -1,4 +1,4 @@
-package edu.table;
+package edu.prettyTable.column;
 
 import java.util.function.BiFunction;
 
@@ -9,9 +9,9 @@ public interface Column<T> {
 
     void addRow();
 
-    T getValue(int key);
+    void addRow(Object value);
 
-    int getWidth();
+    T getValue(int key);
 
     String getName();
 }

@@ -1,9 +1,10 @@
 package edu.project3.analyzer;
 
-import edu.table.Format;
-import edu.table.GeneralTable;
-import edu.table.IntegerColumn;
-import edu.table.StringColumn;
+import edu.prettyTable.Format;
+import edu.prettyTable.IntegerBiFunction;
+import edu.prettyTable.table.TypedColumnsTable;
+import edu.prettyTable.column.IntegerColumn;
+import edu.prettyTable.column.StringColumn;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
@@ -16,20 +17,20 @@ import java.util.regex.Pattern;
 @SuppressWarnings("checkstyle:MultipleStringLiterals")
 public class LogReport {
     private int requestCount = 0;
-    private final GeneralTable generalInformation =
-        new GeneralTable("Общая информация", "Метрика", new StringColumn("Значение"));
-    private final GeneralTable requestedResources =
-        new GeneralTable("Запрашиваемые ресурсы", "Ресурс", new IntegerColumn("Количество"));
-    private final GeneralTable responseCodes =
-        new GeneralTable("Коды ответа", "Код", new StringColumn("Имя"), new IntegerColumn("Количество"));
-    private final GeneralTable mostCommonCommand =
-        new GeneralTable(
+    private final TypedColumnsTable generalInformation =
+        new TypedColumnsTable("Общая информация", "Метрика", new StringColumn("Значение"));
+    private final TypedColumnsTable requestedResources =
+        new TypedColumnsTable("Запрашиваемые ресурсы", "Ресурс", new IntegerColumn("Количество"));
+    private final TypedColumnsTable responseCodes =
+        new TypedColumnsTable("Коды ответа", "Код", new StringColumn("Имя"), new IntegerColumn("Количество"));
+    private final TypedColumnsTable mostCommonCommand =
+        new TypedColumnsTable(
             "(Дополнительно) Частота встречи команд в запросах",
             "Команда",
             new IntegerColumn("Количество")
         );
-    private final GeneralTable mostCommonHttpUserAgent =
-        new GeneralTable("(Дополнительно) Типы Http User Agent", "Имя", new IntegerColumn("Количество"));
+    private final TypedColumnsTable mostCommonHttpUserAgent =
+        new TypedColumnsTable("(Дополнительно) Типы Http User Agent", "Имя", new IntegerColumn("Количество"));
     private BigInteger summaryResponseSize = BigInteger.ZERO;
     private long countResponse = 0;
     private final Format formant;
@@ -81,9 +82,9 @@ public class LogReport {
     public LogReport(final Format format, String filenames, String startDate, String stopDate, Path out) {
         this.formant = format;
         this.out = out;
-        generalInformation.setRow("Файл(-ы)", filenames);
-        generalInformation.setRow("Начальная дата", startDate);
-        generalInformation.setRow("Конечная дата", stopDate);
+        generalInformation.addRow("Файл(-ы)", filenames);
+        generalInformation.addRow("Начальная дата", startDate);
+        generalInformation.addRow("Конечная дата", stopDate);
     }
 
     public void addRequest() {
@@ -93,17 +94,25 @@ public class LogReport {
     public void parseRequest(final String request) {
         Matcher matcher = REQUEST_PATTERN.matcher(request);
         if (matcher.find()) {
-            mostCommonCommand.updateOrSet(matcher.group(1), "Количество", 1, IntegerColumn.ADD);
-            requestedResources.updateOrSet(matcher.group(2), "Количество", 1, IntegerColumn.ADD);
+            if (mostCommonCommand.containsRow(matcher.group(1))) {
+                mostCommonCommand.update(matcher.group(1), "Количество", 1, IntegerBiFunction.ADD);
+            } else {
+                mostCommonCommand.addRow(matcher.group(1), 1);
+            }
+            if (requestedResources.containsRow(matcher.group(2))) {
+                requestedResources.update(matcher.group(2), "Количество", 1, IntegerBiFunction.ADD);
+            } else {
+                requestedResources.addRow(matcher.group(2), 1);
+            }
         }
     }
 
     public void addCode(final int code) {
         final String stringCode = Integer.toString(code);
         if (responseCodes.containsRow(stringCode)) {
-            responseCodes.update(stringCode, "Количество", 1, IntegerColumn.ADD);
+            responseCodes.update(stringCode, "Количество", 1, IntegerBiFunction.ADD);
         } else {
-            responseCodes.setRow(stringCode, NGINX_CODES.get(code), 1);
+            responseCodes.addRow(stringCode, NGINX_CODES.get(code), 1);
         }
     }
 
@@ -113,7 +122,11 @@ public class LogReport {
     }
 
     public void addHttpUserAgent(final String httpUserAgent) {
-        mostCommonHttpUserAgent.updateOrSet(httpUserAgent, "Количество", 1, IntegerColumn.ADD);
+        if (mostCommonHttpUserAgent.containsRow(httpUserAgent)) {
+            mostCommonHttpUserAgent.update(httpUserAgent, "Количество", 1, IntegerBiFunction.ADD);
+        } else {
+            mostCommonHttpUserAgent.addRow(httpUserAgent, 1);
+        }
     }
 
     private int averageAnsSize() {
@@ -128,8 +141,8 @@ public class LogReport {
             file = out.resolve(filename + ".adoc").toFile();
         }
         try (Formatter formatter = new Formatter(file)) {
-            generalInformation.setRow("Количество запросов", Integer.toString(requestCount));
-            generalInformation.setRow("Средний размер ответа", Integer.toString(averageAnsSize()) + "b");
+            generalInformation.addRow("Количество запросов", Integer.toString(requestCount));
+            generalInformation.addRow("Средний размер ответа", Integer.toString(averageAnsSize()) + "b");
             generalInformation.format(formant, formatter);
             requestedResources.format(formant, formatter);
             responseCodes.format(formant, formatter);

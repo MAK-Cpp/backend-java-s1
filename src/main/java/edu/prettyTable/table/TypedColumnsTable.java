@@ -1,51 +1,83 @@
-package edu.table;
+package edu.prettyTable.table;
 
+import edu.prettyTable.column.Column;
+import edu.prettyTable.table.AbstractTable;
 import java.util.ArrayList;
-import java.util.Formatter;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.BiFunction;
 
-public class GeneralTable implements Table {
-    private final String tableName;
+public class TypedColumnsTable extends AbstractTable {
     private final ArrayList<Column<?>> columns;
-    private final ArrayList<String> columnsNames;
-    private final ArrayList<String> rowsNames;
 
-    public GeneralTable(String tableName, String keysColumnName, Column<?>... columns) {
-        this.tableName = tableName;
-        this.columns = new ArrayList<>(columns.length + 1);
-        columnsNames = new ArrayList<>(columns.length + 1);
-        columnsNames.add(keysColumnName);
-        this.columns.add(new StringColumn(keysColumnName));
-        for (int i = 1; i <= columns.length; i++) {
-            columnsNames.add(columns[i - 1].getName());
-            this.columns.add(columns[i - 1]);
+    private static List<String> getColumnNames(Column<?>... columns) {
+        String[] ans = new String[columns.length];
+        for (int i = 0; i < columns.length; i++) {
+            ans[i] = columns[i].getName();
         }
-        rowsNames = new ArrayList<>(1);
-        rowsNames.add(keysColumnName);
+        return List.of(ans);
     }
 
-    private int getRowID(String row) {
+    public TypedColumnsTable(String tableName, String intersectionCellName, Column<?>... columns) {
+        super(tableName, intersectionCellName, List.of(), getColumnNames(columns));
+        this.columns = new ArrayList<>(columns.length);
+        Collections.addAll(this.columns, columns);
+    }
+
+    private int getOrAddRowID(String row) {
         int rowID = rowsNames.indexOf(row);
         if (rowID == -1) {
             for (Column<?> c : columns) {
                 c.addRow();
             }
-            columns.get(0).set(rowsNames.size() - 1, row);
             rowID = rowsNames.size();
             rowsNames.add(row);
         }
-        return rowID - 1;
+        return rowID;
     }
 
-    private int getColumnID(String column) {
-        int columnID = columnsNames.indexOf(column);
+    private int getOrAddColumnID(Column<?> column) {
+        int columnID = columnsNames.indexOf(column.getName());
         if (columnID == -1) {
-            throw new IllegalArgumentException("error column name: " + column);
+            columns.add(column);
+            columnID = columnsNames.size();
+            columnsNames.add(column.getName());
         }
         return columnID;
     }
 
     @Override
+    void set(int i, int j, Object value) {
+        columns.get(j).set(i, value);
+    }
+
+    @Override
+    Object get(int i, int j) {
+        return columns.get(j).getValue(i);
+    }
+
+    @Override
+    void update(int i, int j, Object update, BiFunction<?, ?, ?> function) {
+        columns.get(j).update(i, update, function);
+    }
+
+    public void addRow(final String row) {
+        for (Column<?> c : columns) {
+            c.addRow();
+        }
+        rowsNames.add(row);
+        updateRowsWithIntersectionCellWidth(row.length());
+    }
+
+    public void addRow(final String row, final Object... values) {
+        for (int i = 0; i < columns.size(); i++) {
+            columns.get(i).addRow(values[i]);
+            updateColumnWidth(i, values[i]);
+        }
+        rowsNames.add(row);
+        updateRowsWithIntersectionCellWidth(row.length());
+    }
+/*    @Override
     public void set(String row, String column, Object value) {
         int rowID = getRowID(row);
         int columnID = getColumnID(column);
@@ -175,5 +207,5 @@ public class GeneralTable implements Table {
             case ADOC -> adocFormat(formatter);
             default -> throw new IllegalArgumentException("Unsupported format: " + format);
         }
-    }
+    }*/
 }

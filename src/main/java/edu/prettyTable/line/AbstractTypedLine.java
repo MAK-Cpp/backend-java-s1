@@ -1,19 +1,30 @@
-package edu.prettyTable.column;
+package edu.prettyTable.line;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 
-public abstract class AbstractColumn<T> implements Column<T> {
+/*package-private*/ abstract class AbstractTypedLine<T> implements Line {
     protected ArrayList<T> values;
     protected String columnName;
 
     abstract T cast(Object value);
 
+    @Override
+    public int size() {
+        return values.size();
+    }
+
     abstract BiFunction<T, T, T> cast(BiFunction<?, ?, ?> value);
 
-    public AbstractColumn(final String columnName) {
+    AbstractTypedLine(final String columnName) {
         this.columnName = columnName;
         this.values = new ArrayList<>();
+    }
+
+    AbstractTypedLine(final String columnName, T... values) {
+        this.columnName = columnName;
+        this.values = new ArrayList<>(List.of(values));
     }
 
     @Override

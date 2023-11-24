@@ -1,11 +1,15 @@
-package edu.prettyTable.column;
+package edu.prettyTable.line;
 
 import edu.prettyTable.StringBiFunction;
 import java.util.function.BiFunction;
 
-public class StringColumn extends AbstractColumn<String> {
-    public StringColumn(final String columnName) {
+public class StringLine extends AbstractTypedLine<String> {
+    public StringLine(final String columnName) {
         super(columnName);
+    }
+
+    public StringLine(String columnName, String... values) {
+        super(columnName, values);
     }
 
     @Override

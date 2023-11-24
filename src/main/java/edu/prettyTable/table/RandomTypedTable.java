@@ -2,14 +2,15 @@ package edu.prettyTable.table;
 
 import edu.prettyTable.cell.Cell;
 import edu.prettyTable.cell.NullCell;
+import edu.prettyTable.line.Line;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class RandomTypeTable extends AbstractTable {
+public class RandomTypedTable extends AbstractTable {
     private final ArrayList<ArrayList<Cell<?>>> values;
 
-    public RandomTypeTable(
+    public RandomTypedTable(
         String tableName,
         String intersectionCellName,
         List<String> rowsNames,
@@ -20,7 +21,7 @@ public class RandomTypeTable extends AbstractTable {
         this.values = values;
     }
 
-    public RandomTypeTable(
+    public RandomTypedTable(
         String tableName,
         String intersectionCellName,
         List<String> rowsNames,
@@ -74,26 +75,24 @@ public class RandomTypeTable extends AbstractTable {
         values.get(i).get(j).update(update, function);
     }
 
-    public void addRow(String row) {
-        if (containsRow(row)) {
-            throw new IllegalArgumentException("row '" + row + "' already exist");
-        }
+    public void addCheckedRow(Line row) {
         values.add(new ArrayList<>(columnsNames.size()));
         for (int i = rowsNames.size(), j = 0; j < columnsNames.size(); j++) {
-            values.get(i).set(j, new NullCell());
+            Object value = row.getValue(j);
+            values.get(i).add(Cell.of(value));
+            updateColumnWidth(j, value);
         }
-        rowsNames.add(row);
-        updateRowsWithIntersectionCellWidth(row.length());
+        rowsNames.add(row.getName());
+        updateRowsWithIntersectionCellWidth(row.getName().length());
     }
 
-    public void addColumn(String column) {
-        if (containsColumn(column)) {
-            throw new IllegalArgumentException("column '" + column + "' already exist");
-        }
-        columnsNames.add(column);
-        columnsWidth.add(column.length());
-        for (int i = 0; i < rowsNames.size(); i++) {
-            values.get(i).add(new NullCell());
+    public void addCheckedColumn(Line column) {
+        columnsNames.add(column.getName());
+        columnsWidth.add(column.getName().length());
+        for (int i = 0, j = columnsNames.size() - 1; i < rowsNames.size(); i++) {
+            Object value = column.getValue(i);
+            values.get(i).add(Cell.of(value));
+            updateColumnWidth(j, value);
         }
     }
 }

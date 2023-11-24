@@ -1,24 +1,26 @@
 package edu.prettyTable.table;
 
 import edu.prettyTable.Format;
+import edu.prettyTable.line.Line;
+import edu.prettyTable.line.RandomTypedLine;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 import java.util.function.BiFunction;
 import static edu.prettyTable.Format.TXT;
 
-public abstract class AbstractTable implements Table {
+/*package-private*/ abstract class AbstractTable implements Table {
     /*
-    Table name
+        Table name
 
-    intersection cell | column names -->
-    ------------------+--------------------
-           rows       |
-           names      |
-            ||        |
-            \/        |
-                      |
-    */
+        intersection cell | column names -->
+        ------------------+--------------------
+               rows       |
+               names      |
+                ||        |
+                \/        |
+                          |
+        */
     protected final String tableName;
     protected final ArrayList<String> rowsNames;
     protected final ArrayList<String> columnsNames;
@@ -32,7 +34,11 @@ public abstract class AbstractTable implements Table {
 
     abstract void update(int i, int j, Object update, BiFunction<?, ?, ?> function);
 
-    public AbstractTable(
+    abstract void addCheckedColumn(Line column);
+
+    abstract void addCheckedRow(Line row);
+
+    AbstractTable(
         String tableName,
         String intersectionCellName,
         List<String> rowsNames,
@@ -66,22 +72,52 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public boolean contains(String row, String column) {
+    public final boolean contains(String row, String column) {
         return containsRow(row) && containsColumn(column);
     }
 
     @Override
-    public boolean containsRow(String row) {
+    public final boolean containsRow(String row) {
         return rowsNames.contains(row);
     }
 
     @Override
-    public boolean containsColumn(String column) {
+    public final boolean containsColumn(String column) {
         return columnsNames.contains(column);
     }
 
     @Override
-    public Object get(String row, String column) {
+    public final void addRow(String row, Object... values) {
+        addRow(new RandomTypedLine(row, values));
+    }
+
+    @Override
+    public final void addColumn(String column, Object... values) {
+        addColumn(new RandomTypedLine(column, values));
+    }
+
+    @Override
+    public final void addRow(Line row) {
+        if (row.size() != columnsNames.size()) {
+            throw new IllegalArgumentException("wrong row size: " + row.size() + ", it must be " + columnsNames.size());
+        } else if (containsRow(row.getName())) {
+            throw new IllegalArgumentException();
+        }
+        addCheckedRow(row);
+    }
+
+    @Override
+    public final void addColumn(Line column) {
+        if (column.size() != rowsNames.size()) {
+            throw new IllegalArgumentException("wrong column size: " + column.size() + ", it must be " + rowsNames.size());
+        } else if (containsColumn(column.getName())) {
+            throw new IllegalArgumentException();
+        }
+        addCheckedColumn(column);
+    }
+
+    @Override
+    public final Object get(String row, String column) {
         return get(getRowID(row), getColumnID(column));
     }
 
@@ -101,7 +137,7 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public void setColumn(String column, Object... values) {
+    public final void setColumn(String column, Object... values) {
         int columnID = getColumnID(column);
         for (int i = 0; i < rowsNames.size(); i++) {
             set(i, columnID, values[i]);
@@ -109,7 +145,7 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public void setRow(String row, Object... values) {
+    public final void setRow(String row, Object... values) {
         int rowID = getRowID(row);
         for (int j = 0; j < columnsNames.size(); j++) {
             set(rowID, j, values[j]);
@@ -117,7 +153,7 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public void set(String row, String column, Object value) {
+    public final void set(String row, String column, Object value) {
         int rowID = getRowID(row);
         int columnID = getColumnID(column);
         set(rowID, columnID, value);
@@ -125,7 +161,7 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public void update(String row, String column, Object update, BiFunction<?, ?, ?> function) {
+    public final void update(String row, String column, Object update, BiFunction<?, ?, ?> function) {
         int rowID = getRowID(row);
         int columnID = getColumnID(column);
         update(rowID, columnID, update, function);
@@ -133,7 +169,7 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public void format(Format format, Formatter formatter) {
+    public final void format(Format format, Formatter formatter) {
         switch (format) {
             case MARKDOWN -> markdownFormat(formatter);
             case ADOC -> adocFormat(formatter);
@@ -143,7 +179,7 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         Formatter formatter = new Formatter();
         format(TXT, formatter);
         return formatter.toString();

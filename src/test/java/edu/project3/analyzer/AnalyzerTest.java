@@ -1,5 +1,6 @@
 package edu.project3.analyzer;
 
+import edu.testFileCreator.TestFilesCreator;
 import edu.project3.Main;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,10 +11,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
-import static edu.project3.analyzer.TestFilesCreator.combinePath;
+import static edu.testFileCreator.TestFilesCreator.combinePath;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DisplayName("Test analyzer")

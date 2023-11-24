@@ -1,8 +1,8 @@
-package edu.prettyTable.column;
+package edu.prettyTable.line;
 
 import java.util.function.BiFunction;
 
-public interface Column<T> {
+public interface Line {
     void set(int key, Object value);
 
     void update(int key, Object update, BiFunction<?, ?, ?> function);
@@ -11,7 +11,9 @@ public interface Column<T> {
 
     void addRow(Object value);
 
-    T getValue(int key);
+    Object getValue(int key);
 
     String getName();
+
+    int size();
 }

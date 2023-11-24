@@ -2,14 +2,17 @@ package edu.project3.analyzer;
 
 import edu.prettyTable.Format;
 import edu.prettyTable.IntegerBiFunction;
-import edu.prettyTable.table.TypedColumnsTable;
-import edu.prettyTable.column.IntegerColumn;
-import edu.prettyTable.column.StringColumn;
+import edu.prettyTable.line.IntegerLine;
+import edu.prettyTable.line.StringLine;
+import edu.prettyTable.table.ColumnTypedTable;
+import edu.prettyTable.table.RandomTypedTable;
+import edu.prettyTable.table.Table;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,20 +20,20 @@ import java.util.regex.Pattern;
 @SuppressWarnings("checkstyle:MultipleStringLiterals")
 public class LogReport {
     private int requestCount = 0;
-    private final TypedColumnsTable generalInformation =
-        new TypedColumnsTable("Общая информация", "Метрика", new StringColumn("Значение"));
-    private final TypedColumnsTable requestedResources =
-        new TypedColumnsTable("Запрашиваемые ресурсы", "Ресурс", new IntegerColumn("Количество"));
-    private final TypedColumnsTable responseCodes =
-        new TypedColumnsTable("Коды ответа", "Код", new StringColumn("Имя"), new IntegerColumn("Количество"));
-    private final TypedColumnsTable mostCommonCommand =
-        new TypedColumnsTable(
+    private final Table generalInformation =
+        new RandomTypedTable("Общая информация", "Метрика", List.of(), List.of("Значение"));
+    private final Table requestedResources =
+        new ColumnTypedTable("Запрашиваемые ресурсы", "Ресурс", new IntegerLine("Количество"));
+    private final Table responseCodes =
+        new ColumnTypedTable("Коды ответа", "Код", new StringLine("Имя"), new IntegerLine("Количество"));
+    private final Table mostCommonCommand =
+        new ColumnTypedTable(
             "(Дополнительно) Частота встречи команд в запросах",
             "Команда",
-            new IntegerColumn("Количество")
+            new IntegerLine("Количество")
         );
-    private final TypedColumnsTable mostCommonHttpUserAgent =
-        new TypedColumnsTable("(Дополнительно) Типы Http User Agent", "Имя", new IntegerColumn("Количество"));
+    private final ColumnTypedTable mostCommonHttpUserAgent =
+        new ColumnTypedTable("(Дополнительно) Типы Http User Agent", "Имя", new IntegerLine("Количество"));
     private BigInteger summaryResponseSize = BigInteger.ZERO;
     private long countResponse = 0;
     private final Format formant;
@@ -141,8 +144,9 @@ public class LogReport {
             file = out.resolve(filename + ".adoc").toFile();
         }
         try (Formatter formatter = new Formatter(file)) {
-            generalInformation.addRow("Количество запросов", Integer.toString(requestCount));
-            generalInformation.addRow("Средний размер ответа", Integer.toString(averageAnsSize()) + "b");
+            generalInformation.addRow("Количество запросов", requestCount);
+            generalInformation.addRow("Средний размер ответа", averageAnsSize() + "b");
+
             generalInformation.format(formant, formatter);
             requestedResources.format(formant, formatter);
             responseCodes.format(formant, formatter);

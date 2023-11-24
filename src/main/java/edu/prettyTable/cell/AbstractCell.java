@@ -2,14 +2,14 @@ package edu.prettyTable.cell;
 
 import java.util.function.BiFunction;
 
-public abstract class AbstractCell<T> implements Cell<T> {
+/*package-private*/ abstract class AbstractCell<T> implements Cell<T> {
     private T value;
 
     abstract T cast(Object value);
 
     abstract BiFunction<T, T, T> cast(BiFunction<?, ?, ?> function);
 
-    public AbstractCell(T value) {
+    AbstractCell(T value) {
         this.value = value;
     }
 

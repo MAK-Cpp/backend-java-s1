@@ -1,12 +1,15 @@
-package edu.prettyTable.column;
+package edu.prettyTable.line;
 
 import edu.prettyTable.IntegerBiFunction;
-import edu.prettyTable.column.AbstractColumn;
 import java.util.function.BiFunction;
 
-public class IntegerColumn extends AbstractColumn<Integer> {
-    public IntegerColumn(final String columnName) {
+public class IntegerLine extends AbstractTypedLine<Integer> {
+    public IntegerLine(final String columnName) {
         super(columnName);
+    }
+
+    public IntegerLine(String columnName, Integer... values) {
+        super(columnName, values);
     }
 
     @Override

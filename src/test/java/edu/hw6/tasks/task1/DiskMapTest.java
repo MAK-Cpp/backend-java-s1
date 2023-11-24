@@ -1,6 +1,6 @@
 package edu.hw6.tasks.task1;
 
-import edu.hw6.tasks.TestFilesCreator;
+import edu.testFileCreator.TestFilesCreator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
-import static edu.hw6.tasks.TestFilesCreator.combinePath;
+import static edu.testFileCreator.TestFilesCreator.combinePath;
 import static edu.hw6.tasks.task1.DiskMapOperations.*;
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -69,7 +69,7 @@ class ThreadIncrementsTest {
             CompletableFuture[] tasks = Stream.generate(() -> CompletableFuture.runAsync(() -> {
                 Map.Entry<Integer, Boolean> input = inputs.get(iterator.getAndIncrement());
                 ThreadIncrements.run(input.getKey(), input.getValue());
-            })).limit(inputs.size()).toArray(CompletableFuture[]::new);
+            }, threadPool)).limit(inputs.size()).toArray(CompletableFuture[]::new);
             CompletableFuture.allOf(tasks).join();
             threadPool.shutdown();
             assertThat(ThreadIncrements.getCounter()).isEqualTo(output);

@@ -16,6 +16,7 @@ public interface Cell<T> {
         return switch (value) {
             case String s -> new StringCell(s);
             case Integer i -> new IntegerCell(i);
+            case Double d -> new DoubleCell(d);
             default -> new ObjectCell(value);
         };
     }

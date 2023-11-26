@@ -12,7 +12,6 @@ public class SynchronizedPersonDatabase implements PersonDatabase {
 
     @Override
     public synchronized void add(Person person) {
-        System.out.println("add " + person);
         persons.add(person);
     }
 
@@ -23,7 +22,6 @@ public class SynchronizedPersonDatabase implements PersonDatabase {
 
     @Override
     public synchronized List<Person> findByName(String name) {
-        System.out.println("find by name: " + name);
         return persons.stream().filter(x -> x.name().equals(name)).toList();
     }
 

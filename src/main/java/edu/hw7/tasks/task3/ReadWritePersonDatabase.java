@@ -17,7 +17,6 @@ public class ReadWritePersonDatabase implements PersonDatabase {
     public void add(Person person) {
         lock.writeLock().lock();
         try {
-            System.out.println("add " + person);
             persons.add(person);
         } finally {
             lock.writeLock().unlock();
@@ -38,7 +37,6 @@ public class ReadWritePersonDatabase implements PersonDatabase {
     public List<Person> findByName(String name) {
         lock.readLock().lock();
         try {
-            System.out.println("find by name: " + name);
             return persons.stream().filter(x -> x.name().equals(name)).toList();
         } finally {
             lock.readLock().unlock();

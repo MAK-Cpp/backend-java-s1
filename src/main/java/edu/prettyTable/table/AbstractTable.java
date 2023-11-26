@@ -96,6 +96,7 @@ import static edu.prettyTable.Format.TXT;
         addColumn(new RandomTypedLine(column, values));
     }
 
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Override
     public final void addRow(Line row) {
         if (row.size() != columnsNames.size()) {
@@ -109,7 +110,8 @@ import static edu.prettyTable.Format.TXT;
     @Override
     public final void addColumn(Line column) {
         if (column.size() != rowsNames.size()) {
-            throw new IllegalArgumentException("wrong column size: " + column.size() + ", it must be " + rowsNames.size());
+            throw new IllegalArgumentException(
+                "wrong column size: " + column.size() + ", it must be " + rowsNames.size());
         } else if (containsColumn(column.getName())) {
             throw new IllegalArgumentException();
         }
@@ -256,6 +258,7 @@ import static edu.prettyTable.Format.TXT;
         printValues(formatter, format);
     }
 
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     private void txtFormat(Formatter formatter) {
         final StringBuilder separatorBuilder =
             new StringBuilder().append("[]").append("=".repeat(rowsWithIntersectionCellWidth + 2));

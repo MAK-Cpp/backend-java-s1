@@ -1,9 +1,9 @@
 package edu.project3;
 
+import edu.prettyTable.Format;
 import edu.project3.analyzer.Flag;
 import edu.project3.analyzer.LogAnalyzer;
 import edu.project3.analyzer.LogReport;
-import edu.prettyTable.Format;
 import java.net.URI;
 import java.net.URISyntaxException;
 

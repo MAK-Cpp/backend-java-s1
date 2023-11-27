@@ -270,14 +270,20 @@ import static edu.prettyTable.Format.TXT;
         }
         separatorBuilder.append("[]\n");
         formatBuilder.append("||\n");
-        final String format = formatBuilder.toString();
-        final String separator = separatorBuilder.toString();
+        String format = formatBuilder.toString();
+        String separator = separatorBuilder.toString();
 
         final int tableWidth = separator.length() - 1;
-        final String titleSeparator = centerString(tableWidth, "+" + "-".repeat(tableName.length() + 2) + "+") + '\n';
+        final String titleSeparator = centerString(tableWidth, "." + ".".repeat(tableName.length() + 2) + ".") + '\n';
+        final String belowTitleSeparator = centerString(tableWidth, "˙".repeat(tableName.length() + 4)) + '\n';
         final String titleFormat = titleSeparator
-            + centerString(tableWidth, "| " + tableName + " |") + "\n"
-            + titleSeparator;
+            + centerString(tableWidth, ": " + tableName + " :") + "\n"
+            + belowTitleSeparator;
+        if (titleSeparator.length() > tableWidth) {
+            final int deltaLength = (titleSeparator.length() - 1 - tableWidth) / 2;
+            format = " ".repeat(deltaLength) + format;
+            separator = " ".repeat(deltaLength) + separator;
+        }
         printTitle(formatter, titleFormat);
         formatter.format(separator);
         printColumnNames(formatter, format);

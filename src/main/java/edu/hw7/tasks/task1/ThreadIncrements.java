@@ -32,7 +32,6 @@ public final class ThreadIncrements {
             var tasks = Stream.generate(() -> CompletableFuture.runAsync(() -> func(count, isIncrement), threadPool))
                 .limit(THREAD_COUNTS).toArray(CompletableFuture[]::new);
             CompletableFuture.allOf(tasks).join();
-            threadPool.shutdown();
         }
     }
 

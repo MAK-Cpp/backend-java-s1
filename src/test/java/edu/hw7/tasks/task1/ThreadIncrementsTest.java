@@ -71,7 +71,6 @@ class ThreadIncrementsTest {
                 ThreadIncrements.run(input.getKey(), input.getValue());
             }, threadPool)).limit(inputs.size()).toArray(CompletableFuture[]::new);
             CompletableFuture.allOf(tasks).join();
-            threadPool.shutdown();
             assertThat(ThreadIncrements.getCounter()).isEqualTo(output);
         }
     }

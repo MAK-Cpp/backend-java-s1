@@ -1,37 +1,65 @@
 package edu.hw7.tasks.task3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SynchronizedPersonDatabase implements PersonDatabase {
-    private final ArrayList<Person> persons;
+    private final HashMap<Integer, Person> personsIDs;
+    private final HashMap<String, ArrayList<Person>> databaseByName;
+    private final HashMap<String, ArrayList<Person>> databaseByAddress;
+    private final HashMap<String, ArrayList<Person>> databaseByPhone;
 
     public SynchronizedPersonDatabase() {
-        persons = new ArrayList<>();
+        personsIDs = new HashMap<>();
+        databaseByName = new HashMap<>();
+        databaseByAddress = new HashMap<>();
+        databaseByPhone = new HashMap<>();
+    }
+
+    private void add(HashMap<String, ArrayList<Person>> database, Person person, String key) {
+        if (database.containsKey(key)) {
+            database.get(key).add(person);
+        } else {
+            database.put(key, new ArrayList<>(List.of(person)));
+        }
     }
 
     @Override
     public synchronized void add(Person person) {
-        persons.add(person);
+        personsIDs.put(person.id(), person);
+        add(databaseByName, person, person.name());
+        add(databaseByAddress, person, person.address());
+        add(databaseByPhone, person, person.phoneNumber());
+    }
+
+    private void delete(HashMap<String, ArrayList<Person>> database, Person person, String key) {
+        if (database.containsKey(key)) {
+            database.get(key).remove(person);
+        }
     }
 
     @Override
     public synchronized void delete(int id) {
-        persons.removeIf(x -> x.id() == id);
+        Person toDelete = personsIDs.get(id);
+        personsIDs.remove(id);
+        delete(databaseByName, toDelete, toDelete.name());
+        delete(databaseByAddress, toDelete, toDelete.address());
+        delete(databaseByPhone, toDelete, toDelete.phoneNumber());
     }
 
     @Override
     public synchronized List<Person> findByName(String name) {
-        return persons.stream().filter(x -> x.name().equals(name)).toList();
+        return databaseByName.get(name);
     }
 
     @Override
     public synchronized List<Person> findByAddress(String address) {
-        return persons.stream().filter(x -> x.address().equals(address)).toList();
+        return databaseByAddress.get(address);
     }
 
     @Override
     public synchronized List<Person> findByPhone(String phone) {
-        return persons.stream().filter(x -> x.phoneNumber().equals(phone)).toList();
+        return databaseByPhone.get(phone);
     }
 }

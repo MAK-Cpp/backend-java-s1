@@ -9,27 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Task 3")
 class PersonDatabaseTest {
-    public sealed interface Command {
-    }
-
-    private record Add(Person person) implements Command {
-    }
-
-    private record Delete(int id) implements Command {
-    }
-
-    private record FindByName(String name) implements Command {
-    }
-
-    private record FindByAddress(String address) implements Command {
-    }
-
-    private record FindByPhone(String phone) implements Command {
-    }
-
-    private record EmptyCommand() implements Command {
-    }
-
     public static Stream<List<List<Command>>> DatabaseRequests() {
         return Stream.of(
             List.of(
@@ -86,5 +65,26 @@ class PersonDatabaseTest {
     @MethodSource("DatabaseRequests")
     void testSynchronizedPersonDatabase(List<List<Command>> commands) {
         testPersonDatabase(new SynchronizedPersonDatabase(), commands);
+    }
+
+    public sealed interface Command {
+    }
+
+    private record Add(Person person) implements Command {
+    }
+
+    private record Delete(int id) implements Command {
+    }
+
+    private record FindByName(String name) implements Command {
+    }
+
+    private record FindByAddress(String address) implements Command {
+    }
+
+    private record FindByPhone(String phone) implements Command {
+    }
+
+    private record EmptyCommand() implements Command {
     }
 }

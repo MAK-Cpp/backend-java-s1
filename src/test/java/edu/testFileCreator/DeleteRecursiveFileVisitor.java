@@ -1,4 +1,4 @@
-package edu.hw6.tasks;
+package edu.testFileCreator;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;

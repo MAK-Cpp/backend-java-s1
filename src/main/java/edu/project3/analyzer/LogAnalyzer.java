@@ -1,6 +1,6 @@
 package edu.project3.analyzer;
 
-import edu.table.Format;
+import edu.prettyTable.Format;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;

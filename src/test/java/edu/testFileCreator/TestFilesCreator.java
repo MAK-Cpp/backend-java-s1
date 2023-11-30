@@ -1,4 +1,4 @@
-package edu.project3.analyzer;
+package edu.testFileCreator;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

@@ -1,15 +1,15 @@
-package edu.table;
+package edu.prettyTable.line;
 
-import java.util.ArrayList;
+import edu.prettyTable.StringBiFunction;
 import java.util.function.BiFunction;
 
-public class StringColumn extends AbstractColumn<String> {
-    public static final StringBiFunction CONCAT = (x, y) -> x + y;
+public class StringLine extends AbstractTypedLine<String> {
+    public StringLine(final String columnName) {
+        super(columnName);
+    }
 
-    public StringColumn(final String columnName) {
-        this.columnName = columnName;
-        this.values = new ArrayList<>();
-        this.width = columnName.length();
+    public StringLine(String columnName, String... values) {
+        super(columnName, values);
     }
 
     @Override

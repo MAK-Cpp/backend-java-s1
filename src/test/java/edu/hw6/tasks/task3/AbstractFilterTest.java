@@ -1,6 +1,6 @@
 package edu.hw6.tasks.task3;
 
-import edu.hw6.tasks.TestFilesCreator;
+import edu.testFileCreator.TestFilesCreator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-import static edu.hw6.tasks.TestFilesCreator.combinePath;
+import static edu.testFileCreator.TestFilesCreator.combinePath;
 import static edu.hw6.tasks.task3.AbstractFilter.*;
 import static org.assertj.core.api.Assertions.assertThat;
 

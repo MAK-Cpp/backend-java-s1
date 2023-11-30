@@ -1,17 +1,19 @@
-package edu.table;
+package edu.prettyTable.line;
 
 import java.util.function.BiFunction;
 
-public interface Column<T> {
+public interface Line {
     void set(int key, Object value);
 
     void update(int key, Object update, BiFunction<?, ?, ?> function);
 
     void addRow();
 
-    T getValue(int key);
+    void addRow(Object value);
 
-    int getWidth();
+    Object getValue(int key);
 
     String getName();
+
+    int size();
 }

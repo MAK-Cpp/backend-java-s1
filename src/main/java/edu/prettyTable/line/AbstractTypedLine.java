@@ -1,22 +1,36 @@
-package edu.table;
+package edu.prettyTable.line;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 
-public abstract class AbstractColumn<T> implements Column<T> {
+/*package-private*/ abstract class AbstractTypedLine<T> implements Line {
     protected ArrayList<T> values;
     protected String columnName;
-    protected int width;
 
     abstract T cast(Object value);
 
+    @Override
+    public int size() {
+        return values.size();
+    }
+
     abstract BiFunction<T, T, T> cast(BiFunction<?, ?, ?> value);
+
+    AbstractTypedLine(final String columnName) {
+        this.columnName = columnName;
+        this.values = new ArrayList<>();
+    }
+
+    AbstractTypedLine(final String columnName, T... values) {
+        this.columnName = columnName;
+        this.values = new ArrayList<>(List.of(values));
+    }
 
     @Override
     public void set(int key, Object value) {
         T castedValue = cast(value);
         values.set(key, castedValue);
-        width = Math.max(width, castedValue.toString().length());
     }
 
     @Override
@@ -24,17 +38,16 @@ public abstract class AbstractColumn<T> implements Column<T> {
         T castedUpdate = cast(update);
         BiFunction<T, T, T> castedFunction = cast(function);
         values.set(key, castedFunction.apply(values.get(key), castedUpdate));
-        width = Math.max(width, castedUpdate.toString().length());
     }
 
     @Override
     public void addRow() {
         values.add(null);
-        width = Math.max(width, "null".length());
     }
 
-    @Override final public int getWidth() {
-        return width;
+    @Override
+    public void addRow(Object value) {
+        values.add(cast(value));
     }
 
     @Override final public T getValue(int key) {

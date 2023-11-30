@@ -1,5 +1,6 @@
 package edu.project3.analyzer;
 
+import edu.testFileCreator.TestFilesCreator;
 import edu.project3.Main;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,10 +11,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
-import static edu.project3.analyzer.TestFilesCreator.combinePath;
+import static edu.testFileCreator.TestFilesCreator.combinePath;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DisplayName("Test analyzer")
@@ -96,14 +96,14 @@ public class AnalyzerTest {
                 "| /product_2 |   21104    |\n" +
                 "| /product_3 |     73     |\n" +
                 "### Коды ответа\n" +
-                "| Код  |          Имя          | Количество |\n" +
-                "|:----:|:---------------------:|:----------:|\n" +
-                "| 304  |     NOT_MODIFIED      |   13330    |\n" +
-                "| 200  |          OK           |    4028    |\n" +
-                "| 404  |       NOT_FOUND       |   33876    |\n" +
-                "| 206  |    PARTIAL_CONTENT    |    186     |\n" +
-                "| 403  |       FORBIDDEN       |     38     |\n" +
-                "| 416  | RANGE_NOT_SATISFIABLE |     4      |\n" +
+                "| Код |          Имя          | Количество |\n" +
+                "|:---:|:---------------------:|:----------:|\n" +
+                "| 304 |     NOT_MODIFIED      |   13330    |\n" +
+                "| 200 |          OK           |    4028    |\n" +
+                "| 404 |       NOT_FOUND       |   33876    |\n" +
+                "| 206 |    PARTIAL_CONTENT    |    186     |\n" +
+                "| 403 |       FORBIDDEN       |     38     |\n" +
+                "| 416 | RANGE_NOT_SATISFIABLE |     4      |\n" +
                 "### (Дополнительно) Частота встречи команд в запросах\n" +
                 "| Команда | Количество |\n" +
                 "|:-------:|:----------:|\n" +
@@ -278,12 +278,12 @@ public class AnalyzerTest {
                 "|                   /neutral.jpg                   |     1     \n" +
                 "|===============================================================\n" +
                 "=== Коды ответа\n" +
-                "|=========================================\n" +
-                "| Код |          Имя         | Количество\n" +
-                "| 200 |          OK          |     11    \n" +
-                "| 500 | INTERNAL_SERVER_ERROR|     1     \n" +
-                "| 400 |      BAD_REQUEST     |     1     \n" +
-                "|=========================================\n" +
+                "|========================================\n" +
+                "| Код|          Имя         | Количество\n" +
+                "| 200|          OK          |     11    \n" +
+                "| 500| INTERNAL_SERVER_ERROR|     1     \n" +
+                "| 400|      BAD_REQUEST     |     1     \n" +
+                "|========================================\n" +
                 "=== (Дополнительно) Частота встречи команд в запросах\n" +
                 "|=====================\n" +
                 "| Команда| Количество\n" +

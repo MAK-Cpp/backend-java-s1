@@ -34,7 +34,7 @@ public class InsultsServer {
         this.port = port;
     }
 
-    @SuppressWarnings("checkstyle:UncommentedMain")
+    @SuppressWarnings({"checkstyle:UncommentedMain", "checkstyle:RegexpSinglelineJava"})
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(port);
              ExecutorService executorService = Executors.newFixedThreadPool(THREADS)) {
@@ -58,7 +58,7 @@ public class InsultsServer {
     }
 
     private record ClientThread(Socket client) implements Runnable {
-        @Override
+        @SuppressWarnings("checkstyle:RegexpSinglelineJava") @Override
         public void run() {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
                  PrintWriter writer = new PrintWriter(client.getOutputStream(), true)) {

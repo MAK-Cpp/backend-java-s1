@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InsultsServer {
     private static final int DEFAULT_PORT = 49100;
@@ -24,23 +23,27 @@ public class InsultsServer {
         "Чем ниже интеллект, тем громче оскорбления"
     ));
     private final int port;
-    private final AtomicBoolean isWork = new AtomicBoolean(true);
+    private final ServerSocket serverSocket;
 
     public InsultsServer() {
-        port = DEFAULT_PORT;
+        this(DEFAULT_PORT);
     }
 
     public InsultsServer(int port) {
         this.port = port;
+        try {
+            this.serverSocket = new ServerSocket(port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SuppressWarnings({"checkstyle:UncommentedMain", "checkstyle:RegexpSinglelineJava"})
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(port);
-             ExecutorService executorService = Executors.newFixedThreadPool(THREADS)) {
+        try (serverSocket; ExecutorService executorService = Executors.newFixedThreadPool(THREADS)) {
             serverSocket.setReuseAddress(true);
             System.out.println("server started!");
-            while (isWork.get()) {
+            while (!serverSocket.isClosed()) {
                 Socket client = serverSocket.accept();
                 executorService.submit(new ClientThread(client));
             }
@@ -52,9 +55,8 @@ public class InsultsServer {
     }
 
     public void stop() throws IOException {
-        isWork.set(false);
-        Socket closingSocket = new Socket(InetAddress.getLocalHost(), port);
-        closingSocket.close();
+        serverSocket.close();
+        new Socket(InetAddress.getLocalHost(), port).close();
     }
 
     private record ClientThread(Socket client) implements Runnable {

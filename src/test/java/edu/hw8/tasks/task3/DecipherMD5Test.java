@@ -26,12 +26,30 @@ class DecipherMD5Test {
     public static Stream<Arguments> testDecipher() {
         return Stream.of(
             Arguments.of(
+                3,
+                Map.of(
+                    "1b761a9f2db00bdccfaccdec050cc732", "a.v.petrov",
+                    "87922b7db4e70dd304cc7e84f8762a29", "v.v.belov ",
+                    "555d6702c950ecb729a966504af0a635", "a.s.ivanov",
+                    "7de13dd362a23575e036d9de55f86e1d", "k.p.maslov"
+                )
+            ),
+            Arguments.of(
                 4,
                 Map.of(
                     "051f7661ee7c287be66ee572768ec8f5", "a.v.petrov",
                     "87922b7db4e70dd304cc7e84f8762a29", "v.v.belov ",
-                    "482c811da5d5b4bc6d497ffa98491e38", "a.s.ivanov",
-                    "5f4dcc3b5aa765d61d8327deb882cf99", "k.p.maslov"
+                    "5531a5834816222280f20d1ef9e95f69", "a.s.ivanov",
+                    "d31594c486e0ed29e7adbb0340f2a5e5", "k.p.maslov"
+                )
+            ),
+            Arguments.of(
+                5,
+                Map.of(
+                    "8b1a9953c4611296a827abf8c47804d7", "a.v.petrov",
+                    "8042e486e5ed2d147ccd4bd0e5ef4918", "v.v.belov ",
+                    "b4c12630a112a477a934912a92329614", "a.s.ivanov",
+                    "7d53cbd3f0c0e2af31c3ba1eab940f22", "k.p.maslov"
                 )
             )
         );

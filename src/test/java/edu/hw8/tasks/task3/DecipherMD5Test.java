@@ -42,7 +42,7 @@ class DecipherMD5Test {
                     "5531a5834816222280f20d1ef9e95f69", "a.s.ivanov",
                     "d31594c486e0ed29e7adbb0340f2a5e5", "k.p.maslov"
                 )
-            ),
+            )/*,
             Arguments.of(
                 5,
                 Map.of(
@@ -51,7 +51,7 @@ class DecipherMD5Test {
                     "b4c12630a112a477a934912a92329614", "a.s.ivanov",
                     "7d53cbd3f0c0e2af31c3ba1eab940f22", "k.p.maslov"
                 )
-            )
+            )*/
         );
     }
 

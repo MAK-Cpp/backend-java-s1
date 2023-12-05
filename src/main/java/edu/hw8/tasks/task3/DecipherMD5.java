@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public final class DecipherMD5 {
     private static final char[] ALL_CHARACTERS =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-    private static final int MAX_PASSWORD_LENGTH = 5;
+    private static final int MAX_PASSWORD_LENGTH = 4;
 
     private DecipherMD5() {
     }

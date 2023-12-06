@@ -1,5 +1,6 @@
 package edu.hw8.tasks.task2;
 
+import edu.hw8.tasks.task3.InterruptedRuntimeException;
 import java.time.Duration;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -17,7 +18,8 @@ public final class FixedThreadPool implements ThreadPool {
                 try {
                     Runnable task = this.taskQueue.take();
                     task.run();
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException e) {
+                    throw new InterruptedRuntimeException(e);
                 }
             }
         })).limit(n).toArray(Thread[]::new);
@@ -48,7 +50,7 @@ public final class FixedThreadPool implements ThreadPool {
                     if (!isTerminated) {
                         thread.interrupt();
                     }
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException | InterruptedRuntimeException ignored) {
                 }
             }
         }

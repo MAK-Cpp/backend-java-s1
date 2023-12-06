@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collections;
@@ -22,7 +21,6 @@ public class InsultsServer {
         "А я тебе говорил, что ты глупый? Так вот, я забираю свои слова обратно... Ты просто бог идиотизма.",
         "Чем ниже интеллект, тем громче оскорбления"
     ));
-    private final int port;
     private final ServerSocket serverSocket;
 
     public InsultsServer() {
@@ -30,7 +28,6 @@ public class InsultsServer {
     }
 
     public InsultsServer(int port) {
-        this.port = port;
         try {
             this.serverSocket = new ServerSocket(port);
         } catch (IOException e) {
@@ -56,7 +53,6 @@ public class InsultsServer {
 
     public void stop() throws IOException {
         serverSocket.close();
-        new Socket(InetAddress.getLocalHost(), port).close();
     }
 
     private record ClientThread(Socket client) implements Runnable {
@@ -64,7 +60,6 @@ public class InsultsServer {
         public void run() {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
                  PrintWriter writer = new PrintWriter(client.getOutputStream(), true)) {
-                System.out.println("connected new client: " + client);
                 while (!client.isClosed()) {
                     final String word = reader.readLine();
                     final String result = PHRASES.stream().filter(x -> x.contains(word)).findAny().orElse("");
@@ -73,8 +68,6 @@ public class InsultsServer {
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            } finally {
-                System.out.println("client socket " + client + " closed");
             }
         }
     }

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -69,7 +70,7 @@ public final class DecipherMD5 {
     }
 
     public static Map<String, String> fastSolution(Map<String, String> database) {
-        HashMap<String, String> ans = new HashMap<>();
+        ConcurrentHashMap<String, String> ans = new ConcurrentHashMap<>();
         try (ExecutorService executorService = Executors.newFixedThreadPool(Math.min(
             database.size(),
             Runtime.getRuntime().availableProcessors()
@@ -81,7 +82,6 @@ public final class DecipherMD5 {
                 result.ifPresent(userAndPassword -> ans.put(userAndPassword.getKey(), userAndPassword.getValue()));
             }, executorService)).limit(database.size()).toArray(CompletableFuture[]::new);
             CompletableFuture.allOf(tasks).join();
-            executorService.shutdown();
         }
         return ans;
     }

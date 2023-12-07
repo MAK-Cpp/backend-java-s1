@@ -51,12 +51,16 @@ public record TestFilesCreator(Path root) {
         newTestFile(Path.of(file), bigBytes);
     }
 
-    public static Path combinePath(final String beginPath, final String... paths) {
-        Path result = Path.of(beginPath);
+    public static Path combinePath(final Path beginPath, final String... paths) {
+        Path result = beginPath;
         for (final String path : paths) {
             result = result.resolve(path);
         }
         return result;
+    }
+
+    public static Path combinePath(final String beginPath, final String... paths) {
+        return combinePath(Path.of(beginPath), paths);
     }
 
     public void deleteDirectory() throws IOException {

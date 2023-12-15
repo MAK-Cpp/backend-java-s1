@@ -14,52 +14,34 @@ class MultiThreadDFSTest {
         return Stream.of(
             Arguments.of(
                 List.of(
-                    List.of(17, 18),
-                    List.of(17, 18),
-                    List.of(20, 23),
-                    List.of(26),
-                    List.of(5, 6, 33),
-                    List.of(4),
-                    List.of(4),
-                    List.of(27),
-                    List.of(22, 28),
-                    List.of(20, 32),
-                    List.of(20, 22),
-                    List.of(24),
-                    List.of(13, 25),
-                    List.of(12, 14),
-                    List.of(13),
-                    List.of(24),
-                    List.of(23),
-                    List.of(0, 1),
-                    List.of(0, 1),
-                    List.of(20),
-                    List.of(2, 9, 10, 19, 21),
-                    List.of(20),
-                    List.of(8, 10),
-                    List.of(2, 16, 24),
-                    List.of(11, 15, 23),
-                    List.of(12, 26, 33),
-                    List.of(3, 25, 33),
-                    List.of(7, 28, 34),
-                    List.of(8, 27, 29),
-                    List.of(28, 30),
-                    List.of(29, 32, 35),
-                    List.of(32),
-                    List.of(9, 30, 31),
-                    List.of(4, 25, 26),
-                    List.of(27),
-                    List.of(30)
+                    List.of(1), List.of(2, 5), List.of(3, 4), List.of(2), List.of(0, 1),
+                    List.of(6, 7), List.of(), List.of(5, 6), List.of(9, 10), List.of(), List.of()
                 ),
-                List.of(1, 1, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 3, 3, 3, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 3, 2, 2)
+                0, 5,
+                List.of(0, 1, 5)
+            ),
+            Arguments.of(
+                List.of(
+                    List.of(1), List.of(2, 5), List.of(3, 4), List.of(2), List.of(0, 1),
+                    List.of(6, 7), List.of(), List.of(5, 6), List.of(9, 10), List.of(), List.of()
+                ),
+                5, 0,
+                null
+            ),
+            Arguments.of(
+                List.of(
+                    List.of(1), List.of(2, 5), List.of(3, 4), List.of(2), List.of(0, 1),
+                    List.of(6, 7), List.of(), List.of(5, 6), List.of(9, 10), List.of(), List.of()
+                ),
+                3, 6,
+                List.of(3, 2, 4, 1, 5, 6)
             )
         );
     }
 
     @ParameterizedTest
     @MethodSource
-    void testMultiThreadDFS(List<List<Integer>> input, List<Integer> result) {
-        MultiThreadDFS dfs = new MultiThreadDFS(input);
-        assertThat(dfs.findComponents()).isEqualTo(result);
+    void testMultiThreadDFS(List<List<Integer>> graph, int start, int finish, List<Integer> way) {
+        assertThat(MultiThreadDFS.findWay(graph, start, finish)).isEqualTo(way);
     }
 }

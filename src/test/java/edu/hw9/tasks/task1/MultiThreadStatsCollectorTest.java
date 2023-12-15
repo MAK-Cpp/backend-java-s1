@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Task 1")
 class MultiThreadStatsCollectorTest {
-    private static final int TEST_REPEAT_COUNT = 20;
+    private static final int TEST_REPEAT_COUNT = 10_000;
 
     private static Entry<String, double[]> task(String name, double... values) {
         return Map.entry(name, values);
@@ -86,9 +86,7 @@ class MultiThreadStatsCollectorTest {
                 CompletableFuture.allOf(threadTasks).join();
 
                 List<Statistic> output = collector.stats();
-                for (int i = 0; i < output.size(); i++) {
-                    assertThat(output.get(i)).isEqualTo(result.get(i));
-                }
+                assertThat(output).isEqualTo(result);
             }
         }
     }

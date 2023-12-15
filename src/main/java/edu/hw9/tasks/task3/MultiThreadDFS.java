@@ -1,54 +1,64 @@
 package edu.hw9.tasks.task3;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveAction;
-import java.util.stream.Stream;
+import java.util.concurrent.RecursiveTask;
 
-public class MultiThreadDFS {
-    private final List<List<Integer>> graph;
-    private final ArrayList<Integer> components;
-    private int componentNumber;
+public final class MultiThreadDFS {
 
-    public MultiThreadDFS(List<List<Integer>> graph) {
-        this.graph = graph;
-        this.components = new ArrayList<>(Stream.generate(() -> -1).limit(graph.size()).toList());
-        componentNumber = 0;
+    private MultiThreadDFS() {
     }
 
-    public List<Integer> findComponents() {
-        if (componentNumber == 0) {
-            try (ForkJoinPool forkJoinPool = ForkJoinPool.commonPool()) {
-                for (int i = 0; i < components.size(); i++) {
-                    if (components.get(i) == -1) {
-                        forkJoinPool.invoke(new ComponentsSearcher(i, ++componentNumber));
-                    }
-                }
-            }
+    public static List<Integer> findWay(List<List<Integer>> graph, int start, int finish) {
+        boolean[] wereHere = new boolean[graph.size()];
+        try (ForkJoinPool forkJoinPool = ForkJoinPool.commonPool()) {
+            return forkJoinPool.invoke(new ComponentsSearcher(graph, wereHere, start, finish));
         }
-        return components;
     }
 
-    public final class ComponentsSearcher extends RecursiveAction {
-        private final int nodeId;
-        private final int componentId;
+    public static final class ComponentsSearcher extends RecursiveTask<ArrayList<Integer>> {
+        private final List<List<Integer>> graph;
+        private final boolean[] wereHere;
+        private final int current;
+        private final int finish;
 
-        public ComponentsSearcher(int nodeId, int componentId) {
-            this.nodeId = nodeId;
-            this.componentId = componentId;
+        public ComponentsSearcher(List<List<Integer>> graph, boolean[] wereHere, int current, int finish) {
+            this.graph = graph;
+            this.wereHere = wereHere;
+            this.current = current;
+            this.finish = finish;
+        }
+
+        private ComponentsSearcher subtask(int newCurrent, boolean[] newWereHere) {
+            return new ComponentsSearcher(graph, newWereHere, newCurrent, finish);
         }
 
         @Override
-        protected void compute() {
-            if (components.get(nodeId) != -1) {
-                return;
+        protected ArrayList<Integer> compute() {
+            if (current == finish) {
+                return new ArrayList<>(List.of(current));
+            } else if (wereHere[current]) {
+                return null;
             }
-            components.set(nodeId, componentId);
-            Stream<Integer> neighbours = graph.get(nodeId).stream();
-            List<ComponentsSearcher> tasks = neighbours.map(i -> new ComponentsSearcher(i, componentId)).toList();
-            ForkJoinTask.invokeAll(tasks);
+            List<Integer> neighbours = graph.get(current);
+            boolean[] newWereHere = new boolean[wereHere.length];
+            System.arraycopy(wereHere, 0, newWereHere, 0, wereHere.length);
+            newWereHere[current] = true;
+            var invokedResults = ForkJoinTask.invokeAll(neighbours.stream().map(x -> subtask(x, newWereHere)).toList());
+            var results = invokedResults.stream().map(ForkJoinTask::join);
+            Optional<ArrayList<Integer>> optionalResult =
+                results.filter(Objects::nonNull).min(Comparator.comparingInt(List::size));
+            if (optionalResult.isEmpty()) {
+                return null;
+            }
+            ArrayList<Integer> result = optionalResult.get();
+            result.addFirst(current);
+            return result;
         }
     }
 }

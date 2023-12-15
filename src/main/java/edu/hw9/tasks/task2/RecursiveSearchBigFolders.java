@@ -5,17 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ForkJoinTask;
-import java.util.concurrent.RecursiveTask;
 import java.util.stream.Stream;
 
-public class RecursiveSearchBigFolders extends RecursiveTask<List<Path>> {
-    private final Path currentPath;
+public class RecursiveSearchBigFolders extends RecursiveSearchFileSystem {
     private final long countFilesIntPath;
-    private static final int COUNT_FILES = 1000;
+    private static final int COUNT_FILES = 1_000;
 
     public RecursiveSearchBigFolders(Path currentPath) {
-        this.currentPath = currentPath;
+        super(currentPath);
         try (Stream<Path> pathStream = Files.list(currentPath)) {
             this.countFilesIntPath = pathStream.count();
         } catch (IOException e) {
@@ -24,20 +21,17 @@ public class RecursiveSearchBigFolders extends RecursiveTask<List<Path>> {
     }
 
     @Override
+    RecursiveSearchFileSystem subtask(Path subpath) {
+        return new RecursiveSearchBigFolders(subpath);
+    }
+
+    @Override
     protected List<Path> compute() {
         if (Files.isRegularFile(currentPath) || (Files.isDirectory(currentPath) && countFilesIntPath <= COUNT_FILES)) {
             return List.of();
         }
-        try (Stream<Path> pathStream = Files.list(currentPath)) {
-            ArrayList<Path> result = new ArrayList<>();
-            result.add(currentPath);
-            return ForkJoinTask.invokeAll(pathStream.map(RecursiveSearchBigFolders::new).toList()).stream()
-                .map(ForkJoinTask::join).reduce(result, (x, y) -> {
-                    x.addAll(y);
-                    return x;
-                });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ArrayList<Path> result = new ArrayList<>();
+        result.add(currentPath);
+        return calculate(result);
     }
 }

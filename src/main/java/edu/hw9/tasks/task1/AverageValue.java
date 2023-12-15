@@ -23,7 +23,17 @@ public class AverageValue {
     }
 
     public AverageValue add(AverageValue other) {
-        return new AverageValue(sum + other.sum, count + other.count);
+        sum += other.sum;
+        count += other.count;
+        return this;
+    }
+
+    public AverageValue add(double... values) {
+        for (double value : values) {
+            sum += value;
+        }
+        count += values.length;
+        return this;
     }
 
     public double value() {

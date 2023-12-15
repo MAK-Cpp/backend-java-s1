@@ -1,6 +1,5 @@
 package edu.hw9.tasks.task1;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,58 +8,28 @@ import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 public class MultiThreadStatsCollector implements StatsCollector {
-    private final ConcurrentHashMap<String, Double> sums;
-    private final ConcurrentHashMap<String, AverageValue> averages;
-    private final ConcurrentHashMap<String, Double> minimums;
-    private final ConcurrentHashMap<String, Double> maximums;
+    private final ConcurrentHashMap<String, Statistic> stats = new ConcurrentHashMap<>();
 
     public MultiThreadStatsCollector() {
-        this.sums = new ConcurrentHashMap<>();
-        this.averages = new ConcurrentHashMap<>();
-        this.minimums = new ConcurrentHashMap<>();
-        this.maximums = new ConcurrentHashMap<>();
     }
 
     @Override
     public void push(String statName, double... values) {
         try (ExecutorService virtualThreads = Executors.newVirtualThreadPerTaskExecutor()) {
+            Statistic toMerge = new Statistic(statName);
             var futures = Stream.of(
-                CompletableFuture.runAsync(() -> {
-                    for (double value : values) {
-                        sums.merge(statName, value, Double::sum);
-                    }
-                }, virtualThreads),
-                CompletableFuture.runAsync(
-                    () -> averages.merge(statName, new AverageValue(values), AverageValue::add),
-                    virtualThreads
-                ),
-                CompletableFuture.runAsync(() -> {
-                    for (double value : values) {
-                        maximums.merge(statName, value, Double::max);
-                    }
-                }, virtualThreads),
-                CompletableFuture.runAsync(() -> {
-                    for (double value : values) {
-                        minimums.merge(statName, value, Double::min);
-                    }
-                }, virtualThreads)
+                CompletableFuture.runAsync(() -> toMerge.addToSum(values), virtualThreads),
+                CompletableFuture.runAsync(() -> toMerge.addToAverage(values), virtualThreads),
+                CompletableFuture.runAsync(() -> toMerge.updateMax(values), virtualThreads),
+                CompletableFuture.runAsync(() -> toMerge.updateMin(values), virtualThreads)
             ).toArray(CompletableFuture[]::new);
             CompletableFuture.allOf(futures).join();
+            stats.merge(statName, toMerge, Statistic::merge);
         }
     }
 
     @Override
     public List<Statistic> stats() {
-        ArrayList<Statistic> ans = new ArrayList<>(sums.size());
-        for (String name : sums.keySet()) {
-            ans.add(new Statistic(
-                name,
-                sums.get(name),
-                averages.get(name).value(),
-                maximums.get(name),
-                minimums.get(name)
-            ));
-        }
-        return ans;
+        return stats.values().stream().toList();
     }
 }

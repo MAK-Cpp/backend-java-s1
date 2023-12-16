@@ -56,4 +56,17 @@ public class ColumnTypedTable extends AbstractTable {
             updateColumnWidth(columnID, column.getValue(i));
         }
     }
+
+    @Override
+    public void sortRows() {
+        ArrayList<String> sortedRowsNames = new ArrayList<>(rowsNames);
+        sortedRowsNames.sort(String::compareTo);
+        for (int i = 0; i < sortedRowsNames.size(); i++) {
+            int j = getRowID(sortedRowsNames.get(i));
+            for (Line line : columns) {
+                line.swap(i, j);
+            }
+        }
+        rowsNames = sortedRowsNames;
+    }
 }

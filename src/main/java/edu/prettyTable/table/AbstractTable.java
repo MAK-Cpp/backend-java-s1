@@ -22,7 +22,7 @@ import static edu.prettyTable.Format.TXT;
                           |
         */
     protected final String tableName;
-    protected final ArrayList<String> rowsNames;
+    protected ArrayList<String> rowsNames;
     protected final ArrayList<String> columnsNames;
     protected final ArrayList<Integer> columnsWidth;
     protected final String intersectionCellName;

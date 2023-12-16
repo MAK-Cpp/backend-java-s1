@@ -95,4 +95,19 @@ public class RandomTypedTable extends AbstractTable {
             updateColumnWidth(j, value);
         }
     }
+
+    @Override
+    public void sortRows() {
+        ArrayList<String> sortedRowsNames = new ArrayList<>(rowsNames);
+        sortedRowsNames.sort(String::compareTo);
+        for (int i = 0; i < sortedRowsNames.size(); i++) {
+            int j = getRowID(sortedRowsNames.get(i));
+            for (ArrayList<Cell<?>> line : values) {
+                Cell<?> value = line.get(i);
+                line.set(i, line.get(j));
+                line.set(j, value);
+            }
+        }
+        rowsNames = sortedRowsNames;
+    }
 }

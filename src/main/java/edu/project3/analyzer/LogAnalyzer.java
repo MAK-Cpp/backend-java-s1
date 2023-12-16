@@ -13,13 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.stream.Stream;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
@@ -28,12 +23,8 @@ public class LogAnalyzer {
     private LocalDate from;
     private LocalDate to;
     private Format format;
-    private ZoneOffset offset;
     private Path out;
     private final ArrayList<String> filenames;
-    //    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-        DateTimeFormatter.ofPattern("yyyy-MM-dd").withLocale(Locale.ENGLISH);
     private static final String USER_DIR = System.getProperty("user.dir");
 
     public LogAnalyzer() {
@@ -107,12 +98,8 @@ public class LogAnalyzer {
         this.out = Path.of(out).toAbsolutePath();
     }
 
-    private static String instantToString(final Instant instant, final ZoneOffset offset) {
-        OffsetDateTime offsetDateTime = instant.atOffset(offset);
-        return offsetDateTime.getYear() + "-" + offsetDateTime.getMonthValue() + "-" + offsetDateTime.getDayOfMonth();
-    }
-
     public LogReport getReport() {
+        filenames.sort(String::compareTo);
         LogReport report = new LogReport(
             format,
             String.join("; ", filenames),

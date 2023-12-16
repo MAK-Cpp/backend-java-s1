@@ -148,9 +148,13 @@ public class LogReport {
             generalInformation.addRow("Средний размер ответа", averageAnsSize() + "b");
 
             generalInformation.format(formant, formatter);
+            requestedResources.sortRows();
             requestedResources.format(formant, formatter);
+            responseCodes.sortRows();
             responseCodes.format(formant, formatter);
+            mostCommonCommand.sortRows();
             mostCommonCommand.format(formant, formatter);
+            mostCommonHttpUserAgent.sortRows();
             mostCommonHttpUserAgent.format(formant, formatter);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

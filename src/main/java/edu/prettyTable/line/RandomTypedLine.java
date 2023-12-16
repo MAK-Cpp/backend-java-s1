@@ -37,6 +37,13 @@ public class RandomTypedLine implements Line {
         values.get(key).set(value);
     }
 
+    @Override
+    public void swap(int keyA, int keyB) {
+        Cell<?> value = values.get(keyA);
+        values.set(keyA, values.get(keyB));
+        values.set(keyB, value);
+    }
+
     public void replace(int key, Cell<?> cell) {
         values.set(key, cell);
     }

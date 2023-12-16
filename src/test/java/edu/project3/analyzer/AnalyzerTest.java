@@ -98,11 +98,11 @@ public class AnalyzerTest {
                 "### Коды ответа\n" +
                 "| Код |          Имя          | Количество |\n" +
                 "|:---:|:---------------------:|:----------:|\n" +
-                "| 304 |     NOT_MODIFIED      |   13330    |\n" +
-                "| 200 |          OK           |    4028    |\n" +
-                "| 404 |       NOT_FOUND       |   33876    |\n" +
+                "| 200 |       NOT_FOUND       |   33876    |\n" +
                 "| 206 |    PARTIAL_CONTENT    |    186     |\n" +
+                "| 304 |     NOT_MODIFIED      |   13330    |\n" +
                 "| 403 |       FORBIDDEN       |     38     |\n" +
+                "| 404 |          OK           |    4028    |\n" +
                 "| 416 | RANGE_NOT_SATISFIABLE |     4      |\n" +
                 "### (Дополнительно) Частота встречи команд в запросах\n" +
                 "| Команда | Количество |\n" +
@@ -112,149 +112,149 @@ public class AnalyzerTest {
                 "### (Дополнительно) Типы Http User Agent\n" +
                 "|                                                      Имя                                                       | Количество |\n" +
                 "|:--------------------------------------------------------------------------------------------------------------:|:----------:|\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)                                  |    6719    |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.17)                                  |    1827    |\n" +
-                "|                                         Debian APT-HTTP/1.3 (0.8.10.3)                                         |    618     |\n" +
-                "|                                                       -                                                        |     14     |\n" +
-                "|                                         Debian APT-HTTP/1.3 (0.9.7.9)                                          |   11365    |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.16)                                  |    5740    |\n" +
-                "|                                       Debian APT-HTTP/1.3 (1.0.1ubuntu2)                                       |   11830    |\n" +
-                "|                                              Go 1.1 package http                                               |     6      |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.22)                                  |    3855    |\n" +
-                "|                                           urlgrabber/3.9.1 yum/3.4.3                                           |    708     |\n" +
-                "|                                Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.20.1)                                 |    592     |\n" +
-                "|                                            Wget/1.13.4 (linux-gnu)                                             |    438     |\n" +
-                "|                                          urlgrabber/3.9.1 yum/3.2.29                                           |    792     |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.14)                                  |    288     |\n" +
-                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.7)                                  |    1255    |\n" +
-                "|              Chef Client/11.16.4 (ruby-1.9.3-p547; ohai-7.4.0; x86_64-linux; +http://opscode.com)              |    127     |\n" +
-                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.2)                                  |    429     |\n" +
-                "|             Chef Client/11.10.4 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     34     |\n" +
-                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.5)                                  |    175     |\n" +
-                "|                                             Wget/1.15 (linux-gnu)                                              |     74     |\n" +
-                "|              Chef Client/12.0.3 (ruby-2.1.4-p265; ohai-8.0.1; x86_64-linux; +http://opscode.com)               |     72     |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.11)                                  |     64     |\n" +
-                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp5ubuntu13.7)                                   |     60     |\n" +
-                "|      curl/7.22.0 (x86_64-pc-linux-gnu) libcurl/7.22.0 OpenSSL/1.0.1 zlib/1.2.3.4 libidn/1.23 librtmp/2.3       |     34     |\n" +
-                "|                                         Debian APT-HTTP/1.3 (0.9.7.8)                                          |    750     |\n" +
-                "|                                          Debian Apt-Cacher-NG/0.7.11                                           |    303     |\n" +
-                "|                      python-requests/2.0.0 CPython/2.6.6 Linux/2.6.32-358.18.1.el6.x86_64                      |     30     |\n" +
-                "|        apt-cacher/1.7.6 libcurl/7.26.0 GnuTLS/2.12.20 zlib/1.2.7 libidn/1.25 libssh2/1.4.2 librtmp/2.3         |     24     |\n" +
-                "|              Chef Client/11.6.2 (ruby-1.9.3-p448; ohai-6.18.0; x86_64-linux; +http://opscode.com)              |    279     |\n" +
-                "|              Chef Client/11.12.8 (ruby-1.9.3-p484; ohai-7.0.4; x86_64-linux; +http://opscode.com)              |    151     |\n" +
-                "|              Chef Client/11.8.2 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     30     |\n" +
-                "|                                           urlgrabber/3.10 yum/3.4.3                                            |    104     |\n" +
-                "|     Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36     |    132     |\n" +
-                "|              Chef Client/11.12.2 (ruby-1.9.3-p484; ohai-7.0.2; x86_64-linux; +http://opscode.com)              |     89     |\n" +
-                "|                                          urlgrabber/3.1.0 yum/3.2.22                                           |    107     |\n" +
-                "|                                                      None                                                      |     11     |\n" +
-                "|                                         Debian APT-HTTP/1.3 (0.9.12.1)                                         |     90     |\n" +
-                "|             Chef Client/10.32.2 (ruby-1.9.3-p484; ohai-6.22.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
-                "|                               Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.0)                               |     4      |\n" +
-                "|     curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.14.0.0 zlib/1.2.3 libidn/1.18 libssh2/1.4.2     |     15     |\n" +
-                "|              Chef Client/12.0.1 (ruby-2.1.4-p265; ohai-8.0.1; x86_64-linux; +http://opscode.com)               |     22     |\n" +
-                "|                                     Debian APT-HTTP/1.3 (0.9.9.1~ubuntu1)                                      |    290     |\n" +
-                "|                                           Mozilla/4.0 (compatible;)                                            |     3      |\n" +
-                "|                                       Apache-HttpClient/4.3.5 (java 1.5)                                       |     4      |\n" +
-                "|                                                 Java/1.8.0_25                                                  |     2      |\n" +
-                "|              Chef Client/11.16.0 (ruby-1.9.3-p547; ohai-7.4.0; x86_64-linux; +http://opscode.com)              |     27     |\n" +
-                "|              Chef Client/11.12.4 (ruby-1.9.3-p484; ohai-7.0.4; x86_64-linux; +http://opscode.com)              |     21     |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.12)                                  |    344     |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.10)                                  |    306     |\n" +
-                "|              Chef Client/12.0.0 (ruby-2.1.4-p265; ohai-8.0.1; x86_64-linux; +http://opscode.com)               |     4      |\n" +
+                "|                                                       -                                                        |    3855    |\n" +
+                "|                                       Apache-HttpClient/4.3.5 (java 1.5)                                       |    6719    |\n" +
+                "|                                                Axel 2.4 (Linux)                                                |    132     |\n" +
                 "|             Chef Client/10.18.2 (ruby-1.8.7-p249; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |     5      |\n" +
+                "|             Chef Client/10.18.2 (ruby-1.8.7-p352; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |    303     |\n" +
+                "|             Chef Client/10.26.0 (ruby-1.9.3-p286; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |    104     |\n" +
+                "|             Chef Client/10.32.2 (ruby-1.9.3-p484; ohai-6.22.0; x86_64-linux; +http://opscode.com)              |    143     |\n" +
                 "|             Chef Client/10.34.4 (ruby-1.9.3-p547; ohai-6.24.2; x86_64-linux; +http://opscode.com)              |     1      |\n" +
-                "|              Chef Client/11.14.6 (ruby-1.9.3-p484; ohai-7.2.4; x86_64-linux; +http://opscode.com)              |     8      |\n" +
-                "|                                          urlgrabber/3.10.1 yum/3.4.3                                           |     14     |\n" +
-                "|             Chef Client/11.10.0 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     12     |\n" +
-                "|                                             Wget/1.14 (linux-gnu)                                              |     11     |\n" +
-                "|                                         Debian APT-HTTP/1.3 (1.0.9.5)                                          |     19     |\n" +
-                "|                                          urlgrabber/3.1.0 yum/3.2.19                                           |     5      |\n" +
-                "|                                                 Java/1.7.0_09                                                  |     3      |\n" +
-                "|              Chef Client/11.16.2 (ruby-1.9.3-p547; ohai-7.4.0; x86_64-linux; +http://opscode.com)              |     34     |\n" +
-                "|      curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.15.3 zlib/1.2.3 libidn/1.18 libssh2/1.4.2      |     11     |\n" +
-                "|             Chef Client/11.10.2 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     2      |\n" +
-                "|              Chef Client/11.8.2 (ruby-1.9.3-p484; ohai-6.22.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
-                "|                                           Debian Apt-Cacher-NG/0.5.1                                           |     43     |\n" +
-                "|              Chef Client/11.6.0 (ruby-1.9.3-p429; ohai-6.18.0; x86_64-linux; +http://opscode.com)              |     2      |\n" +
-                "|              Chef Client/11.4.4 (ruby-1.9.3-p286; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |     18     |\n" +
-                "|                                      Debian APT-HTTP/1.3 (1.0.9.2ubuntu2)                                      |    143     |\n" +
-                "|                                    Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.14)                                    |     20     |\n" +
-                "|                                          Wget/1.11.4 Red Hat modified                                          |     2      |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.19)                                  |     84     |\n" +
-                "|                                             Wget/1.12 (linux-gnu)                                              |     11     |\n" +
-                "|                                   Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10)                                   |     75     |\n" +
-                "|                                           Debian Apt-Cacher-NG/0.7.2                                           |     72     |\n" +
-                "|              Chef Knife/11.10.4 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     2      |\n" +
-                "|     Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36     |     1      |\n" +
-                "|                                                 Java/1.7.0_65                                                  |     10     |\n" +
-                "|                               Homebrew 0.9.5 (Ruby 2.0.0-481; Mac OS X 10.10.1)                                |     1      |\n" +
-                "|                                                   dnf/0.5.4                                                    |     4      |\n" +
-                "|              Chef Knife/11.10.4 (ruby-2.0.0-p481; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     3      |\n" +
-                "|                                          Debian Apt-Cacher-NG/0.7.26                                           |     1      |\n" +
-                "|              Chef Client/11.8.0 (ruby-1.9.3-p448; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     2      |\n" +
-                "|                                      Debian APT-HTTP/1.3 (0.9.7.7ubuntu4)                                      |     85     |\n" +
+                "|             Chef Client/11.10.0 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     11     |\n" +
+                "|             Chef Client/11.10.2 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |    592     |\n" +
+                "|             Chef Client/11.10.4 (ruby-1.9.3-p484; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |     14     |\n" +
+                "|             Chef Client/11.10.4 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
+                "|              Chef Client/11.12.2 (ruby-1.9.3-p484; ohai-7.0.2; x86_64-linux; +http://opscode.com)              |    708     |\n" +
+                "|              Chef Client/11.12.4 (ruby-1.9.3-p484; ohai-7.0.4; x86_64-linux; +http://opscode.com)              |    288     |\n" +
+                "|              Chef Client/11.12.8 (ruby-1.9.3-p484; ohai-7.0.4; x86_64-linux; +http://opscode.com)              |     3      |\n" +
+                "|            Chef Client/11.12.8 (ruby-2.1.3-p242; ohai-7.0.4; x86_64-linux-gnu; +http://opscode.com)            |     60     |\n" +
+                "|              Chef Client/11.14.2 (ruby-1.9.3-p194; ohai-7.2.0; x86_64-linux; +http://opscode.com)              |    175     |\n" +
                 "|              Chef Client/11.14.2 (ruby-1.9.3-p484; ohai-7.2.0; x86_64-linux; +http://opscode.com)              |     9      |\n" +
-                "|                  Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0                  |     1      |\n" +
-                "|                                          Debian APT-HTTP/1.3 (1.0.6)                                           |     18     |\n" +
-                "|                                    Debian APT-HTTP/1.3 (0.8.13.2ubuntu4.6)                                     |     36     |\n" +
-                "|                                    Debian APT-HTTP/1.3 (0.8.13.2ubuntu4.3)                                     |     24     |\n" +
-                "|            Chef Client/11.12.8 (ruby-2.1.3-p242; ohai-7.0.4; x86_64-linux-gnu; +http://opscode.com)            |     1      |\n" +
-                "|                                                Axel 2.4 (Linux)                                                |     6      |\n" +
-                "|                                         Debian APT-HTTP/1.3 (1.0.9.2)                                          |     10     |\n" +
-                "|                                          Debian Apt-Cacher-NG/0.7.27                                           |     75     |\n" +
-                "|             Chef Client/11.10.4 (ruby-1.9.3-p484; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
-                "|                                     Mozilla/5.0 Gecko/20100115 Firefox/3.6                                     |     10     |\n" +
-                "|  Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36  |     3      |\n" +
-                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.15)                                  |     49     |\n" +
-                "|                                         Debian APT-HTTP/1.3 (1.0.9.4)                                          |     13     |\n" +
-                "|             Chef Client/10.26.0 (ruby-1.9.3-p286; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
-                "|                                         Debian APT-HTTP/1.3 (0.7.20.2)                                         |     20     |\n" +
-                "|  Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36  |     1      |\n" +
-                "|                                         Debian APT-HTTP/1.3 (1.0.9.3)                                          |     40     |\n" +
-                "|                                           Debian Apt-Cacher-NG/0.8.0                                           |     2      |\n" +
-                "|                     apt-cacher/1.6.12 libcurl/7.21.0 GnuTLS/2.8.6 zlib/1.2.3.4 libidn/1.15                     |     3      |\n" +
-                "|                      Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0                      |     5      |\n" +
-                "|             Chef Client/10.18.2 (ruby-1.8.7-p352; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |     2      |\n" +
-                "|                                   Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.17.1)                                   |     10     |\n" +
-                "|                                          urlgrabber/3.9.1 yum/3.2.27                                           |     1      |\n" +
-                "|                                                 Java/1.7.0_55                                                  |     2      |\n" +
-                "|                                    Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.13)                                    |     6      |\n" +
-                "|                                                  curl/7.29.0                                                   |     2      |\n" +
-                "|                                                 Java/1.8.0_20                                                  |     3      |\n" +
-                "|                        python-requests/2.2.1 CPython/2.6.6 Linux/2.6.32-431.el6.x86_64                         |     4      |\n" +
-                "|                                    Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.15)                                    |     6      |\n" +
-                "|                                                ansible-httpget                                                 |     1      |\n" +
-                "|                                                 Java/1.7.0_51                                                  |     1      |\n" +
-                "|                                                 Java/1.6.0_31                                                  |     1      |\n" +
-                "|                                     Debian APT-HTTP/1.3 (0.9.7.5ubuntu5.1)                                     |     27     |\n" +
-                "|               Chef Client/11.4.0 (ruby-1.9.3-p0; ohai-6.16.0; x86_64-linux; +http://opscode.com)               |     1      |\n" +
+                "|              Chef Client/11.14.6 (ruby-1.9.3-p484; ohai-7.2.4; x86_64-linux; +http://opscode.com)              |     5      |\n" +
+                "|              Chef Client/11.16.0 (ruby-1.9.3-p547; ohai-7.4.0; x86_64-linux; +http://opscode.com)              |    1255    |\n" +
+                "|              Chef Client/11.16.2 (ruby-1.9.3-p547; ohai-7.4.0; x86_64-linux; +http://opscode.com)              |    107     |\n" +
+                "|               Chef Client/11.16.4 (ruby-1.9.3-p547; ohai-7.4.0; i686-linux; +http://opscode.com)               |     74     |\n" +
+                "|              Chef Client/11.16.4 (ruby-1.9.3-p547; ohai-7.4.0; x86_64-linux; +http://opscode.com)              |     72     |\n" +
+                "|               Chef Client/11.4.0 (ruby-1.9.3-p0; ohai-6.16.0; x86_64-linux; +http://opscode.com)               |     4      |\n" +
+                "|              Chef Client/11.4.4 (ruby-1.9.3-p286; ohai-6.16.0; x86_64-linux; +http://opscode.com)              |     43     |\n" +
+                "|              Chef Client/11.6.0 (ruby-1.9.3-p429; ohai-6.18.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
+                "|              Chef Client/11.6.2 (ruby-1.9.3-p448; ohai-6.18.0; x86_64-linux; +http://opscode.com)              |    429     |\n" +
+                "|              Chef Client/11.8.0 (ruby-1.9.3-p448; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |    5740    |\n" +
                 "|              Chef Client/11.8.2 (ruby-1.9.3-p484; ohai-6.14.0; x86_64-linux; +http://opscode.com)              |     3      |\n" +
-                "|                      Mozilla/5.0 (X11; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0                      |     1      |\n" +
-                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.3)                                  |     37     |\n" +
-                "|              Chef Knife/11.8.2 (ruby-1.9.3-p484; ohai-6.14.0; x86_64-linux; +http://opscode.com)               |     1      |\n" +
-                "|                                     Debian APT-CURL/1.0 (0.9.9.1~ubuntu1)                                      |     28     |\n" +
-                "| curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.16.1 Basic ECC zlib/1.2.3 libidn/1.18 libssh2/1.4.2 |     3      |\n" +
-                "|                                               Python-urllib/2.7                                                |     1      |\n" +
-                "|                                                libwww-perl/6.05                                                |     6      |\n" +
-                "|                                 ZYpp 10.4.5 (curl 7.22.0) openSUSE-12.1-x86_64                                 |     8      |\n" +
-                "|                                                      Ruby                                                      |     1      |\n" +
-                "|              Chef Client/11.14.2 (ruby-1.9.3-p194; ohai-7.2.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
-                "|                    Mozilla/5.0 (Windows NT 6.1; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0                    |     1      |\n" +
+                "|              Chef Client/11.8.2 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     30     |\n" +
+                "|              Chef Client/11.8.2 (ruby-1.9.3-p484; ohai-6.22.0; x86_64-linux; +http://opscode.com)              |     1      |\n" +
+                "|              Chef Client/12.0.0 (ruby-2.1.4-p265; ohai-8.0.1; x86_64-linux; +http://opscode.com)               |    290     |\n" +
+                "|              Chef Client/12.0.1 (ruby-2.1.4-p265; ohai-8.0.1; x86_64-linux; +http://opscode.com)               |     4      |\n" +
                 "|            Chef Client/12.0.1 (ruby-2.1.5-p273; ohai-8.0.1; x86_64-linux-gnu; +http://opscode.com)             |     1      |\n" +
-                "|                                                 Twitterbot/1.0                                                 |     1      |\n" +
+                "|              Chef Client/12.0.3 (ruby-2.1.4-p265; ohai-8.0.1; x86_64-linux; +http://opscode.com)               |     10     |\n" +
+                "|              Chef Knife/11.10.4 (ruby-1.9.3-p484; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     3      |\n" +
+                "|              Chef Knife/11.10.4 (ruby-2.0.0-p481; ohai-6.20.0; x86_64-linux; +http://opscode.com)              |     11     |\n" +
+                "|              Chef Knife/11.8.2 (ruby-1.9.3-p484; ohai-6.14.0; x86_64-linux; +http://opscode.com)               |     1      |\n" +
+                "|                                     Debian APT-CURL/1.0 (0.9.9.1~ubuntu1)                                      |     11     |\n" +
+                "|                                         Debian APT-HTTP/1.3 (0.7.20.2)                                         |     19     |\n" +
+                "|                                         Debian APT-HTTP/1.3 (0.8.10.3)                                         |     6      |\n" +
+                "|                                    Debian APT-HTTP/1.3 (0.8.13.2ubuntu4.3)                                     |    750     |\n" +
+                "|                                    Debian APT-HTTP/1.3 (0.8.13.2ubuntu4.6)                                     |     2      |\n" +
+                "|                                   Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10)                                   |     75     |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.10)                                  |    618     |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.11)                                  |     1      |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.12)                                  |    344     |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.14)                                  |     21     |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.15)                                  |     49     |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.16)                                  |     1      |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.17)                                  |     4      |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.19)                                  |     84     |\n" +
+                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.2)                                  |     1      |\n" +
+                "|                                Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.20.1)                                 |     64     |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)                                  |     14     |\n" +
+                "|                                 Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.22)                                  |     1      |\n" +
+                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.3)                                  |     72     |\n" +
+                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.5)                                  |    792     |\n" +
+                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.7)                                  |    438     |\n" +
+                "|                                  Debian APT-HTTP/1.3 (0.8.16~exp5ubuntu13.7)                                   |     1      |\n" +
+                "|                                         Debian APT-HTTP/1.3 (0.9.12.1)                                         |   11830    |\n" +
+                "|                                     Debian APT-HTTP/1.3 (0.9.7.5ubuntu5.1)                                     |     27     |\n" +
+                "|                                      Debian APT-HTTP/1.3 (0.9.7.7ubuntu4)                                      |     85     |\n" +
+                "|                                         Debian APT-HTTP/1.3 (0.9.7.8)                                          |     11     |\n" +
+                "|                                         Debian APT-HTTP/1.3 (0.9.7.9)                                          |     2      |\n" +
+                "|                                     Debian APT-HTTP/1.3 (0.9.9.1~ubuntu1)                                      |     24     |\n" +
+                "|                                       Debian APT-HTTP/1.3 (1.0.1ubuntu2)                                       |     6      |\n" +
+                "|                                          Debian APT-HTTP/1.3 (1.0.6)                                           |     20     |\n" +
+                "|                                         Debian APT-HTTP/1.3 (1.0.9.2)                                          |     4      |\n" +
+                "|                                      Debian APT-HTTP/1.3 (1.0.9.2ubuntu2)                                      |     1      |\n" +
+                "|                                         Debian APT-HTTP/1.3 (1.0.9.3)                                          |     1      |\n" +
+                "|                                         Debian APT-HTTP/1.3 (1.0.9.4)                                          |     13     |\n" +
+                "|                                         Debian APT-HTTP/1.3 (1.0.9.5)                                          |     10     |\n" +
+                "|                                           Debian Apt-Cacher-NG/0.5.1                                           |     18     |\n" +
+                "|                                          Debian Apt-Cacher-NG/0.7.11                                           |    1827    |\n" +
+                "|                                           Debian Apt-Cacher-NG/0.7.2                                           |     3      |\n" +
+                "|                                          Debian Apt-Cacher-NG/0.7.26                                           |     24     |\n" +
+                "|                                          Debian Apt-Cacher-NG/0.7.27                                           |     6      |\n" +
+                "|                                           Debian Apt-Cacher-NG/0.8.0                                           |     2      |\n" +
+                "|                                              Go 1.1 package http                                               |     1      |\n" +
+                "|                               Homebrew 0.9.5 (Ruby 2.0.0-481; Mac OS X 10.10.1)                                |     1      |\n" +
+                "|                                                 Java/1.6.0_31                                                  |     1      |\n" +
+                "|                                                 Java/1.7.0_09                                                  |    151     |\n" +
+                "|                                                 Java/1.7.0_51                                                  |     10     |\n" +
+                "|                                                 Java/1.7.0_55                                                  |     2      |\n" +
+                "|                                                 Java/1.7.0_65                                                  |     37     |\n" +
                 "|                                                 Java/1.7.0_71                                                  |     2      |\n" +
-                "|               Chef Client/11.16.4 (ruby-1.9.3-p547; ohai-7.4.0; i686-linux; +http://opscode.com)               |     1      |\n" +
+                "|                                                 Java/1.8.0_20                                                  |     3      |\n" +
+                "|                                                 Java/1.8.0_25                                                  |    306     |\n" +
+                "|                                           Mozilla/4.0 (compatible;)                                            |     36     |\n" +
+                "|     Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.104 Safari/537.36     |     22     |\n" +
+                "|     Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36     |     1      |\n" +
+                "|  Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36  |     90     |\n" +
+                "|  Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36  |     3      |\n" +
+                "|                    Mozilla/5.0 (Windows NT 6.1; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0                    |     1      |\n" +
+                "|     Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36     |     2      |\n" +
+                "|                      Mozilla/5.0 (X11; Linux x86_64; rv:25.0) Gecko/20100101 Firefox/25.0                      |     1      |\n" +
+                "|                      Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0                      |     5      |\n" +
+                "|                  Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0                  |     1      |\n" +
+                "|                               Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.0)                               |     28     |\n" +
+                "|                                     Mozilla/5.0 Gecko/20100115 Firefox/3.6                                     |     1      |\n" +
+                "|                                                      None                                                      |     30     |\n" +
+                "|                                               Python-urllib/2.7                                                |     1      |\n" +
+                "|                                                      Ruby                                                      |     1      |\n" +
+                "|                                                 Twitterbot/1.0                                                 |     2      |\n" +
+                "|                                    Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.13)                                    |    127     |\n" +
+                "|                                    Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.14)                                    |     18     |\n" +
+                "|                                    Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.15)                                    |     6      |\n" +
+                "|                                   Ubuntu APT-HTTP/1.3 (0.7.25.3ubuntu9.17.1)                                   |     15     |\n" +
                 "|                                     Ubuntu APT-HTTP/1.3 (0.7.9ubuntu17.6)                                      |     4      |\n" +
+                "|                                          Wget/1.11.4 Red Hat modified                                          |     2      |\n" +
+                "|                                             Wget/1.12 (linux-gnu)                                              |     40     |\n" +
+                "|                                            Wget/1.13.4 (linux-gnu)                                             |     34     |\n" +
+                "|                                             Wget/1.14 (linux-gnu)                                              |     12     |\n" +
+                "|                                             Wget/1.15 (linux-gnu)                                              |     27     |\n" +
+                "|                                 ZYpp 10.4.5 (curl 7.22.0) openSUSE-12.1-x86_64                                 |     8      |\n" +
+                "|                                                ansible-httpget                                                 |     34     |\n" +
+                "|                     apt-cacher/1.6.12 libcurl/7.21.0 GnuTLS/2.8.6 zlib/1.2.3.4 libidn/1.15                     |     2      |\n" +
+                "|        apt-cacher/1.7.6 libcurl/7.26.0 GnuTLS/2.12.20 zlib/1.2.7 libidn/1.25 libssh2/1.4.2 librtmp/2.3         |     2      |\n" +
+                "|     curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.14.0.0 zlib/1.2.3 libidn/1.18 libssh2/1.4.2     |     20     |\n" +
+                "|      curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.15.3 zlib/1.2.3 libidn/1.18 libssh2/1.4.2      |     3      |\n" +
+                "| curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.16.1 Basic ECC zlib/1.2.3 libidn/1.18 libssh2/1.4.2 |     3      |\n" +
+                "|      curl/7.22.0 (x86_64-pc-linux-gnu) libcurl/7.22.0 OpenSSL/1.0.1 zlib/1.2.3.4 libidn/1.23 librtmp/2.3       |     1      |\n" +
+                "|                                                  curl/7.29.0                                                   |     1      |\n" +
+                "|                                                   dnf/0.5.4                                                    |   11365    |\n" +
                 "|                                               libwww-perl/5.836                                                |     2      |\n" +
-                "|     Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36     |     1      |\n"
+                "|                                                libwww-perl/6.05                                                |     75     |\n" +
+                "|                      python-requests/2.0.0 CPython/2.6.6 Linux/2.6.32-358.18.1.el6.x86_64                      |    279     |\n" +
+                "|                        python-requests/2.2.1 CPython/2.6.6 Linux/2.6.32-431.el6.x86_64                         |     10     |\n" +
+                "|                                          urlgrabber/3.1.0 yum/3.2.19                                           |     8      |\n" +
+                "|                                          urlgrabber/3.1.0 yum/3.2.22                                           |     34     |\n" +
+                "|                                           urlgrabber/3.10 yum/3.4.3                                            |     4      |\n" +
+                "|                                          urlgrabber/3.10.1 yum/3.4.3                                           |     1      |\n" +
+                "|                                          urlgrabber/3.9.1 yum/3.2.27                                           |     6      |\n" +
+                "|                                          urlgrabber/3.9.1 yum/3.2.29                                           |     89     |\n" +
+                "|                                           urlgrabber/3.9.1 yum/3.4.3                                           |     2      |\n"
         );
         CREATOR.newTestFile(
             combinePath("output", "output2.adoc"),
             "=== Общая информация\n" +
                 "|===================================\n" +
                 "|        Метрика       |  Значение \n" +
-                "|       Файл(-ы)       | log2; log1\n" +
+                "|       Файл(-ы)       | log1; log2\n" +
                 "|    Начальная дата    | 2023-11-17\n" +
                 "|     Конечная дата    | 2023-11-19\n" +
                 "|  Количество запросов |     13    \n" +
@@ -263,26 +263,26 @@ public class AnalyzerTest {
                 "=== Запрашиваемые ресурсы\n" +
                 "|===============================================================\n" +
                 "|                      Ресурс                      | Количество\n" +
-                "|                 /initiative.hmtl                 |     1     \n" +
-                "|                /demand-driven.htm                |     1     \n" +
-                "|     /exuding_optimal_bifurcated%20Virtual.php    |     1     \n" +
-                "|                    /circuit.js                   |     1     \n" +
+                "|                   /Adaptive.png                  |     1     \n" +
+                "|           /Ameliorated-even-keeled.htm           |     1     \n" +
                 "|             /Graphic%20Interface.svg             |     1     \n" +
                 "|                   /Inverse.jpg                   |     1     \n" +
-                "|                    /Virtual.js                   |     1     \n" +
                 "|        /Monitored-encryption%20stable.htm        |     1     \n" +
-                "|           /leverage-secured%20line.jpg           |     1     \n" +
-                "|                   /Adaptive.png                  |     1     \n" +
+                "|                    /Virtual.js                   |     1     \n" +
+                "|                    /circuit.js                   |     1     \n" +
+                "|                /demand-driven.htm                |     1     \n" +
                 "| /emulation-monitoring_software%20Synchronised.gif|     1     \n" +
-                "|           /Ameliorated-even-keeled.htm           |     1     \n" +
+                "|     /exuding_optimal_bifurcated%20Virtual.php    |     1     \n" +
+                "|                 /initiative.hmtl                 |     1     \n" +
+                "|           /leverage-secured%20line.jpg           |     1     \n" +
                 "|                   /neutral.jpg                   |     1     \n" +
                 "|===============================================================\n" +
                 "=== Коды ответа\n" +
                 "|========================================\n" +
                 "| Код|          Имя         | Количество\n" +
                 "| 200|          OK          |     11    \n" +
-                "| 500| INTERNAL_SERVER_ERROR|     1     \n" +
-                "| 400|      BAD_REQUEST     |     1     \n" +
+                "| 400| INTERNAL_SERVER_ERROR|     1     \n" +
+                "| 500|      BAD_REQUEST     |     1     \n" +
                 "|========================================\n" +
                 "=== (Дополнительно) Частота встречи команд в запросах\n" +
                 "|=====================\n" +
@@ -294,19 +294,19 @@ public class AnalyzerTest {
                 "=== (Дополнительно) Типы Http User Agent\n" +
                 "|========================================================================================================================================================\n" +
                 "|                                                                    Имя                                                                    | Количество\n" +
-                "|                               Mozilla/5.0 (Windows NT 5.1; en-US; rv:1.9.0.20) Gecko/1981-28-01 Firefox/36.0                              |     1     \n" +
-                "|                                    Mozilla/5.0 (X11; Linux i686; rv:7.0) Gecko/1994-06-11 Firefox/37.0                                    |     1     \n" +
-                "|                  Mozilla/5.0 (X11; Linux i686) AppleWebKit/5342 (KHTML, like Gecko) Chrome/40.0.896.0 Mobile Safari/5342                  |     1     \n" +
-                "|                           Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_8_1 rv:6.0) Gecko/1919-19-11 Firefox/36.0                          |     1     \n" +
-                "|           Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_3) AppleWebKit/5311 (KHTML, like Gecko) Chrome/36.0.838.0 Mobile Safari/5311          |     1     \n" +
-                "|               Mozilla/5.0 (Windows; U; Windows NT 4.0) AppleWebKit/533.34.5 (KHTML, like Gecko) Version/5.0 Safari/533.34.5               |     1     \n" +
-                "|               Mozilla/5.0 (Windows; U; Windows NT 4.0) AppleWebKit/533.26.3 (KHTML, like Gecko) Version/5.0 Safari/533.26.3               |     1     \n" +
                 "|       Mozilla/5.0 (Macintosh; PPC Mac OS X 10_5_9 rv:5.0; en-US) AppleWebKit/536.8.1 (KHTML, like Gecko) Version/5.1 Safari/536.8.1       |     1     \n" +
+                "|           Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_3) AppleWebKit/5311 (KHTML, like Gecko) Chrome/36.0.838.0 Mobile Safari/5311          |     1     \n" +
                 "|           Mozilla/5.0 (Macintosh; PPC Mac OS X 10_7_4) AppleWebKit/5330 (KHTML, like Gecko) Chrome/37.0.879.0 Mobile Safari/5330          |     1     \n" +
-                "|                   Mozilla/5.0 (Windows NT 6.1) AppleWebKit/5321 (KHTML, like Gecko) Chrome/37.0.892.0 Mobile Safari/5321                  |     1     \n" +
+                "|                           Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_8_1 rv:6.0) Gecko/1919-19-11 Firefox/36.0                          |     1     \n" +
                 "|         Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_5_8) AppleWebKit/5331 (KHTML, like Gecko) Chrome/38.0.864.0 Mobile Safari/5331         |     1     \n" +
-                "| Mozilla/5.0 (iPad; CPU OS 7_2_3 like Mac OS X; en-US) AppleWebKit/536.12.8 (KHTML, like Gecko) Version/5.0.5 Mobile/8B111 Safari/6536.12.8|     1     \n" +
+                "|                               Mozilla/5.0 (Windows NT 5.1; en-US; rv:1.9.0.20) Gecko/1981-28-01 Firefox/36.0                              |     1     \n" +
+                "|                   Mozilla/5.0 (Windows NT 6.1) AppleWebKit/5321 (KHTML, like Gecko) Chrome/37.0.892.0 Mobile Safari/5321                  |     1     \n" +
+                "|               Mozilla/5.0 (Windows; U; Windows NT 4.0) AppleWebKit/533.26.3 (KHTML, like Gecko) Version/5.0 Safari/533.26.3               |     1     \n" +
+                "|               Mozilla/5.0 (Windows; U; Windows NT 4.0) AppleWebKit/533.34.5 (KHTML, like Gecko) Version/5.0 Safari/533.34.5               |     1     \n" +
+                "|                  Mozilla/5.0 (X11; Linux i686) AppleWebKit/5342 (KHTML, like Gecko) Chrome/40.0.896.0 Mobile Safari/5342                  |     1     \n" +
                 "|                                    Mozilla/5.0 (X11; Linux i686; rv:6.0) Gecko/1945-16-04 Firefox/35.0                                    |     1     \n" +
+                "|                                    Mozilla/5.0 (X11; Linux i686; rv:7.0) Gecko/1994-06-11 Firefox/37.0                                    |     1     \n" +
+                "| Mozilla/5.0 (iPad; CPU OS 7_2_3 like Mac OS X; en-US) AppleWebKit/536.12.8 (KHTML, like Gecko) Version/5.0.5 Mobile/8B111 Safari/6536.12.8|     1     \n" +
                 "|========================================================================================================================================================\n"
         );
     }

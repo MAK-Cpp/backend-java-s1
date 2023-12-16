@@ -34,6 +34,13 @@ import java.util.function.BiFunction;
     }
 
     @Override
+    public void swap(int keyA, int keyB) {
+        T value = values.get(keyA);
+        values.set(keyA, values.get(keyB));
+        values.set(keyB, value);
+    }
+
+    @Override
     public void update(int key, Object update, BiFunction<?, ?, ?> function) {
         T castedUpdate = cast(update);
         BiFunction<T, T, T> castedFunction = cast(function);

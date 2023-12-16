@@ -30,5 +30,7 @@ public interface Table {
 
     boolean containsColumn(String column);
 
+    void sortRows();
+
     void format(Format format, Formatter formatter);
 }

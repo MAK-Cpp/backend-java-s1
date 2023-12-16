@@ -571,8 +571,8 @@ class AbstractFilterTest {
                     .and(regexContains("[-]")),
                 Path.of(".AbstractFilter"),
                 List.of(
-                    combinePath(".AbstractFilter", "file-3.png"),
-                    combinePath(".AbstractFilter", "file-1.png")
+                    combinePath(".AbstractFilter", "file-1.png"),
+                    combinePath(".AbstractFilter", "file-3.png")
                 )
             ),
             Arguments.of(
@@ -594,8 +594,8 @@ class AbstractFilterTest {
                     .and(globMatches("*.png")),
                 Path.of(".AbstractFilter"),
                 List.of(
-                    combinePath(".AbstractFilter", "file-3.png"),
-                    combinePath(".AbstractFilter", "file-1.png")
+                    combinePath(".AbstractFilter", "file-1.png"),
+                    combinePath(".AbstractFilter", "file-3.png")
                 )
             ),
             Arguments.of(
@@ -629,6 +629,7 @@ class AbstractFilterTest {
         } catch (IOException e) {
             throw new IOException(e);
         }
+        filteredFiles.sort(Path::compareTo);
         assertThat(filteredFiles).isEqualTo(output);
     }
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class FlameFunction {
@@ -44,12 +43,10 @@ public class FlameFunction {
         Collections.shuffle(variationArrayList);
         List<Variation> variation = variationArrayList.stream().limit(countVariations).toList();
 
-        AtomicInteger sum = new AtomicInteger(0);
-        List<Double> weights = Stream.generate(() -> {
-            int w = random.nextInt(0, 1000);
-            sum.updateAndGet(s -> s + w);
-            return w;
-        }).limit(countVariations).map(w -> ((double) w) / sum.get()).toList();
+        List<Integer> nonNormalizedWeights =
+            Stream.generate(() -> random.nextInt(0, 1000)).limit(countVariations).toList();
+        int weightsSum = nonNormalizedWeights.stream().mapToInt(Integer::intValue).sum();
+        List<Double> weights = nonNormalizedWeights.stream().map(w -> ((double) w) / weightsSum).toList();
 
         Color color = new Color(
             random.nextInt(MAX_COLOR_CHANNEL_VALUE),

@@ -95,7 +95,9 @@ public class FractalFlameGenerator {
                     if (xGap.contains(xRotated) && yGap.contains(yRotated)) {
                         int x = (int) ((xRotated - xGap.min()) / xGap.length() * settings.width());
                         int y = (int) ((yRotated - yGap.min()) / yGap.length() * settings.height());
-                        hitCount[x][y]++;
+                        synchronized (hitCount[x]) {
+                            hitCount[x][y]++;
+                        }
                         flame.setRGB(x, y, pointColor.getRGB());
                     }
                 }
@@ -117,6 +119,7 @@ public class FractalFlameGenerator {
         try {
             progress.join();
         } catch (InterruptedException e) {
+            progress.interrupt();
             throw new RuntimeException(e);
         }
     }
@@ -139,12 +142,12 @@ public class FractalFlameGenerator {
     // logarithmic gamma-correction
     public void correct() {
         double max = 0;
-        for (int i = 0; i < hitCount.length; i++) {
-            for (int j = 0; j < hitCount[i].length; j++) {
-                if (hitCount[i][j] == 0) {
+        for (int[] ints : hitCount) {
+            for (int anInt : ints) {
+                if (anInt == 0) {
                     continue;
                 }
-                max = Math.max(max, Math.log10(hitCount[i][j]));
+                max = Math.max(max, Math.log10(anInt));
             }
         }
         for (int i = 0; i < hitCount.length; i++) {

@@ -52,6 +52,7 @@ public class ProgressBar implements Runnable {
                 print(counter.get(), maximum);
                 Thread.sleep(300);
             } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 throw new RuntimeException(e);
             }
         }

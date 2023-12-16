@@ -341,9 +341,7 @@ public class AnalyzerTest {
     void testAnalyzerTest(String[] args, Path output, Path result) throws IOException {
         Main.main(args);
         ArrayList<String> resultLines = new ArrayList<>(Files.readAllLines(result));
-        resultLines.sort(String::compareTo);
         ArrayList<String> outputLines = new ArrayList<>(Files.readAllLines(output));
-        outputLines.sort(String::compareTo);
         assertThat(resultLines).isEqualTo(outputLines);
     }
 

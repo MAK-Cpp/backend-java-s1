@@ -34,7 +34,6 @@ public class FibMethodFromByteCodeTest {
             .load(getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
             .getLoaded()
             .getMethod("fib", int.class);
-        System.out.println(fibonacciMethod);
     }
 
     public static Stream<Arguments> testFibMethodFromByteCode() {
@@ -76,13 +75,13 @@ public class FibMethodFromByteCodeTest {
             methodVisitor.visitInsn(Opcodes.LRETURN);
 
             methodVisitor.visitLabel(ifLabel);
-            methodVisitor.visitFrame(Opcodes.F_SAME, 1, new Object[]{Opcodes.INTEGER}, 0, null);
+            methodVisitor.visitFrame(Opcodes.F_SAME, 1, new Object[] {Opcodes.INTEGER}, 0, null);
             methodVisitor.visitVarInsn(Opcodes.ILOAD, 0);
             methodVisitor.visitInsn(Opcodes.ICONST_1);
             methodVisitor.visitInsn(Opcodes.ISUB);
             methodVisitor.visitMethodInsn(
                 Opcodes.INVOKESTATIC,
-                methodDescription.getInternalName(),
+                context.getInstrumentedType().getInternalName(),
                 methodDescription.getName(),
                 methodDescription.getDescriptor(),
                 false
@@ -92,7 +91,7 @@ public class FibMethodFromByteCodeTest {
             methodVisitor.visitInsn(Opcodes.ISUB);
             methodVisitor.visitMethodInsn(
                 Opcodes.INVOKESTATIC,
-                methodDescription.getInternalName(),
+                context.getInstrumentedType().getInternalName(),
                 methodDescription.getName(),
                 methodDescription.getDescriptor(),
                 false

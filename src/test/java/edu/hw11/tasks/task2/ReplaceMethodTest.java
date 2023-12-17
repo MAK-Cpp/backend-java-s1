@@ -21,6 +21,18 @@ public class ReplaceMethodTest {
         }
     }
 
+    public static class ArithmeticUtils {
+        public int sum(Integer a, Integer b) {
+            return a + b;
+        }
+    }
+
+    public static class NewArithmeticUtils {
+        public static int mul(Integer a, Integer b) {
+            return a * b;
+        }
+    }
+
     public static Stream<Arguments> testReplaceMethod() {
         return Stream.of(
             Arguments.of(
@@ -29,6 +41,13 @@ public class ReplaceMethodTest {
                 Target.class,
                 new Object[] {"Maxim"},
                 "Hello Maxim!"
+            ),
+            Arguments.of(
+                ArithmeticUtils.class,
+                "sum",
+                NewArithmeticUtils.class,
+                new Object[] {313, 23},
+                7199
             )
         );
     }

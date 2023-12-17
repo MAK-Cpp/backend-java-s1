@@ -1,7 +1,6 @@
 package edu.project5;
 
 import java.lang.invoke.CallSite;
-import java.lang.invoke.LambdaConversionException;
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -47,6 +46,7 @@ public class ReflectionBenchmark {
     private MethodHandle methodHandle;
     private Name funcInterface;
 
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     @Setup
     public void setup() throws Throwable {
         student = new Student("Alexander", "Biryukov");
@@ -55,7 +55,7 @@ public class ReflectionBenchmark {
         MethodType methodType = MethodType.methodType(String.class);
         methodHandle = publicLookup.findVirtual(student.getClass(), "name", methodType);
         CallSite callSite = LambdaMetafactory.metafactory(
-            publicLookup,
+            MethodHandles.lookup(),
             "name",
             MethodType.methodType(Name.class, Student.class),
             methodType,
@@ -85,7 +85,7 @@ public class ReflectionBenchmark {
 
     @Benchmark
     public void lambdaMetaFactory(Blackhole bh) throws Throwable {
-        String name = funcInterface.get();
+        String name = funcInterface.name();
         bh.consume(name);
     }
 
@@ -94,6 +94,6 @@ public class ReflectionBenchmark {
 
     @FunctionalInterface
     public interface Name {
-        String get();
+        String name();
     }
 }

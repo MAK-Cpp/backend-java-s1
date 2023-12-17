@@ -102,7 +102,7 @@ import static edu.prettyTable.Format.TXT;
         if (row.size() != columnsNames.size()) {
             throw new IllegalArgumentException("wrong row size: " + row.size() + ", it must be " + columnsNames.size());
         } else if (containsRow(row.getName())) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("there is already row " + row.getName() + " in table");
         }
         addCheckedRow(row);
     }

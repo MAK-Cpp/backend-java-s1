@@ -1,10 +1,12 @@
 package edu.hw10.tasks.task1;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
+@DisplayName("Task 1")
 class RandomObjectGeneratorTest {
     private static final RandomObjectGenerator GENERATOR = new RandomObjectGenerator();
 

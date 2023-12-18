@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -75,14 +76,11 @@ class MultiThreadStatsCollectorTest {
                          Runtime.getRuntime().availableProcessors()
                      ))) {
                 StatsCollector collector = new MultiThreadStatsCollector();
-                AtomicInteger id = new AtomicInteger(0);
-
-                var threadTasks = Stream.generate(() -> CompletableFuture.runAsync(() -> {
-                    List<Entry<String, double[]>> tasks = inputs.get(id.getAndIncrement());
-                    for (Entry<String, double[]> task : tasks) {
+                var threadTasks = inputs.stream().map(input -> CompletableFuture.runAsync(() -> {
+                    for (Entry<String, double[]> task : input) {
                         collector.push(task.getKey(), task.getValue());
                     }
-                }, threadPool)).limit(inputs.size()).toArray(CompletableFuture[]::new);
+                }, threadPool)).toArray(CompletableFuture[]::new);
                 CompletableFuture.allOf(threadTasks).join();
 
                 List<Statistic> output = collector.stats();

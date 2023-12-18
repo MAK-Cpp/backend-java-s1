@@ -1,11 +1,12 @@
 package edu.hw9.tasks.task1;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Statistic {
     private final String name;
     private Double sum = 0.;
-    private final AverageValue average;
+    private AverageValue average;
     private Double max = null;
     private Double min = null;
     private static final double EPS = 1e-7;
@@ -31,21 +32,21 @@ public class Statistic {
         if (!name.equals(statistic.name)) {
             throw new IllegalArgumentException("cannot merge different statistics!");
         }
-        sum += statistic.sum;
-        average.add(statistic.average);
-        max = (max == null ? statistic.max : Math.max(max, statistic.max));
-        min = (min == null ? statistic.min : Math.min(min, statistic.min));
-        return this;
+        return new Statistic(
+            name,
+            sum + statistic.sum,
+            average.add(statistic.average),
+            (max == null ? statistic.max : Math.max(max, statistic.max)),
+            (min == null ? statistic.min : Math.min(min, statistic.min))
+        );
     }
 
     public void addToSum(double... values) {
-        for (double value : values) {
-            sum += value;
-        }
+        sum += Arrays.stream(values).sum();
     }
 
     public void addToAverage(double... values) {
-        average.add(values);
+        average = average.add(values);
     }
 
     public void updateMax(double... values) {

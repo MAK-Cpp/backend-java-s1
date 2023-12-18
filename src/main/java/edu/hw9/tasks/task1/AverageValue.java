@@ -1,8 +1,10 @@
 package edu.hw9.tasks.task1;
 
+import java.util.Arrays;
+
 public class AverageValue {
-    private double sum;
-    private int count;
+    private final double sum;
+    private final int count;
 
     public AverageValue() {
         sum = 0;
@@ -15,25 +17,19 @@ public class AverageValue {
     }
 
     public AverageValue(double[] values) {
-        sum = 0;
-        for (double value : values) {
-            sum += value;
-        }
+        sum = Arrays.stream(values).sum();
         count = values.length;
     }
 
     public AverageValue add(AverageValue other) {
-        sum += other.sum;
-        count += other.count;
-        return this;
+        return new AverageValue(
+            sum + other.sum,
+            count + other.count
+        );
     }
 
     public AverageValue add(double... values) {
-        for (double value : values) {
-            sum += value;
-        }
-        count += values.length;
-        return this;
+        return add(new AverageValue(values));
     }
 
     public double value() {

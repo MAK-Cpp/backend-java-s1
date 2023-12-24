@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 import static edu.testFileCreator.TestFilesCreator.combinePath;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -340,11 +340,9 @@ public class AnalyzerTest {
     @MethodSource
     void testAnalyzerTest(String[] args, Path output, Path result) throws IOException {
         Main.main(args);
-        List<String> resultLines = Files.readAllLines(result);
-        List<String> outputLines = Files.readAllLines(output);
-        for (int i = 0; i < Math.max(resultLines.size(), outputLines.size()); i++) {
-            assertThat(resultLines.get(i)).isEqualTo(outputLines.get(i));
-        }
+        ArrayList<String> resultLines = new ArrayList<>(Files.readAllLines(result));
+        ArrayList<String> outputLines = new ArrayList<>(Files.readAllLines(output));
+        assertThat(resultLines).isEqualTo(outputLines);
     }
 
     @AfterAll
